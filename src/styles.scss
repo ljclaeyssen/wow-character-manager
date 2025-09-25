@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'primeicons/primeicons.css';
+
+// CSS Layer configuration for compatibility
+@layer tailwind-base, primeng, tailwind-utilities;
+
+// Custom theme overrides for WoW Character Manager
+:root {
+  --p-primary-color: #3b82f6;
+  --p-primary-contrast-color: #ffffff;
+}

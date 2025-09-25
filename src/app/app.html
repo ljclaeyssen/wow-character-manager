@@ -1,0 +1,63 @@
+<div class="app-container">
+  <!-- Main Navigation Toolbar -->
+  <p-toolbar class="app-toolbar">
+    <ng-template pTemplate="start">
+      <div class="flex align-items-center gap-3">
+        <i class="pi pi-users text-2xl text-primary"></i>
+        <span class="text-xl font-bold">{{ title() }}</span>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <div class="flex gap-2">
+        <p-button
+          icon="pi pi-home"
+          [text]="true"
+          [rounded]="true"
+          severity="secondary"
+          ariaLabel="Dashboard">
+        </p-button>
+        <p-button
+          icon="pi pi-cog"
+          [text]="true"
+          [rounded]="true"
+          severity="secondary"
+          ariaLabel="Settings">
+        </p-button>
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Main Content Area -->
+  <div class="app-content">
+    @if (isLoading()) {
+      <!-- Loading State -->
+      <p-panel header="Loading...">
+        <div class="flex align-items-center justify-content-center p-4">
+          <i class="pi pi-spin pi-spinner text-2xl"></i>
+          <span class="ml-2">Loading your WoW characters...</span>
+        </div>
+      </p-panel>
+    } @else {
+      <!-- Main Application Content -->
+      <p-card>
+        <ng-template pTemplate="header">
+          <div class="card-header p-3">
+            <h2 class="m-0">World of Warcraft Character Manager</h2>
+            <p class="text-color-secondary m-0 mt-2">
+              Track your characters' weekly activities and Great Vault progress
+            </p>
+          </div>
+        </ng-template>
+
+        <!-- Router Outlet for Page Content -->
+        <div class="router-content">
+          <router-outlet />
+        </div>
+      </p-card>
+    }
+  </div>
+
+  <!-- Global Toast Messages -->
+  <p-toast position="top-right" />
+</div>

@@ -1,0 +1,39 @@
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-content {
+  flex: 1;
+  padding: 1rem;
+  background-color: var(--p-surface-50);
+}
+
+.card-header {
+  background: linear-gradient(135deg, var(--p-primary-500), var(--p-primary-600));
+  color: var(--p-primary-contrast-color);
+  border-radius: var(--p-border-radius) var(--p-border-radius) 0 0;
+}
+
+.router-content {
+  min-height: 400px;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .app-content {
+    padding: 0.5rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.25rem;
+  }
+}
