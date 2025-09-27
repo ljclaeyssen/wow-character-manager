@@ -23,8 +23,25 @@
   border-radius: var(--p-border-radius) var(--p-border-radius) 0 0;
 }
 
-.router-content {
+.character-management-container {
   min-height: 400px;
+  position: relative;
+
+  // Smooth transitions between views
+  > * {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // Responsive design

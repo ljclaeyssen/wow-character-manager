@@ -1,0 +1,169 @@
+<p-dialog
+  [header]="dialogTitle()"
+  [visible]="visible()"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="true"
+  [closeOnEscape]="true"
+  styleClass="character-form-dialog"
+  (onHide)="onHide()">
+
+  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()" class="character-form">
+
+    <!-- Character Name -->
+    <div class="form-field">
+      <label for="characterName" class="field-label">Character Name *</label>
+      <input
+        pInputText
+        id="characterName"
+        formControlName="name"
+        placeholder="Enter character name"
+        maxlength="12"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('name')" />
+
+      @if (getFieldError('name')) {
+        <p-message severity="error" [text]="getFieldError('name')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Faction Selection -->
+    <div class="form-field">
+      <label for="faction" class="field-label">Faction *</label>
+      <p-select
+        id="faction"
+        formControlName="faction"
+        [options]="factionOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select faction"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('faction')">
+      </p-select>
+
+      @if (getFieldError('faction')) {
+        <p-message severity="error" [text]="getFieldError('faction')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Race Selection -->
+    <div class="form-field">
+      <label for="race" class="field-label">Race *</label>
+      <p-select
+        id="race"
+        formControlName="race"
+        [options]="filteredRaces()"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select race"
+        [disabled]="!characterForm.get('faction')?.value"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('race')">
+      </p-select>
+
+      @if (getFieldError('race')) {
+        <p-message severity="error" [text]="getFieldError('race')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Class Selection -->
+    <div class="form-field">
+      <label for="characterClass" class="field-label">Class *</label>
+      <p-select
+        id="characterClass"
+        formControlName="characterClass"
+        [options]="filteredClasses()"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select class"
+        [disabled]="!characterForm.get('race')?.value"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('characterClass')">
+      </p-select>
+
+      @if (getFieldError('characterClass')) {
+        <p-message severity="error" [text]="getFieldError('characterClass')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Specialization Selection -->
+    <div class="form-field">
+      <label for="specialization" class="field-label">Specialization *</label>
+      <p-select
+        id="specialization"
+        formControlName="specialization"
+        [options]="filteredSpecializations()"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select specialization"
+        [disabled]="!characterForm.get('characterClass')?.value"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('specialization')">
+      </p-select>
+
+      @if (getFieldError('specialization')) {
+        <p-message severity="error" [text]="getFieldError('specialization')!" class="field-error"></p-message>
+      }
+    </div>
+
+
+    <!-- Profession Selection -->
+    <div class="form-field">
+      <label for="professions" class="field-label">Professions (Max 2)</label>
+      <p-multiSelect
+        id="professions"
+        formControlName="professions"
+        [options]="professionOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select professions"
+        [maxSelectedLabels]="2"
+        selectedItemsLabel="{0} professions selected"
+        [selectionLimit]="2"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('professions')">
+
+        <ng-template let-option pTemplate="item">
+          <div class="profession-option">
+            <span>{{ option.label }}</span>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+
+      @if (getFieldError('professions')) {
+        <p-message severity="error" [text]="getFieldError('professions')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <p-button
+        type="button"
+        label="Cancel"
+        severity="secondary"
+        [text]="true"
+        [disabled]="loading()"
+        (onClick)="onCancel()">
+      </p-button>
+
+      <p-button
+        type="submit"
+        [label]="isEditMode() ? 'Update Character' : 'Create Character'"
+        severity="primary"
+        [loading]="loading()"
+        [disabled]="loading()">
+      </p-button>
+    </div>
+
+    <!-- Loading State -->
+    @if (loading()) {
+      <div class="form-loading">
+        <i class="pi pi-spin pi-spinner"></i>
+        <span>{{ isEditMode() ? 'Updating character...' : 'Creating character...' }}</span>
+      </div>
+    }
+
+  </form>
+
+</p-dialog>

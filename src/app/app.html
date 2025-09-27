@@ -50,9 +50,28 @@
           </div>
         </ng-template>
 
-        <!-- Router Outlet for Page Content -->
-        <div class="router-content">
-          <router-outlet />
+        <!-- Character Management Interface -->
+        <div class="character-management-container">
+          @if (currentView() === 'list') {
+            <wow-character-list
+              (addCharacter)="onAddCharacter()"
+              (editCharacter)="onEditCharacter($event)"
+              (characterSelected)="onCharacterSelected($event)" />
+          } @else if (currentView() === 'detail' && selectedCharacter()) {
+            <wow-character-detail
+              [character]="selectedCharacter()!"
+              (editCharacter)="onEditCharacter($event)"
+              (deleteCharacter)="onDeleteCharacter($event)"
+              (closeDetail)="onCloseDetail()" />
+          }
+
+          <!-- Character Form Modal -->
+          <wow-character-form
+            [visible]="showCharacterForm()"
+            [editCharacter]="editingCharacter()"
+            (visibleChange)="onFormVisibilityChange($event)"
+            (characterSaved)="onCharacterSaved($event)"
+            (formCancelled)="onFormCancelled()" />
         </div>
       </p-card>
     }
@@ -61,3 +80,4 @@
   <!-- Global Toast Messages -->
   <p-toast position="top-right" />
 </div>
+
