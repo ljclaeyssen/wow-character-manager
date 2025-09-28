@@ -15,6 +15,8 @@ export interface CharacterFormControls {
 }
 
 export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
+  private isLoadingData = false;
+
   constructor() {
     super({
       name: new FormControl('', {
@@ -56,14 +58,21 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
    * Load character data into the form
    */
   loadCharacter(character: Character): void {
-    this.patchValue({
-      name: character.name,
-      faction: character.faction,
-      race: character.race,
-      characterClass: character.characterClass,
-      specialization: character.specialization,
-      professions: character.professions
-    });
+    this.isLoadingData = true;
+    try {
+      this.patchValue({
+        name: character.name,
+        faction: character.faction,
+        race: character.race,
+        characterClass: character.characterClass,
+        specialization: character.specialization,
+        professions: character.professions
+      });
+    } finally {
+      setTimeout(() => {
+        this.isLoadingData = false;
+      }, 0);
+    }
   }
 
   /**
@@ -157,16 +166,31 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
   }
 
   private setupFormDependencies(): void {
-    // Reset race when faction changes
+    // Reset race when faction changes (only during user interaction)
     this.get('faction')?.valueChanges.subscribe((faction) => {
-      if (faction) {
-        this.get('race')?.setValue('');
+      if (faction && !this.isLoadingData) {
+        const currentRace = this.get('race')?.value;
+        // Only clear race if it's not valid for the new faction
+        if (currentRace) {
+          this.get('race')?.setValue('');
+        }
       }
     });
 
-    // Reset specialization when class changes
+    // Reset class when race changes (only during user interaction)
+    this.get('race')?.valueChanges.subscribe((race) => {
+      if (race && !this.isLoadingData) {
+        const currentClass = this.get('characterClass')?.value;
+        // Only clear class if it's not valid for the new race
+        if (currentClass) {
+          this.get('characterClass')?.setValue('');
+        }
+      }
+    });
+
+    // Reset specialization when class changes (only during user interaction)
     this.get('characterClass')?.valueChanges.subscribe((characterClass) => {
-      if (characterClass) {
+      if (characterClass && !this.isLoadingData) {
         this.get('specialization')?.setValue('');
       }
     });

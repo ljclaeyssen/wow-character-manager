@@ -112,28 +112,39 @@ export class CharacterFormComponent implements OnDestroy {
   constructor() {
     this.characterForm = new CharacterFormGroup() as any;
 
-    // Watch for faction changes to update signal
+    // Watch for faction changes to update signal (only when not loading data)
     this.characterForm.get('faction')?.valueChanges.subscribe((faction) => {
-      this.factionValue.set(faction || null);
+      if (!this.isLoadingCharacterData) {
+        this.factionValue.set(faction || null);
+      }
     });
 
-    // Watch for race changes to update signal
+    // Watch for race changes to update signal (only when not loading data)
     this.characterForm.get('race')?.valueChanges.subscribe((race) => {
-      this.raceValue.set(race || null);
+      if (!this.isLoadingCharacterData) {
+        this.raceValue.set(race || null);
+      }
     });
 
-    // Watch for class changes to update signal
+    // Watch for class changes to update signal (only when not loading data)
     this.characterForm.get('characterClass')?.valueChanges.subscribe((characterClass) => {
-      this.classValue.set(characterClass || null);
+      if (!this.isLoadingCharacterData) {
+        this.classValue.set(characterClass || null);
+      }
     });
 
     // Load character data when edit character changes
     effect(() => {
       const character = this.editCharacter();
-      if (character) {
-        this.loadCharacterData(character);
-      } else {
-        this.resetForm();
+      const isVisible = this.visible();
+
+      // Only react when dialog becomes visible
+      if (isVisible) {
+        if (character) {
+          this.loadCharacterData(character);
+        } else {
+          this.resetForm();
+        }
       }
     });
   }
@@ -194,35 +205,50 @@ export class CharacterFormComponent implements OnDestroy {
     // Set flag to prevent cascading form updates
     this.isLoadingCharacterData = true;
 
-    (this.characterForm as unknown as CharacterFormGroup).loadCharacter(character);
+    try {
+      // Load character data into form
+      (this.characterForm as unknown as CharacterFormGroup).loadCharacter(character);
 
-    // Update signals to match loaded character data
-    this.factionValue.set(character.faction);
-    this.raceValue.set(character.race);
-    this.classValue.set(character.characterClass);
+      // Update signals to match loaded character data immediately
+      this.factionValue.set(character.faction);
+      this.raceValue.set(character.race);
+      this.classValue.set(character.characterClass);
 
-    // Clear flag after a short delay to allow form updates to complete
-    setTimeout(() => {
-      this.isLoadingCharacterData = false;
-    }, 0);
+      // Clear any previous submission attempts
+      this.submitAttempted.set(false);
+
+    } catch (error) {
+      console.error('Error loading character data:', error);
+    } finally {
+      // Clear flag after form updates complete
+      setTimeout(() => {
+        this.isLoadingCharacterData = false;
+      }, 50);
+    }
   }
 
   private resetForm(): void {
     // Set flag to prevent cascading form updates
     this.isLoadingCharacterData = true;
 
-    (this.characterForm as unknown as CharacterFormGroup).resetForm();
-    this.submitAttempted.set(false);
+    try {
+      // Reset form to initial state
+      (this.characterForm as unknown as CharacterFormGroup).resetForm();
+      this.submitAttempted.set(false);
 
-    // Reset signals
-    this.factionValue.set(null);
-    this.raceValue.set(null);
-    this.classValue.set(null);
+      // Reset signals
+      this.factionValue.set(null);
+      this.raceValue.set(null);
+      this.classValue.set(null);
 
-    // Clear flag after a short delay to allow form updates to complete
-    setTimeout(() => {
-      this.isLoadingCharacterData = false;
-    }, 0);
+    } catch (error) {
+      console.error('Error resetting form:', error);
+    } finally {
+      // Clear flag after form updates complete
+      setTimeout(() => {
+        this.isLoadingCharacterData = false;
+      }, 50);
+    }
   }
 
   private generateId(): string {
