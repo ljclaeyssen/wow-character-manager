@@ -27,83 +27,94 @@
 
   <!-- Main Content Area -->
   <div class="dashboard-main p-d-flex p-flex-column p-gap-4">
-    <!-- Character Overview Panel -->
-    <p-panel header="Character Overview" [toggleable]="true" styleClass="character-overview-panel">
+    <!-- Character Overview Card -->
+    <p-card header="Character Overview" styleClass="character-overview-card">
       @if (characters().length > 0) {
 
-        <!-- Replace p-dataView with simple grid -->
+        <!-- Modern Character Cards Grid -->
         <div class="character-grid">
           @for (character of enhancedCharacters(); track character.id) {
-            <div class="character-card-wrapper">
-              <p-card
-                styleClass="character-summary-card"
-                [class.selected]="selectedCharacter()?.id === character.id"
-                (click)="onCharacterSelect(character)">
+            <div
+              class="character-card"
+              [class.selected]="selectedCharacter()?.id === character.id"
+              (click)="onCharacterSelect(character)">
 
-                <div class="character-header p-d-flex p-justify-between p-align-start p-gap-2">
-                  <div class="character-info p-d-flex p-flex-column p-gap-2">
-                    <h3 [style.color]="getClassColor(character.characterClass)">
-                      {{ character.name }}
-                    </h3>
-                    <div class="character-details p-d-flex p-flex-wrap p-gap-1">
-                      <p-tag
-                        [value]="character.characterClass"
-                        [severity]="'info'"
-                        styleClass="class-tag">
-                      </p-tag>
-                      <p-tag
-                        [value]="character.faction"
-                        [severity]="getFactionSeverity(character.faction)"
-                        styleClass="faction-tag">
-                      </p-tag>
-                    </div>
+              <!-- Character Header -->
+              <div class="character-header">
+                <div class="character-avatar">
+                  <i class="pi pi-user"></i>
+                </div>
+                <div class="character-info">
+                  <h3 class="character-name" [style.color]="getClassColor(character.characterClass)">
+                    {{ character.name }}
+                  </h3>
+                  <div class="character-meta">
+                    <span class="character-class">{{ character.characterClass }}</span>
+                    <span class="character-separator">•</span>
+                    <span class="character-faction" [class]="character.faction.toLowerCase()">
+                      {{ character.faction }}
+                    </span>
                   </div>
+                </div>
+                <div class="character-actions">
+                  <button
+                    class="action-btn edit-btn"
+                    (click)="onEditCharacter(character); $event.stopPropagation()"
+                    title="Edit Character">
+                    <i class="pi pi-pencil"></i>
+                  </button>
+                </div>
+              </div>
 
-                  <div class="character-actions p-d-flex p-gap-1">
-                    <p-button
-                      icon="pi pi-pencil"
-                      severity="info"
-                      [text]="true"
-                      size="small"
-                      pTooltip="Edit Character"
-                      (onClick)="onEditCharacter(character); $event.stopPropagation()">
-                    </p-button>
+              <!-- Progress Section -->
+              <div class="character-progress">
+                <!-- Vault Progress -->
+                <div class="progress-section vault-section">
+                  <div class="progress-header">
+                    <div class="progress-title">
+                      <i class="pi pi-trophy"></i>
+                      <span>Great Vault</span>
+                    </div>
+                    <div class="progress-value">{{ character.vaultProgress }}/9</div>
+                  </div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar">
+                      <div
+                        class="progress-fill"
+                        [style.width.%]="character.vaultPercentage"
+                        [class.complete]="character.vaultPercentage === 100">
+                      </div>
+                    </div>
+                    <span class="progress-percentage">{{ character.vaultPercentage }}%</span>
                   </div>
                 </div>
 
-                <p-divider></p-divider>
-
-                <div class="character-progress p-d-flex p-flex-column p-gap-3">
-                  <div class="progress-item p-d-flex p-flex-column p-gap-2">
-                    <span class="progress-label">Great Vault Progress</span>
-                    <div class="progress-display p-d-flex p-align-center p-gap-2">
-                      <span class="progress-value">{{ character.vaultProgress }}/9</span>
-                      <p-progressBar
-                        [value]="character.vaultPercentage"
-                        [showValue]="false"
-                        styleClass="vault-progress"
-                        class="p-flex-1">
-                      </p-progressBar>
+                <!-- Weekly Activities -->
+                <div class="progress-section activities-section">
+                  <div class="progress-header">
+                    <div class="progress-title">
+                      <i class="pi pi-calendar"></i>
+                      <span>Weekly Activities</span>
+                    </div>
+                    <div class="activity-count" [class.active]="character.weeklyActivities > 0">
+                      {{ character.weeklyActivities }}
                     </div>
                   </div>
-
-                  <div class="progress-item p-d-flex p-justify-between p-align-center">
-                    <span class="progress-label">Weekly Activities</span>
-                    <p-badge
-                      [value]="character.weeklyActivities"
-                      [severity]="character.weeklyActivities > 0 ? 'success' : 'warn'"
-                      size="large">
-                    </p-badge>
-                  </div>
-
-                  @if (character.lastActivity) {
-                    <div class="progress-item">
-                      <span class="progress-label">Last Activity</span>
-                      <span class="last-activity">{{ formatRelativeTime(character.lastActivity) }}</span>
-                    </div>
-                  }
                 </div>
-              </p-card>
+
+                <!-- Last Activity -->
+                @if (character.lastActivity) {
+                  <div class="last-activity-section">
+                    <i class="pi pi-clock"></i>
+                    <span>{{ formatRelativeTime(character.lastActivity) }}</span>
+                  </div>
+                }
+              </div>
+
+              <!-- Selection Indicator -->
+              <div class="selection-indicator">
+                <i class="pi pi-check"></i>
+              </div>
             </div>
           }
         </div>
@@ -120,20 +131,18 @@
           </p-button>
         </div>
       }
-    </p-panel>
+    </p-card>
 
-    <!-- Activity Tracking Panel -->
+    <!-- Activity Tracking Card -->
     @if (selectedCharacter()) {
-      <p-panel
-        [header]="'Activity Tracking - ' + selectedCharacter()!.name"
-        [toggleable]="true"
-        styleClass="activity-tracking-panel">
+      <p-card
+        styleClass="activity-tracking-card">
 
         <wow-activity-tracker
           [selectedCharacter]="selectedCharacter()">
         </wow-activity-tracker>
 
-      </p-panel>
+      </p-card>
     } @else {
       <p-panel header="Select a Character" styleClass="no-selection-panel">
         <div class="no-selection">
