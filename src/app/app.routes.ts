@@ -81,15 +81,6 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'raids',
-        loadComponent: () => import('./components/raid-progress/raid-progress.component').then(m => m.RaidProgressComponent),
-        title: 'Raid Progress - WoW Character Manager',
-        data: {
-          breadcrumb: 'Raids',
-          description: 'Track raid boss kills and progress'
-        }
-      },
-      {
         path: 'weekly-quests',
         loadComponent: () => import('./components/weekly-quest/weekly-quest.component').then(m => m.WeeklyQuestComponent),
         title: 'Weekly Quests - WoW Character Manager',

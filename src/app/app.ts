@@ -18,7 +18,6 @@ import { ActivityStore } from './store/activity.store';
 import { NotificationService } from './services/notification.service';
 import { ActivityService } from './services/activity.service';
 import { ThemeService } from './services/theme.service';
-import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 
 interface AppState {
   loading: boolean;
@@ -43,7 +42,6 @@ interface AppState {
     TagModule,
     ProgressBarModule,
     SkeletonModule,
-    ThemeToggleComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -93,23 +91,11 @@ export class App implements OnInit {
           command: () => this.closeMobileSidebar()
         },
         {
-          label: 'Raids',
-          icon: 'pi pi-trophy',
-          routerLink: '/activities/raids',
-          command: () => this.closeMobileSidebar()
-        },
-        {
           label: 'Weekly Quests',
           icon: 'pi pi-flag',
           routerLink: '/activities/weekly-quests',
           command: () => this.closeMobileSidebar()
         },
-        {
-          label: 'Activity Tracker',
-          icon: 'pi pi-calendar',
-          routerLink: '/activities/tracker',
-          command: () => this.closeMobileSidebar()
-        }
       ]
     },
     {

@@ -304,6 +304,81 @@ export class ActivityTrackerComponent {
     };
   });
 
+  // Raid specific vault progress
+  protected readonly raidVaultProgress = computed(() => {
+    const activity = this.currentWeekActivities();
+    if (!activity?.raid) {
+      return {
+        completed: 0,
+        required: [2, 4, 6],
+        slots: 0,
+        percentage: 0,
+        nextMilestone: { target: 2, remaining: 2 },
+        slotRewards: ['No reward', 'No reward', 'No reward']
+      };
+    }
+
+    const raid = activity.raid;
+    const totalBosses = (raid.mythicBossesKilled || 0) +
+                       (raid.heroicBossesKilled || 0) +
+                       (raid.normalBossesKilled || 0) +
+                       (raid.lfrBossesKilled || 0);
+
+    // Create array of all boss kills sorted by difficulty (highest first)
+    const bossKills: string[] = [];
+
+    // Add mythic kills first (highest priority)
+    for (let i = 0; i < (raid.mythicBossesKilled || 0); i++) {
+      bossKills.push('Mythic');
+    }
+    // Add heroic kills
+    for (let i = 0; i < (raid.heroicBossesKilled || 0); i++) {
+      bossKills.push('Heroic');
+    }
+    // Add normal kills
+    for (let i = 0; i < (raid.normalBossesKilled || 0); i++) {
+      bossKills.push('Normal');
+    }
+    // Add LFR kills last (lowest priority)
+    for (let i = 0; i < (raid.lfrBossesKilled || 0); i++) {
+      bossKills.push('LFR');
+    }
+
+    // Calculate vault slots earned (2/4/6 bosses for 1/2/3 slots)
+    const slots = totalBosses >= 6 ? 3 : totalBosses >= 4 ? 2 : totalBosses >= 2 ? 1 : 0;
+
+    // Calculate next milestone
+    let nextTarget = 2;
+    let remaining = 2 - totalBosses;
+    if (totalBosses >= 2) {
+      nextTarget = 4;
+      remaining = 4 - totalBosses;
+    }
+    if (totalBosses >= 4) {
+      nextTarget = 6;
+      remaining = 6 - totalBosses;
+    }
+    if (totalBosses >= 6) {
+      remaining = 0;
+    }
+
+    // Calculate slot rewards based on boss kill order
+    const slotRewards = [
+      bossKills[1] || 'No reward', // 2nd boss determines slot 1 reward
+      bossKills[3] || 'No reward', // 4th boss determines slot 2 reward
+      bossKills[5] || 'No reward'  // 6th boss determines slot 3 reward
+    ];
+
+    return {
+      completed: totalBosses,
+      required: [2, 4, 6],
+      slots,
+      percentage: Math.round((totalBosses / 6) * 100),
+      nextMilestone: { target: nextTarget, remaining: Math.max(0, remaining) },
+      slotRewards
+    };
+  });
+
   protected getMythicPlusVaultSlotSeverity(slotIndex: number): 'success' | 'info' | 'warn' {
     const progress = this.mythicPlusVaultProgress();
     return slotIndex < progress.slots ? 'success' : 'info';
@@ -338,54 +413,67 @@ export class ActivityTrackerComponent {
 
   // Quick-add methods for Raid
   protected onAddLFRBoss(): void {
-    this.addRaidBoss('lfr');
+    const character = this.selectedCharacter();
+    if (!character) return;
+
+    let activity = this.activities()[character.id];
+    if (!activity) {
+      this.activityStore.initializeCharacterActivity(character.id);
+      activity = this.activities()[character.id];
+      if (!activity) return;
+    }
+
+    this.activityStore.updateRaidActivity(character.id, {
+      lfrBossesKilled: (activity.raid.lfrBossesKilled || 0) + 1
+    });
   }
 
   protected onAddNormalBoss(): void {
-    this.addRaidBoss('normal');
+    const character = this.selectedCharacter();
+    if (!character) return;
+
+    let activity = this.activities()[character.id];
+    if (!activity) {
+      this.activityStore.initializeCharacterActivity(character.id);
+      activity = this.activities()[character.id];
+      if (!activity) return;
+    }
+
+    this.activityStore.updateRaidActivity(character.id, {
+      normalBossesKilled: (activity.raid.normalBossesKilled || 0) + 1
+    });
   }
 
   protected onAddHeroicBoss(): void {
-    this.addRaidBoss('heroic');
+    const character = this.selectedCharacter();
+    if (!character) return;
+
+    let activity = this.activities()[character.id];
+    if (!activity) {
+      this.activityStore.initializeCharacterActivity(character.id);
+      activity = this.activities()[character.id];
+      if (!activity) return;
+    }
+
+    this.activityStore.updateRaidActivity(character.id, {
+      heroicBossesKilled: (activity.raid.heroicBossesKilled || 0) + 1
+    });
   }
 
   protected onAddMythicBoss(): void {
-    this.addRaidBoss('mythic');
-  }
-
-  private addRaidBoss(difficulty: 'lfr' | 'normal' | 'heroic' | 'mythic'): void {
     const character = this.selectedCharacter();
-    if (!character) {
-      return;
+    if (!character) return;
+
+    let activity = this.activities()[character.id];
+    if (!activity) {
+      this.activityStore.initializeCharacterActivity(character.id);
+      activity = this.activities()[character.id];
+      if (!activity) return;
     }
 
-    const characterId = character.id;
-
-    // Get current raid activity to increment the appropriate counter
-    const currentActivity = this.activities()[characterId];
-    if (!currentActivity) {
-      return;
-    }
-
-    const updates: any = {};
-
-    switch (difficulty) {
-      case 'lfr':
-        updates.lfrBossesKilled = (currentActivity.raid.lfrBossesKilled || 0) + 1;
-        break;
-      case 'normal':
-        updates.normalBossesKilled = (currentActivity.raid.normalBossesKilled || 0) + 1;
-        break;
-      case 'heroic':
-        updates.heroicBossesKilled = (currentActivity.raid.heroicBossesKilled || 0) + 1;
-        break;
-      case 'mythic':
-        updates.mythicBossesKilled = (currentActivity.raid.mythicBossesKilled || 0) + 1;
-        break;
-    }
-
-    // Update the raid activity
-    this.activityStore.updateRaidActivity(characterId, updates);
+    this.activityStore.updateRaidActivity(character.id, {
+      mythicBossesKilled: (activity.raid.mythicBossesKilled || 0) + 1
+    });
   }
 
   // Helper methods for mythic+ vault calculations
@@ -409,5 +497,28 @@ export class ActivityTrackerComponent {
     if (count < 4) return { target: 4, remaining: 4 - count };
     if (count < 8) return { target: 8, remaining: 8 - count };
     return { target: 8, remaining: 0 };
+  }
+
+  // Helper methods for raid vault calculations
+  private calculateRaidSlots(bossCount: number): number {
+    if (bossCount >= 6) return 3;
+    if (bossCount >= 4) return 2;
+    if (bossCount >= 2) return 1;
+    return 0;
+  }
+
+  private calculateRaidProgressPercentage(bossCount: number): number {
+    // Progress towards next vault slot
+    if (bossCount >= 6) return 100;
+    if (bossCount >= 4) return Math.round((bossCount / 6) * 100);
+    if (bossCount >= 2) return Math.round((bossCount / 4) * 100);
+    return Math.round((bossCount / 2) * 100);
+  }
+
+  private getRaidNextMilestone(bossCount: number): { target: number; remaining: number } {
+    if (bossCount < 2) return { target: 2, remaining: 2 - bossCount };
+    if (bossCount < 4) return { target: 4, remaining: 4 - bossCount };
+    if (bossCount < 6) return { target: 6, remaining: 6 - bossCount };
+    return { target: 6, remaining: 0 };
   }
 }

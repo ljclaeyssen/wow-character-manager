@@ -229,6 +229,46 @@
             <span>All Mythic+ vault slots earned this week!</span>
           </p-message>
         }
+
+        <p-divider></p-divider>
+
+        <!-- Raid Section -->
+        <div class="vault-header">
+          <span class="vault-title">Raid</span>
+          <span class="vault-slots">{{ raidVaultProgress().slots }}/3 slots</span>
+        </div>
+
+        <div class="vault-rewards-row">
+          <p-tag
+            [value]="raidVaultProgress().slotRewards[0]"
+            [severity]="raidVaultProgress().slotRewards[0] === 'Mythic' ? 'warn' : raidVaultProgress().slotRewards[0] === 'Heroic' ? 'info' : 'secondary'"
+            size="small">
+          </p-tag>
+          <p-tag
+            [value]="raidVaultProgress().slotRewards[1]"
+            [severity]="raidVaultProgress().slotRewards[1] === 'Mythic' ? 'warn' : raidVaultProgress().slotRewards[1] === 'Heroic' ? 'info' : 'secondary'"
+            size="small">
+          </p-tag>
+          <p-tag
+            [value]="raidVaultProgress().slotRewards[2]"
+            [severity]="raidVaultProgress().slotRewards[2] === 'Mythic' ? 'warn' : raidVaultProgress().slotRewards[2] === 'Heroic' ? 'info' : 'secondary'"
+            size="small">
+          </p-tag>
+        </div>
+
+        @if (raidVaultProgress().nextMilestone.remaining > 0) {
+          <p-message
+            severity="info"
+            styleClass="milestone-message">
+            <span>{{ raidVaultProgress().nextMilestone.remaining }} more bosses needed for next vault slot</span>
+          </p-message>
+        } @else {
+          <p-message
+            severity="success"
+            styleClass="milestone-message">
+            <span>All Raid vault slots earned this week!</span>
+          </p-message>
+        }
       </p-card>
 
     </div>
