@@ -30,12 +30,10 @@
     <!-- Character Overview Panel -->
     <p-panel header="Character Overview" [toggleable]="true" styleClass="character-overview-panel">
       @if (characters().length > 0) {
-        <p-dataView
-          [value]="enhancedCharacters()"
-          layout="grid"
-          styleClass="character-grid">
 
-          <ng-template pTemplate="grid" let-character>
+        <!-- Replace p-dataView with simple grid -->
+        <div class="character-grid">
+          @for (character of enhancedCharacters(); track character.id) {
             <div class="character-card-wrapper">
               <p-card
                 styleClass="character-summary-card"
@@ -107,8 +105,8 @@
                 </div>
               </p-card>
             </div>
-          </ng-template>
-        </p-dataView>
+          }
+        </div>
       } @else {
         <div class="no-characters">
           <i class="pi pi-users"></i>
@@ -156,12 +154,19 @@
             </wow-weekly-quest>
           </p-panel>
 
-          <p-panel header="Character Details" [toggleable]="true">
-            <wow-character-detail
-              [character]="selectedCharacter()!"
-              (editCharacter)="onEditCharacter($event)">
-            </wow-character-detail>
-          </p-panel>
+          @if (selectedCharacter()) {
+            <p-panel header="Character Details" [toggleable]="true">
+              <div class="character-detail-placeholder">
+                <p>Character details are available on the dedicated character detail page.</p>
+                <p-button
+                  label="View Full Details"
+                  icon="pi pi-eye"
+                  severity="info"
+                  (onClick)="viewCharacterDetails(selectedCharacter()!)">
+                </p-button>
+              </div>
+            </p-panel>
+          }
         </div>
       </p-panel>
     } @else {

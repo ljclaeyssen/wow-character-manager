@@ -31,31 +31,32 @@
     </div>
   </div>
 
-  <div class="character-detail-content">
-    <!-- Character Overview Card -->
+  @if (character()) {
+    <div class="character-detail-content">
+      <!-- Character Overview Card -->
     <p-card class="character-overview-card">
       <ng-template pTemplate="header">
         <div class="character-card-header">
           <div class="character-basic-info">
             <h3
               class="character-name"
-              [style.color]="getClassColor(character().characterClass)">
-              {{ character().name }}
+              [style.color]="getClassColor(currentCharacter()!.characterClass)">
+              {{ currentCharacter()!.name }}
             </h3>
 
             <div class="character-subtitle">
 
               <span class="character-race-class">
-                {{ getRaceDisplayName(character().race) }} {{ character().characterClass }}
+                {{ getRaceDisplayName(currentCharacter()!.race) }} {{ currentCharacter()!.characterClass }}
               </span>
             </div>
           </div>
 
           <div class="character-faction">
             <p-tag
-              [value]="character().faction"
-              [severity]="character().faction === 'Alliance' ? 'info' : 'danger'"
-              [icon]="getFactionIcon(character().faction)"
+              [value]="currentCharacter()!.faction"
+              [severity]="currentCharacter()!.faction === 'Alliance' ? 'info' : 'danger'"
+              [icon]="getFactionIcon(currentCharacter()!.faction)"
               class="faction-tag">
             </p-tag>
           </div>
@@ -67,17 +68,17 @@
           <div class="character-specialization">
             <label class="info-label">Specialization:</label>
             <p-chip
-              [label]="character().specialization"
-              [style]="{ 'background-color': getClassColor(character().characterClass) + '20',
-                        'color': getClassColor(character().characterClass) }">
+              [label]="currentCharacter()!.specialization"
+              [style]="{ 'background-color': getClassColor(currentCharacter()!.characterClass) + '20',
+                        'color': getClassColor(currentCharacter()!.characterClass) }">
             </p-chip>
           </div>
 
-          @if (character().professions.length > 0) {
+          @if (currentCharacter()!.professions.length > 0) {
             <div class="character-professions">
               <label class="info-label">Professions:</label>
               <div class="professions-list">
-                @for (profession of character().professions; track profession) {
+                @for (profession of currentCharacter()!.professions; track profession) {
                   <p-chip [label]="profession" severity="secondary"></p-chip>
                 }
               </div>
@@ -241,19 +242,30 @@
       <div class="character-info-grid">
         <div class="info-row">
           <span class="info-label">Created:</span>
-          <span class="info-value">{{ formatDate(character().createdAt) }}</span>
+          <span class="info-value">{{ formatDate(currentCharacter()!.createdAt) }}</span>
         </div>
 
         <div class="info-row">
           <span class="info-label">Last Updated:</span>
-          <span class="info-value">{{ formatDate(character().updatedAt) }}</span>
+          <span class="info-value">{{ formatDate(currentCharacter()!.updatedAt) }}</span>
         </div>
 
         <div class="info-row">
           <span class="info-label">Character ID:</span>
-          <span class="info-value character-id">{{ character().id }}</span>
+          <span class="info-value character-id">{{ currentCharacter()!.id }}</span>
         </div>
       </div>
     </p-card>
-  </div>
+    </div>
+  } @else {
+    <div class="character-loading">
+      <p>Character not found.</p>
+      <p-button
+        label="Back to Characters"
+        icon="pi pi-arrow-left"
+        severity="secondary"
+        (onClick)="onClose()">
+      </p-button>
+    </div>
+  }
 </div>

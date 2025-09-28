@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -10,6 +11,7 @@ import { PanelModule } from 'primeng/panel';
 import { TooltipModule } from 'primeng/tooltip';
 import { Character } from '../../models/character.model';
 import { ActivityStore } from '../../store/activity.store';
+import { CharacterStore } from '../../store/character.store';
 import { Faction } from '../../enums/faction.enum';
 import { CharacterClass } from '../../enums/class.enum';
 import { ActivityType } from '../../enums/activity-type.enum';
@@ -41,11 +43,17 @@ import {
   styleUrl: './character-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CharacterDetailComponent {
+export class CharacterDetailComponent implements OnInit {
   private readonly activityStore = inject(ActivityStore);
+  private readonly characterStore = inject(CharacterStore);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  // Input signals
-  readonly character = input.required<Character>();
+  // Character signal - loaded from route
+  readonly character = signal<Character | null>(null);
+
+  // Current character computed for template
+  protected readonly currentCharacter = computed(() => this.character());
 
   // Output events
   readonly editCharacter = output<Character>();
@@ -54,7 +62,10 @@ export class CharacterDetailComponent {
 
   // Character activities computed
   protected readonly characterActivities = computed(() => {
-    const characterId = this.character().id;
+    const character = this.character();
+    if (!character) return [];
+
+    const characterId = character.id;
     const characterActivity = this.activityStore.getActivityForCharacter()(characterId);
 
     // For now, return an empty array as we'll implement activity tracking later
@@ -64,7 +75,10 @@ export class CharacterDetailComponent {
 
   // Vault progress computed
   protected readonly vaultProgress = computed(() => {
-    const characterId = this.character().id;
+    const character = this.character();
+    if (!character) return { mythicPlus: 0, raid: 0, pvp: 0, total: 0 };
+
+    const characterId = character.id;
     const characterActivity = this.activityStore.getActivityForCharacter()(characterId);
 
     const progress = {
@@ -102,7 +116,16 @@ export class CharacterDetailComponent {
 
   // Activity statistics
   protected readonly activityStats = computed(() => {
-    const characterId = this.character().id;
+    const character = this.character();
+    if (!character) return {
+      totalActivities: 0,
+      mythicPlusCompleted: 0,
+      raidsCompleted: 0,
+      pvpMatches: 0,
+      weeklyCompleted: 0
+    };
+
+    const characterId = character.id;
     const characterActivity = this.activityStore.getActivityForCharacter()(characterId);
 
     const stats = {
@@ -126,16 +149,34 @@ export class CharacterDetailComponent {
     return stats;
   });
 
+  ngOnInit(): void {
+    // Get character ID from route parameter
+    const characterId = this.route.snapshot.paramMap.get('id');
+    if (characterId) {
+      // Find character in store
+      const character = this.characterStore.entities().find(c => c.id === characterId);
+      if (character) {
+        this.character.set(character);
+      }
+    }
+  }
+
   protected onEditCharacter(): void {
-    this.editCharacter.emit(this.character());
+    const character = this.character();
+    if (character) {
+      this.editCharacter.emit(character);
+    }
   }
 
   protected onDeleteCharacter(): void {
-    this.deleteCharacter.emit(this.character());
+    const character = this.character();
+    if (character) {
+      this.deleteCharacter.emit(character);
+    }
   }
 
   protected onClose(): void {
-    this.closeDetail.emit();
+    this.router.navigate(['/characters']);
   }
 
   protected getClassColor(characterClass: CharacterClass): string {

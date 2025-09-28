@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { PanelModule } from 'primeng/panel';
 import { SplitterModule } from 'primeng/splitter';
 import { DataViewModule } from 'primeng/dataview';
@@ -16,7 +17,6 @@ import { ActivityStore } from '../../store/activity.store';
 import { ActivityService } from '../../services/activity.service';
 import { Character } from '../../models/character.model';
 import { Activity, CharacterActivity } from '../../models/activity.model';
-import { CharacterDetailComponent } from '../character-detail/character-detail.component';
 import { ActivityTrackerComponent } from '../activity-tracker/activity-tracker.component';
 import { MythicPlusComponent } from '../mythic-plus/mythic-plus.component';
 import { RaidProgressComponent } from '../raid-progress/raid-progress.component';
@@ -39,7 +39,6 @@ import { CharacterClass } from '../../enums/class.enum';
     BadgeModule,
     TooltipModule,
     DividerModule,
-    CharacterDetailComponent,
     ActivityTrackerComponent,
     MythicPlusComponent,
     RaidProgressComponent,
@@ -53,6 +52,7 @@ export class DashboardComponent {
   protected readonly characterStore = inject(CharacterStore);
   private readonly activityStore = inject(ActivityStore);
   private readonly activityService = inject(ActivityService);
+  private readonly router = inject(Router);
 
   // Component state
   protected readonly selectedCharacter = signal<Character | null>(null);
@@ -191,6 +191,10 @@ export class DashboardComponent {
   protected onEditCharacter(character: Character): void {
     // Navigate to characters page - editing will be handled there
     // or emit an event if needed
+  }
+
+  protected viewCharacterDetails(character: Character): void {
+    this.router.navigate(['/characters/detail', character.id]);
   }
 
 

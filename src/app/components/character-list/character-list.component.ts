@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -45,6 +46,7 @@ import {
 export class CharacterListComponent {
   private readonly characterStore = inject(CharacterStore);
   private readonly activityStore = inject(ActivityStore);
+  private readonly router = inject(Router);
 
   // Output events
   readonly addCharacter = output<void>();
@@ -94,6 +96,8 @@ export class CharacterListComponent {
   protected onCharacterSelect(character: Character): void {
     this.selectedCharacter.set(character);
     this.characterSelected.emit(character);
+    // Navigate to character detail page
+    this.router.navigate(['/characters/detail', character.id]);
   }
 
   protected onEditCharacter(character: Character): void {
