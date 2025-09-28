@@ -43,13 +43,14 @@ export class ThemeService {
 
   private applyThemeToDocument(theme: Theme): void {
     // Remove existing theme classes
-    document.documentElement.classList.remove('p-light', 'p-dark');
-    document.body.classList.remove('p-light', 'p-dark');
+    document.documentElement.classList.remove('dark-mode');
+    document.body.classList.remove('dark-mode');
 
-    // Add new theme class
-    const themeClass = theme === 'dark' ? 'p-dark' : 'p-light';
-    document.documentElement.classList.add(themeClass);
-    document.body.classList.add(themeClass);
+    // Add dark mode class for dark theme (light theme is default, no class needed)
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+      document.body.classList.add('dark-mode');
+    }
 
     // Update meta theme-color for mobile browsers
     this.updateMetaThemeColor(theme);
@@ -76,7 +77,7 @@ export class ThemeService {
 
   // Utility methods for components
   getThemeClass(): string {
-    return this.isDarkMode() ? 'p-dark' : 'p-light';
+    return this.isDarkMode() ? 'dark-mode' : '';
   }
 
   getThemeIcon(): string {

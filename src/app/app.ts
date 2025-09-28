@@ -18,6 +18,7 @@ import { ActivityStore } from './store/activity.store';
 import { NotificationService } from './services/notification.service';
 import { ActivityService } from './services/activity.service';
 import { ThemeService } from './services/theme.service';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 
 interface AppState {
   loading: boolean;
@@ -41,7 +42,8 @@ interface AppState {
     BadgeModule,
     TagModule,
     ProgressBarModule,
-    SkeletonModule
+    SkeletonModule,
+    ThemeToggleComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
