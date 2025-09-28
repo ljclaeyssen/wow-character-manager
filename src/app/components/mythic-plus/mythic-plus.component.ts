@@ -16,19 +16,12 @@ import { MessageModule } from 'primeng/message';
 import { ActivityStore } from '../../store/activity.store';
 import { ActivityService } from '../../services/activity.service';
 import { Character } from '../../models/character.model';
-import { Activity } from '../../models/activity.model';
+import { Activity, MythicPlusRun } from '../../models/activity.model';
 import { ActivityType } from '../../enums/activity-type.enum';
 
 interface DungeonOption {
   label: string;
   value: string;
-}
-
-interface MythicPlusRun {
-  dungeon: string;
-  keystoneLevel: number;
-  completed: boolean;
-  inTime: boolean;
 }
 
 @Component({
@@ -56,6 +49,9 @@ interface MythicPlusRun {
 export class MythicPlusComponent {
   private readonly activityStore = inject(ActivityStore);
   private readonly activityService = inject(ActivityService);
+
+  // Constants
+  protected readonly MYTHIC_LOOT_THRESHOLD = 10; // Configurable threshold for mythic loot
 
   // Component inputs and outputs
   readonly selectedCharacter = input<Character | null>(null);
@@ -107,21 +103,47 @@ export class MythicPlusComponent {
 
   protected readonly vaultProgress = computed(() => {
     const character = this.selectedCharacter();
-    if (!character) return { completed: 0, required: [1, 4, 8], slots: 0, percentage: 0, nextMilestone: { target: 1, remaining: 1 } };
+    if (!character) return {
+      completed: 0,
+      required: [1, 4, 8],
+      slots: 0,
+      percentage: 0,
+      nextMilestone: { target: 1, remaining: 1 },
+      slotRewards: ['No reward', 'No reward', 'No reward']
+    };
 
     const characterActivity = this.activities()[character.id];
     if (!characterActivity || !characterActivity.mythicPlus) {
-      return { completed: 0, required: [1, 4, 8], slots: 0, percentage: 0, nextMilestone: { target: 1, remaining: 1 } };
+      return {
+        completed: 0,
+        required: [1, 4, 8],
+        slots: 0,
+        percentage: 0,
+        nextMilestone: { target: 1, remaining: 1 },
+        slotRewards: ['No reward', 'No reward', 'No reward']
+      };
     }
 
     const count = characterActivity.mythicPlus.dungeonCount;
+    const runs = characterActivity.mythicPlus.runs || [];
+
+    // Sort runs by key level (highest first) to determine vault rewards
+    const sortedRuns = [...runs].sort((a, b) => b.keyLevel - a.keyLevel);
+
+    // Calculate slot rewards based on sorted runs
+    const slotRewards = [
+      count >= 1 && sortedRuns[0] ? (sortedRuns[0].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic') : 'No reward',
+      count >= 4 && sortedRuns[3] ? (sortedRuns[3].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic') : 'No reward',
+      count >= 8 && sortedRuns[7] ? (sortedRuns[7].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic') : 'No reward'
+    ];
 
     return {
       completed: count,
       required: [1, 4, 8],
       slots: this.calculateMythicPlusSlots(count),
       percentage: this.calculateProgressPercentage(count),
-      nextMilestone: this.getNextMilestone(count)
+      nextMilestone: this.getNextMilestone(count),
+      slotRewards
     };
   });
 
@@ -137,7 +159,7 @@ export class MythicPlusComponent {
 
   protected readonly rewardQuality = computed(() => {
     const highestKey = this.highestKeystone();
-    return highestKey >= 10 ? 'Mythic' : 'Heroic';
+    return highestKey >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic';
   });
 
   protected readonly weeklyStats = computed(() => {
@@ -158,6 +180,31 @@ export class MythicPlusComponent {
   });
 
   // Methods
+  protected onAddHighLevelRun(): void {
+    this.addQuickRun(this.MYTHIC_LOOT_THRESHOLD);
+  }
+
+  protected onAddLowLevelRun(): void {
+    this.addQuickRun(this.MYTHIC_LOOT_THRESHOLD - 1);
+  }
+
+  private addQuickRun(keyLevel: number): void {
+    if (!this.selectedCharacter()) {
+      return;
+    }
+
+    const characterId = this.selectedCharacter()!.id;
+
+    // Create the new run
+    const newRun: MythicPlusRun = {
+      keyLevel,
+      timestamp: new Date()
+    };
+
+    // Add the run to the store
+    this.activityStore.addMythicPlusRun(characterId, newRun);
+  }
+
   protected onAddMythicPlus(): void {
     if (!this.selectedCharacter() || !this.selectedDungeon || this.keystoneLevel < 2) {
       return;
@@ -209,7 +256,7 @@ export class MythicPlusComponent {
   protected getKeystoneSeverity(level: number): 'success' | 'info' | 'warn' | 'danger' {
     if (level >= 20) return 'success';
     if (level >= 15) return 'info';
-    if (level >= 10) return 'warn';
+    if (level >= this.MYTHIC_LOOT_THRESHOLD) return 'warn';
     return 'danger';
   }
 

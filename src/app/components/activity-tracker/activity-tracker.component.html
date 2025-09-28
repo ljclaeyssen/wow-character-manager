@@ -64,7 +64,29 @@
               [showValue]="false"
               styleClass="source-progress">
             </p-progressBar>
-            <small class="source-requirement">1/4/8 dungeons for slots</small>
+
+            <!-- Quick Add Buttons -->
+            <div class="quick-add-buttons" style="margin-top: 8px; display: flex; gap: 4px;">
+              <p-button
+                label="+ <{{ MYTHIC_LOOT_THRESHOLD }}"
+                icon="pi pi-plus"
+                severity="info"
+                size="small"
+                [disabled]="!selectedCharacter() || loading()"
+                (onClick)="onAddLowLevelRun()"
+                pTooltip="Add run below {{ MYTHIC_LOOT_THRESHOLD }} (Heroic vault reward)">
+              </p-button>
+
+              <p-button
+                label="+ ≥{{ MYTHIC_LOOT_THRESHOLD }}"
+                icon="pi pi-plus"
+                severity="warn"
+                size="small"
+                [disabled]="!selectedCharacter() || loading()"
+                (onClick)="onAddHighLevelRun()"
+                pTooltip="Add run {{ MYTHIC_LOOT_THRESHOLD }}+ (Mythic vault reward)">
+              </p-button>
+            </div>
           </div>
 
           <div class="vault-source">

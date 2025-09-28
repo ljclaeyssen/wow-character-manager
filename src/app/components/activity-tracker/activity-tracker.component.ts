@@ -12,7 +12,7 @@ import { TagModule } from 'primeng/tag';
 import { ActivityStore } from '../../store/activity.store';
 import { ActivityService, VaultProgress, GreatVaultReward } from '../../services/activity.service';
 import { Character } from '../../models/character.model';
-import { Activity, CharacterActivity } from '../../models/activity.model';
+import { Activity, CharacterActivity, MythicPlusRun } from '../../models/activity.model';
 import { ActivityType } from '../../enums/activity-type.enum';
 
 @Component({
@@ -36,6 +36,9 @@ import { ActivityType } from '../../enums/activity-type.enum';
 export class ActivityTrackerComponent {
   private readonly activityStore = inject(ActivityStore);
   private readonly activityService = inject(ActivityService);
+
+  // Constants
+  protected readonly MYTHIC_LOOT_THRESHOLD = 10;
 
   // Component inputs
   readonly selectedCharacter = input<Character | null>(null);
@@ -89,25 +92,48 @@ export class ActivityTrackerComponent {
   });
 
   protected readonly projectedRewards = computed((): GreatVaultReward[] => {
-    const progress = this.vaultProgress();
+    const characterActivity = this.currentWeekActivities();
     const rewards: GreatVaultReward[] = [];
 
-    // Add M+ rewards
-    for (let i = 1; i <= progress.mythicPlus; i++) {
-      rewards.push({
-        slot: i,
-        source: 'mythicPlus',
-        itemLevel: 450, // Simplified - would be based on key level
-        quality: 'Heroic'
-      });
+    if (characterActivity && characterActivity.mythicPlus && characterActivity.mythicPlus.runs) {
+      // Sort runs by key level (highest first) to determine vault rewards
+      const sortedRuns = [...characterActivity.mythicPlus.runs].sort((a, b) => b.keyLevel - a.keyLevel);
+      const count = characterActivity.mythicPlus.dungeonCount;
+
+      // Add M+ rewards based on actual runs
+      if (count >= 1 && sortedRuns[0]) {
+        rewards.push({
+          slot: 1,
+          source: 'mythicPlus',
+          itemLevel: sortedRuns[0].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 470 : 450,
+          quality: sortedRuns[0].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic'
+        });
+      }
+      if (count >= 4 && sortedRuns[3]) {
+        rewards.push({
+          slot: 2,
+          source: 'mythicPlus',
+          itemLevel: sortedRuns[3].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 470 : 450,
+          quality: sortedRuns[3].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic'
+        });
+      }
+      if (count >= 8 && sortedRuns[7]) {
+        rewards.push({
+          slot: 3,
+          source: 'mythicPlus',
+          itemLevel: sortedRuns[7].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 470 : 450,
+          quality: sortedRuns[7].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic'
+        });
+      }
     }
 
-    // Add raid rewards
+    // Add raid rewards (simplified)
+    const progress = this.vaultProgress();
     for (let i = 1; i <= progress.raid; i++) {
       rewards.push({
         slot: i + 3,
         source: 'raid',
-        itemLevel: 460, // Simplified - would be based on difficulty
+        itemLevel: 460,
         quality: 'Heroic'
       });
     }
@@ -237,5 +263,32 @@ export class ActivityTrackerComponent {
     // Force refresh of activity data
     // In a real app, this might trigger a reload from an API
     console.log('Refreshing activity data...');
+  }
+
+  // Quick-add methods for Mythic+
+  protected onAddHighLevelRun(): void {
+    this.addQuickRun(this.MYTHIC_LOOT_THRESHOLD);
+  }
+
+  protected onAddLowLevelRun(): void {
+    this.addQuickRun(this.MYTHIC_LOOT_THRESHOLD - 1);
+  }
+
+  private addQuickRun(keyLevel: number): void {
+    const character = this.selectedCharacter();
+    if (!character) {
+      return;
+    }
+
+    const characterId = character.id;
+
+    // Create the new run
+    const newRun: MythicPlusRun = {
+      keyLevel,
+      timestamp: new Date()
+    };
+
+    // Add the run to the store
+    this.activityStore.addMythicPlusRun(characterId, newRun);
   }
 }

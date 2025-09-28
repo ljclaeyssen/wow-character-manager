@@ -26,6 +26,11 @@
                 [value]="vaultProgress().completed >= 1 ? '✓' : ''"
                 [severity]="getVaultSlotSeverity(0)">
               </p-badge>
+              <p-tag
+                [value]="vaultProgress().slotRewards[0]"
+                [severity]="vaultProgress().slotRewards[0] === 'Mythic' ? 'warn' : vaultProgress().slotRewards[0] === 'Heroic' ? 'info' : 'secondary'"
+                size="small">
+              </p-tag>
             </div>
             <div class="requirement-item">
               <span class="requirement-count">{{ vaultProgress().completed }}/4</span>
@@ -34,6 +39,11 @@
                 [value]="vaultProgress().completed >= 4 ? '✓' : ''"
                 [severity]="getVaultSlotSeverity(1)">
               </p-badge>
+              <p-tag
+                [value]="vaultProgress().slotRewards[1]"
+                [severity]="vaultProgress().slotRewards[1] === 'Mythic' ? 'warn' : vaultProgress().slotRewards[1] === 'Heroic' ? 'info' : 'secondary'"
+                size="small">
+              </p-tag>
             </div>
             <div class="requirement-item">
               <span class="requirement-count">{{ vaultProgress().completed }}/8</span>
@@ -42,6 +52,11 @@
                 [value]="vaultProgress().completed >= 8 ? '✓' : ''"
                 [severity]="getVaultSlotSeverity(2)">
               </p-badge>
+              <p-tag
+                [value]="vaultProgress().slotRewards[2]"
+                [severity]="vaultProgress().slotRewards[2] === 'Mythic' ? 'warn' : vaultProgress().slotRewards[2] === 'Heroic' ? 'info' : 'secondary'"
+                size="small">
+              </p-tag>
             </div>
           </div>
         </div>
@@ -69,51 +84,32 @@
 
       <!-- Add New Run Card -->
       <p-card header="Add Mythic+ Run" styleClass="add-run-card">
-        <div class="run-form">
-          <div class="form-field">
-            <label for="dungeon">Dungeon</label>
-            <p-select
-              id="dungeon"
-              [(ngModel)]="selectedDungeon"
-              [options]="dungeonOptions"
-              optionLabel="label"
-              optionValue="value"
-              placeholder="Select dungeon"
-              styleClass="w-full">
-            </p-select>
-          </div>
+        <!-- Quick Add Buttons -->
+        <div class="quick-add-section">
+          <h4>Quick Add</h4>
+          <div class="quick-add-buttons">
+            <p-button
+              label="+ <{{ MYTHIC_LOOT_THRESHOLD }}"
+              icon="pi pi-plus"
+              severity="info"
+              size="small"
+              [disabled]="!selectedCharacter() || loading()"
+              (onClick)="onAddLowLevelRun()"
+              pTooltip="Add run below {{ MYTHIC_LOOT_THRESHOLD }} (Heroic vault reward)">
+            </p-button>
 
-          <div class="form-field">
-            <label for="keystone">Keystone Level</label>
-            <p-inputNumber
-              id="keystone"
-              [(ngModel)]="keystoneLevel"
-              [min]="2"
-              [max]="30"
-              [showButtons]="true"
-              styleClass="w-full">
-            </p-inputNumber>
+            <p-button
+              label="+ ≥{{ MYTHIC_LOOT_THRESHOLD }}"
+              icon="pi pi-plus"
+              severity="warn"
+              size="small"
+              [disabled]="!selectedCharacter() || loading()"
+              (onClick)="onAddHighLevelRun()"
+              pTooltip="Add run {{ MYTHIC_LOOT_THRESHOLD }}+ (Mythic vault reward)">
+            </p-button>
           </div>
-
-          <div class="form-field checkbox-field">
-            <label for="inTime">
-              <input
-                type="checkbox"
-                id="inTime"
-                [(ngModel)]="completedInTime">
-              Completed in time
-            </label>
-          </div>
-
-          <p-button
-            label="Add Run"
-            icon="pi pi-plus"
-            severity="success"
-            styleClass="w-full"
-            [disabled]="!canAddRun() || loading()"
-            (onClick)="onAddMythicPlus()">
-          </p-button>
         </div>
+
 
         @if (!selectedCharacter()) {
           <p-message
@@ -124,63 +120,6 @@
         }
       </p-card>
 
-      <!-- Weekly Statistics -->
-      <p-card header="Weekly Statistics" styleClass="stats-card">
-        <div class="stats-grid">
-          <div class="stat-item">
-            <i class="pi pi-chart-bar stat-icon"></i>
-            <div class="stat-content">
-              <span class="stat-value">{{ weeklyStats().totalRuns }}</span>
-              <span class="stat-label">Total Runs</span>
-            </div>
-          </div>
-
-          <div class="stat-item">
-            <i class="pi pi-star stat-icon"></i>
-            <div class="stat-content">
-              <span class="stat-value">{{ weeklyStats().highestKeyLevel || '-' }}</span>
-              <span class="stat-label">Highest Key</span>
-            </div>
-          </div>
-
-          <div class="stat-item">
-            <i class="pi pi-chart-line stat-icon"></i>
-            <div class="stat-content">
-              <span class="stat-value">{{ weeklyStats().averageKeyLevel || '-' }}</span>
-              <span class="stat-label">Average Key</span>
-            </div>
-          </div>
-
-          <div class="stat-item">
-            <i class="pi pi-clock stat-icon"></i>
-            <div class="stat-content">
-              <span class="stat-value">{{ weeklyStats().inTimeRuns }}</span>
-              <span class="stat-label">In Time</span>
-            </div>
-          </div>
-        </div>
-
-        <p-divider></p-divider>
-
-        <div class="overall-stats">
-          <div class="overall-stat">
-            <span class="overall-label">Season Best:</span>
-            <p-tag
-              [value]="'+' + highestKeystone()"
-              [severity]="getKeystoneSeverity(highestKeystone())"
-              styleClass="keystone-tag">
-            </p-tag>
-          </div>
-
-          <div class="overall-stat">
-            <span class="overall-label">Vault Quality:</span>
-            <p-tag
-              [value]="rewardQuality()"
-              [severity]="rewardQuality() === 'Mythic' ? 'warn' : 'info'">
-            </p-tag>
-          </div>
-        </div>
-      </p-card>
 
       <!-- Recent Runs -->
       @if (currentWeekMythicPlus().length > 0) {
@@ -237,11 +176,11 @@
         <div class="rewards-info">
           <div class="reward-tier">
             <p-tag value="Heroic" severity="info"></p-tag>
-            <span class="tier-description">Keystone levels 2-9 provide Heroic quality vault rewards</span>
+            <span class="tier-description">Keystone levels 2-{{ MYTHIC_LOOT_THRESHOLD - 1 }} provide Heroic quality vault rewards</span>
           </div>
           <div class="reward-tier">
             <p-tag value="Mythic" severity="warn"></p-tag>
-            <span class="tier-description">Keystone levels 10+ provide Mythic quality vault rewards</span>
+            <span class="tier-description">Keystone levels {{ MYTHIC_LOOT_THRESHOLD }}+ provide Mythic quality vault rewards</span>
           </div>
           <div class="reward-tier">
             <p-tag value="Progress" severity="success"></p-tag>

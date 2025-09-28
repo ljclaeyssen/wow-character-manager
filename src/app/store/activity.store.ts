@@ -6,6 +6,7 @@ import { pipe, tap, switchMap, catchError, of } from 'rxjs';
 import {
   CharacterActivity,
   MythicPlusActivity,
+  MythicPlusRun,
   RaidActivity,
   WeeklyQuest
 } from '../models/activity.model';
@@ -219,6 +220,7 @@ export const ActivityStore = signalStore(
           lastUpdated: new Date(),
           dungeonCount: 0,
           highestKeyLevel: 0,
+          runs: [],
           vaultProgress: {
             slot1: false,
             slot2: false,
@@ -261,6 +263,53 @@ export const ActivityStore = signalStore(
       });
 
       methods.saveToLocalStorage();
+    },
+
+    // Add individual M+ run
+    addMythicPlusRun: (characterId: string, run: MythicPlusRun): void => {
+      const currentActivity = store.activities()[characterId];
+      if (!currentActivity) {
+        methods.initializeCharacterActivity(characterId);
+        return methods.addMythicPlusRun(characterId, run);
+      }
+
+      const updatedRuns = [...currentActivity.mythicPlus.runs, run];
+      const dungeonCount = updatedRuns.length;
+      const highestKeyLevel = Math.max(...updatedRuns.map(r => r.keyLevel));
+
+      const updatedMP = {
+        ...currentActivity.mythicPlus,
+        runs: updatedRuns,
+        dungeonCount,
+        highestKeyLevel,
+        lastUpdated: new Date()
+      };
+
+      // Update vault progress based on dungeon count
+      updatedMP.vaultProgress = {
+        slot1: dungeonCount >= 1,
+        slot2: dungeonCount >= 4,
+        slot3: dungeonCount >= 8
+      };
+
+      const updatedActivity = {
+        ...currentActivity,
+        mythicPlus: updatedMP,
+        lastUpdated: new Date()
+      };
+
+      patchState(store, {
+        activities: {
+          ...store.activities(),
+          [characterId]: updatedActivity
+        }
+      });
+
+      methods.saveToLocalStorage();
+
+      // Show vault progress notification
+      const slotsEarned = calculateMythicPlusVaultSlots(dungeonCount);
+      notificationService.showVaultProgress('Mythic+', `${slotsEarned}/3 vault slots earned (${dungeonCount} dungeons)`);
     },
 
     // Update M+ activity
@@ -764,6 +813,7 @@ function createFreshWeeklyActivity(characterId: string, weekStartDate: Date): Ch
       lastUpdated: new Date(),
       dungeonCount: 0,
       highestKeyLevel: 0,
+      runs: [],
       vaultProgress: {
         slot1: false,
         slot2: false,

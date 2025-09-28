@@ -6,12 +6,21 @@ export interface WeeklyActivity {
   lastUpdated: Date;
 }
 
+// Individual M+ run tracking
+export interface MythicPlusRun {
+  keyLevel: number;
+  dungeon?: string;
+  inTime?: boolean;
+  timestamp: Date;
+}
+
 // Mythic Plus activity tracking
 export interface MythicPlusActivity extends WeeklyActivity {
   dungeonCount: number; // Number of M+ dungeons completed
   highestKeyLevel: number; // Highest key level completed this week
   averageKeyLevel?: number; // Average key level this week
   inTimeRuns?: number; // Number of runs completed in time
+  runs: MythicPlusRun[]; // Individual runs for vault calculation
   vaultProgress: {
     slot1: boolean; // 1 dungeon completed
     slot2: boolean; // 4 dungeons completed
