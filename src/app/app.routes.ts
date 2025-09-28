@@ -81,15 +81,6 @@ export const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'weekly-quests',
-        loadComponent: () => import('./components/weekly-quest/weekly-quest.component').then(m => m.WeeklyQuestComponent),
-        title: 'Weekly Quests - WoW Character Manager',
-        data: {
-          breadcrumb: 'Weekly Quests',
-          description: 'Track weekly quest completion'
-        }
-      },
-      {
         path: 'tracker',
         loadComponent: () => import('./components/activity-tracker/activity-tracker.component').then(m => m.ActivityTrackerComponent),
         title: 'Activity Tracker - WoW Character Manager',

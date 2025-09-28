@@ -246,6 +246,110 @@
     padding: 0.5rem;
   }
 
+  // Weekly Quests Styles
+  .weekly-quest-header {
+    margin-bottom: 1rem;
+
+    .quest-progress-summary {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+
+      .quest-completed {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      .quest-label {
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+      }
+    }
+
+    .quest-progress-bar {
+      height: 0.75rem;
+    }
+  }
+
+  .quest-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: var(--surface-ground);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-border);
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    .quest-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+
+      .quest-icon {
+        font-size: 1.25rem;
+        color: var(--primary-color);
+      }
+
+      .quest-details {
+        display: flex;
+        flex-direction: column;
+
+        .quest-name {
+          font-weight: 500;
+          color: var(--text-color);
+        }
+
+        .quest-description {
+          font-size: 0.8rem;
+          color: var(--text-color-secondary);
+        }
+      }
+    }
+
+    .spark-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .spark-mini-progress {
+        width: 100px;
+        height: 0.5rem;
+      }
+    }
+  }
+
+  .profession-quests-section {
+    margin-top: 0.5rem;
+
+    .profession-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+
+      .profession-title {
+        font-weight: 500;
+        color: var(--text-color);
+      }
+    }
+
+    .profession-quest {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .quest-complete-message {
+    margin-top: 1rem;
+  }
+
   // Empty States
   .no-character-selected,
   .no-activities {

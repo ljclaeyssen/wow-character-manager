@@ -271,6 +271,123 @@
         }
       </p-card>
 
+      <!-- Weekly Quests Section -->
+      <p-card header="Weekly Quests" styleClass="weekly-quests-card">
+        <div class="weekly-quest-header">
+          <div class="quest-progress-summary">
+            <span class="quest-completed">{{ weeklyQuestProgress().completed }}/{{ weeklyQuestProgress().total }}</span>
+            <span class="quest-label">Quests Completed</span>
+          </div>
+          <p-progressBar
+            [value]="weeklyQuestProgress().percentage"
+            [showValue]="false"
+            styleClass="quest-progress-bar">
+          </p-progressBar>
+        </div>
+
+        <p-divider></p-divider>
+
+        <!-- World Boss -->
+        <div class="quest-item">
+          <div class="quest-info">
+            <i class="pi pi-globe quest-icon"></i>
+            <div class="quest-details">
+              <span class="quest-name">World Boss</span>
+              <small class="quest-description">Defeat the weekly world boss</small>
+            </div>
+          </div>
+          <p-checkbox
+            [ngModel]="worldBossCompleted()"
+            [binary]="true"
+            [disabled]="loading()"
+            (onChange)="onToggleWorldBoss()">
+          </p-checkbox>
+        </div>
+
+        <!-- Spark Fragment -->
+        <div class="quest-item">
+          <div class="quest-info">
+            <i class="pi pi-star quest-icon"></i>
+            <div class="quest-details">
+              <span class="quest-name">Spark Fragment</span>
+              <small class="quest-description">{{ sparkProgress().current }}/{{ sparkProgress().max }} fragments (2 weeks = 1 spark)</small>
+            </div>
+          </div>
+          <div class="spark-controls">
+            <p-progressBar
+              [value]="sparkProgress().percentage"
+              [showValue]="false"
+              styleClass="spark-mini-progress">
+            </p-progressBar>
+            <p-button
+              [icon]="sparkProgress().current > 0 ? 'pi pi-minus' : 'pi pi-plus'"
+              [severity]="sparkProgress().current > 0 ? 'danger' : 'success'"
+              [text]="true"
+              [rounded]="true"
+              size="small"
+              (onClick)="onToggleSparkQuest()">
+            </p-button>
+          </div>
+        </div>
+
+        <!-- Weekly Event -->
+        <div class="quest-item">
+          <div class="quest-info">
+            <i class="pi pi-calendar quest-icon"></i>
+            <div class="quest-details">
+              <span class="quest-name">{{ currentWeekEvent }}</span>
+              <small class="quest-description">Complete the weekly bonus event</small>
+            </div>
+          </div>
+          <p-checkbox
+            [ngModel]="weeklyEventCompleted()"
+            [binary]="true"
+            [disabled]="loading()"
+            (onChange)="onToggleWeeklyEvent()">
+          </p-checkbox>
+        </div>
+
+        <!-- Profession Quests -->
+        @if (selectedCharacter()?.professions && selectedCharacter()!.professions.length > 0) {
+          <p-divider></p-divider>
+          <div class="profession-quests-section">
+            <div class="profession-header">
+              <span class="profession-title">Profession Knowledge Quests</span>
+              <p-badge
+                [value]="completedProfessionQuests() + '/' + professionQuestProgress().length"
+                severity="info">
+              </p-badge>
+            </div>
+            @for (prof of professionQuestProgress(); track prof.profession) {
+              <div class="quest-item profession-quest">
+                <div class="quest-info">
+                  <i class="pi pi-book quest-icon"></i>
+                  <div class="quest-details">
+                    <span class="quest-name">{{ prof.profession }}</span>
+                    <small class="quest-description">Weekly knowledge quest</small>
+                  </div>
+                </div>
+                <p-checkbox
+                  [ngModel]="prof.completed"
+                  [binary]="true"
+                  [disabled]="loading()"
+                  (onChange)="onToggleProfessionQuest(prof.profession)">
+                </p-checkbox>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Weekly Quest Summary -->
+        @if (weeklyQuestProgress().percentage === 100) {
+          <p-message
+            severity="success"
+            styleClass="quest-complete-message">
+            <span>All weekly quests completed! Great job!</span>
+          </p-message>
+        }
+      </p-card>
+
     </div>
   } @else {
     <div class="no-character-selected">

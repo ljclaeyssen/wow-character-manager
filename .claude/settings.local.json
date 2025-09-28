@@ -14,7 +14,13 @@
       "Bash(pkill:*)",
       "Bash(ng build)",
       "WebFetch(domain:primeng.org)",
-      "Bash(ng cache:*)"
+      "Bash(ng cache:*)",
+      "Bash(if exist \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.html\" del \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.html\")",
+      "Bash(if exist \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.scss\" del \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.scss\")",
+      "Bash(if exist \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.spec.ts\" del \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.spec.ts\")",
+      "Bash(powershell:*)",
+      "Bash(dir:*)",
+      "Bash(ng serve:*)"
     ],
     "deny": [],
     "ask": []

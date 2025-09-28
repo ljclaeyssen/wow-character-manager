@@ -137,25 +137,6 @@
           </p-panel>
 
 
-          <p-panel header="Weekly Quests" [toggleable]="true">
-            <wow-weekly-quest
-              [selectedCharacter]="selectedCharacter()">
-            </wow-weekly-quest>
-          </p-panel>
-
-          @if (selectedCharacter()) {
-            <p-panel header="Character Details" [toggleable]="true">
-              <div class="character-detail-placeholder">
-                <p>Character details are available on the dedicated character detail page.</p>
-                <p-button
-                  label="View Full Details"
-                  icon="pi pi-eye"
-                  severity="info"
-                  (onClick)="viewCharacterDetails(selectedCharacter()!)">
-                </p-button>
-              </div>
-            </p-panel>
-          }
         </div>
       </p-panel>
     } @else {
@@ -168,46 +149,6 @@
       </p-panel>
     }
 
-    <!-- Quick Stats Panel -->
-    @if (dashboardStats().totalCharacters > 0) {
-      <p-panel header="Weekly Summary" [toggleable]="true" [collapsed]="true" styleClass="summary-panel">
-        <div class="summary-grid">
-          <div class="summary-item">
-            <i class="pi pi-users summary-icon"></i>
-            <div class="summary-content">
-              <span class="summary-value">{{ dashboardStats().totalCharacters }}</span>
-              <span class="summary-label">Total Characters</span>
-            </div>
-          </div>
-
-          <div class="summary-item">
-            <i class="pi pi-chart-bar summary-icon"></i>
-            <div class="summary-content">
-              <span class="summary-value">{{ dashboardStats().totalActivities }}</span>
-              <span class="summary-label">Weekly Activities</span>
-            </div>
-          </div>
-
-          <div class="summary-item">
-            <i class="pi pi-star summary-icon"></i>
-            <div class="summary-content">
-              <span class="summary-value">{{ dashboardStats().charactersWithFullVault }}</span>
-              <span class="summary-label">Full Vault Complete</span>
-            </div>
-          </div>
-
-          @if (dashboardStats().mostActiveCharacter) {
-            <div class="summary-item">
-              <i class="pi pi-trophy summary-icon"></i>
-              <div class="summary-content">
-                <span class="summary-value">{{ dashboardStats().mostActiveCharacter!.name }}</span>
-                <span class="summary-label">Most Active</span>
-              </div>
-            </div>
-          }
-        </div>
-      </p-panel>
-    }
   </div>
 
 
