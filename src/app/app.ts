@@ -81,24 +81,6 @@ export class App implements OnInit {
       command: () => this.closeMobileSidebar()
     },
     {
-      label: 'Activities',
-      icon: 'pi pi-chart-bar',
-      items: [
-        {
-          label: 'Activity Tracker',
-          icon: 'pi pi-chart-bar',
-          routerLink: '/activities/tracker',
-          command: () => this.closeMobileSidebar()
-        },
-        {
-          label: 'Weekly Quests',
-          icon: 'pi pi-flag',
-          routerLink: '/activities/weekly-quests',
-          command: () => this.closeMobileSidebar()
-        },
-      ]
-    },
-    {
       label: 'Reports',
       icon: 'pi pi-chart-line',
       items: [

@@ -38,6 +38,7 @@
         optionLabel="label"
         optionValue="value"
         placeholder="Select faction"
+        appendTo="body"
         class="w-full"
         [class.ng-invalid]="getFieldError('faction')">
       </p-select>
@@ -58,6 +59,7 @@
         optionValue="value"
         placeholder="Select race"
         [disabled]="!characterForm.get('faction')?.value"
+        appendTo="body"
         class="w-full"
         [class.ng-invalid]="getFieldError('race')">
       </p-select>
@@ -78,6 +80,7 @@
         optionValue="value"
         placeholder="Select class"
         [disabled]="!characterForm.get('race')?.value"
+        appendTo="body"
         class="w-full"
         [class.ng-invalid]="getFieldError('characterClass')">
       </p-select>
@@ -98,6 +101,7 @@
         optionValue="value"
         placeholder="Select specialization"
         [disabled]="!characterForm.get('characterClass')?.value"
+        appendTo="body"
         class="w-full"
         [class.ng-invalid]="getFieldError('specialization')">
       </p-select>
@@ -121,6 +125,7 @@
         [maxSelectedLabels]="2"
         selectedItemsLabel="{0} professions selected"
         [selectionLimit]="2"
+        appendTo="body"
         class="w-full"
         [class.ng-invalid]="getFieldError('professions')">
 

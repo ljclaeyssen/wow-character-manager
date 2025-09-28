@@ -71,26 +71,6 @@ export const routes: Routes = [
     ]
   },
 
-  // Activity tracking routes
-  {
-    path: 'activities',
-    children: [
-      {
-        path: '',
-        redirectTo: 'tracker',
-        pathMatch: 'full'
-      },
-      {
-        path: 'tracker',
-        loadComponent: () => import('./components/activity-tracker/activity-tracker.component').then(m => m.ActivityTrackerComponent),
-        title: 'Activity Tracker - WoW Character Manager',
-        data: {
-          breadcrumb: 'Activity Tracker',
-          description: 'Comprehensive activity tracking'
-        }
-      }
-    ]
-  },
 
   // Reports and analytics routes
   {

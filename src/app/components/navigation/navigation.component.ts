@@ -70,30 +70,6 @@ export class NavigationComponent implements OnDestroy {
       ]
     },
     {
-      label: 'Activities',
-      icon: 'pi pi-calendar',
-      items: [
-        {
-          label: 'Activity Tracker',
-          icon: 'pi pi-chart-bar',
-          routerLink: '/activities/tracker',
-          command: () => this.navigate('/activities/tracker')
-        },
-        {
-          label: 'Raids',
-          icon: 'pi pi-trophy',
-          routerLink: '/activities/raids',
-          command: () => this.navigate('/activities/raids')
-        },
-        {
-          label: 'Weekly Quests',
-          icon: 'pi pi-bookmark',
-          routerLink: '/activities/weekly-quests',
-          command: () => this.navigate('/activities/weekly-quests')
-        }
-      ]
-    },
-    {
       label: 'Reports',
       icon: 'pi pi-chart-bar',
       items: [
