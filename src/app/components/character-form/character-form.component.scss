@@ -133,6 +133,29 @@
     }
   }
 
+  .api-validation-error {
+    margin: 1rem 0;
+
+    ::ng-deep {
+      .p-message {
+        margin: 0;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        border-radius: var(--p-border-radius-md);
+
+        .p-message-text {
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        .p-message-icon {
+          font-size: 1rem;
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+
   .form-actions {
     display: flex;
     justify-content: flex-end;

@@ -13,6 +13,7 @@ import { Faction } from '../../enums/faction.enum';
 import { CharacterClass } from '../../enums/class.enum';
 import { Race } from '../../enums/race.enum';
 import { CharacterFormGroup } from '../../forms/character-form-group';
+import { RaiderIoApiService } from '../../services/raider-io-api.service';
 import {
   DropdownOption,
   RaceOption,
@@ -45,6 +46,7 @@ import {
 })
 export class CharacterFormComponent implements OnDestroy {
   private readonly characterStore = inject(CharacterStore);
+  private readonly raiderIoService = inject(RaiderIoApiService);
 
 
   // Input signals
@@ -59,6 +61,7 @@ export class CharacterFormComponent implements OnDestroy {
   // Form state
   protected readonly loading = signal(false);
   protected readonly submitAttempted = signal(false);
+  protected readonly apiValidationError = signal<string | null>(null);
 
   // Flag to prevent cascading form updates during data loading
   private isLoadingCharacterData = false;
@@ -165,6 +168,7 @@ export class CharacterFormComponent implements OnDestroy {
 
   protected onSubmit(): void {
     this.submitAttempted.set(true);
+    this.apiValidationError.set(null);
     (this.characterForm as unknown as CharacterFormGroup).markAllFieldsTouched();
 
     if ((this.characterForm as unknown as CharacterFormGroup).isReadyForSubmission()) {
@@ -178,19 +182,65 @@ export class CharacterFormComponent implements OnDestroy {
         updatedAt: new Date()
       };
 
-      // Simulate API call delay
-      setTimeout(() => {
-        if (this.isEditMode()) {
-          this.characterStore.updateCharacter(character.id, character);
-        } else {
-          this.characterStore.addCharacter(character);
-        }
-
-        this.characterSaved.emit(character);
-        this.loading.set(false);
-        this.onHide();
-      }, 500);
+      // For new characters, validate with Raider.io API first
+      if (!this.isEditMode()) {
+        this.validateCharacterWithApi(character);
+      } else {
+        this.saveCharacter(character);
+      }
     }
+  }
+
+  private validateCharacterWithApi(character: Character): void {
+    // Format the server name for API call
+    const formattedRealm = this.raiderIoService.formatRealmName(character.server);
+    const formattedName = this.raiderIoService.formatCharacterName(character.name);
+
+    // Determine region (defaulting to 'eu' for now - could be made configurable)
+    const region = 'eu';
+
+    this.raiderIoService.getCharacterProfile(region, formattedRealm, formattedName)
+      .subscribe({
+        next: (profile) => {
+          // Character exists on Raider.io, proceed with creation
+          const updatedCharacter: Character = {
+            ...character,
+            lastApiUpdateAt: new Date()
+          };
+
+          console.log('Character validated and data fetched from Raider.io:', profile);
+          this.saveCharacter(updatedCharacter);
+        },
+        error: (error) => {
+          // Character not found or API error - prevent creation
+          this.loading.set(false);
+          console.error('Character validation failed:', error);
+
+          // Set user-friendly error message
+          if (error.message.includes('404') || error.message.toLowerCase().includes('not found')) {
+            this.apiValidationError.set(`Character "${character.name}" not found on server "${character.server}". Please verify the character name and server are correct.`);
+          } else if (error.message.toLowerCase().includes('invalid realm')) {
+            this.apiValidationError.set(`Server "${character.server}" not found. Please check the server name spelling.`);
+          } else {
+            this.apiValidationError.set('Unable to validate character. Please check your internet connection and try again.');
+          }
+        }
+      });
+  }
+
+  private saveCharacter(character: Character): void {
+    // Simulate a small delay for better UX
+    setTimeout(() => {
+      if (this.isEditMode()) {
+        this.characterStore.updateCharacter(character.id, character);
+      } else {
+        this.characterStore.addCharacter(character);
+      }
+
+      this.characterSaved.emit(character);
+      this.loading.set(false);
+      this.onHide();
+    }, 200);
   }
 
   protected getFieldError(fieldName: string): string | null {
@@ -214,8 +264,9 @@ export class CharacterFormComponent implements OnDestroy {
       this.raceValue.set(character.race);
       this.classValue.set(character.characterClass);
 
-      // Clear any previous submission attempts
+      // Clear any previous submission attempts and validation errors
       this.submitAttempted.set(false);
+      this.apiValidationError.set(null);
 
     } catch (error) {
       console.error('Error loading character data:', error);
@@ -235,6 +286,7 @@ export class CharacterFormComponent implements OnDestroy {
       // Reset form to initial state
       (this.characterForm as unknown as CharacterFormGroup).resetForm();
       this.submitAttempted.set(false);
+      this.apiValidationError.set(null);
 
       // Reset signals
       this.factionValue.set(null);

@@ -11,6 +11,8 @@ export interface Character {
   characterClass: CharacterClass;
   specialization: string;
   professions: Profession[]; // Max 2 professions
+  server: string; // Required server/realm name for Blizzard API integration
+  lastApiUpdateAt?: Date; // Last time character data was fetched from Raider.io API
   createdAt: Date;
   updatedAt: Date;
 }

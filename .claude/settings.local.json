@@ -20,7 +20,8 @@
       "Bash(if exist \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.spec.ts\" del \"C:\\Users\\ljcla\\WebstormProjects\\wow-char-handler\\src\\app\\components\\weekly-quest\\weekly-quest.component.spec.ts\")",
       "Bash(powershell:*)",
       "Bash(dir:*)",
-      "Bash(ng serve:*)"
+      "Bash(ng serve:*)",
+      "WebFetch(domain:raider.io)"
     ],
     "deny": [],
     "ask": []

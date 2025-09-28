@@ -349,6 +349,7 @@ export const CharacterStore = signalStore(
               characterClass: CharacterClass.Paladin,
               specialization: 'Protection',
               professions: [Profession.Blacksmithing, Profession.Mining],
+              server: 'Stormrage',
               createdAt: new Date('2024-01-15'),
               updatedAt: new Date('2024-01-20')
             },
@@ -360,6 +361,7 @@ export const CharacterStore = signalStore(
               characterClass: CharacterClass.Shaman,
               specialization: 'Enhancement',
               professions: [Profession.Leatherworking, Profession.Skinning],
+              server: 'Area-52',
               createdAt: new Date('2024-01-10'),
               updatedAt: new Date('2024-01-25')
             },
@@ -371,6 +373,7 @@ export const CharacterStore = signalStore(
               characterClass: CharacterClass.Mage,
               specialization: 'Frost',
               professions: [Profession.Tailoring, Profession.Enchanting],
+              server: 'Dalaran',
               createdAt: new Date('2024-01-05'),
               updatedAt: new Date('2024-01-18')
             }

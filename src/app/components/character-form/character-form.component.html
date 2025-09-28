@@ -141,6 +141,29 @@
       }
     </div>
 
+    <!-- Server/Realm Selection -->
+    <div class="form-field">
+      <label for="server" class="field-label">Server/Realm *</label>
+      <input
+        pInputText
+        id="server"
+        formControlName="server"
+        placeholder="Enter server/realm name"
+        class="w-full"
+        [class.ng-invalid]="getFieldError('server')" />
+
+      @if (getFieldError('server')) {
+        <p-message severity="error" [text]="getFieldError('server')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- API Validation Error -->
+    @if (apiValidationError()) {
+      <div class="api-validation-error">
+        <p-message severity="error" [text]="apiValidationError()!" class="w-full"></p-message>
+      </div>
+    }
+
     <!-- Form Actions -->
     <div class="form-actions">
       <p-button

@@ -12,6 +12,7 @@ export interface CharacterFormControls {
   characterClass: FormControl<CharacterClass | ''>;
   specialization: FormControl<string>;
   professions: FormControl<Profession[]>;
+  server: FormControl<string>;
 }
 
 export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
@@ -47,6 +48,10 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
       professions: new FormControl<Profession[]>([], {
         nonNullable: true,
         validators: [CharacterFormGroup.maxProfessionsValidator(2)]
+      }),
+      server: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required] // Required field
       })
     });
 
@@ -66,7 +71,8 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
         race: character.race,
         characterClass: character.characterClass,
         specialization: character.specialization,
-        professions: character.professions
+        professions: character.professions,
+        server: character.server
       });
     } finally {
       setTimeout(() => {
@@ -87,7 +93,9 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
       race: formValue.race as Race,
       characterClass: formValue.characterClass as CharacterClass,
       specialization: formValue.specialization,
-      professions: formValue.professions
+      professions: formValue.professions,
+      server: formValue.server // Required field
+      // lastApiUpdateAt will be set when API data is fetched
     };
   }
 
@@ -101,7 +109,8 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
       race: '',
       characterClass: '',
       specialization: '',
-      professions: []
+      professions: [],
+      server: ''
     });
   }
 
@@ -213,7 +222,8 @@ export class CharacterFormGroup extends FormGroup<CharacterFormControls> {
       race: 'Race',
       characterClass: 'Class',
       specialization: 'Specialization',
-      professions: 'Professions'
+      professions: 'Professions',
+      server: 'Server/Realm'
     };
 
     return labels[fieldName];
