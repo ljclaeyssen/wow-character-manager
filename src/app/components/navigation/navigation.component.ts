@@ -74,10 +74,10 @@ export class NavigationComponent implements OnDestroy {
       icon: 'pi pi-calendar',
       items: [
         {
-          label: 'Mythic+',
-          icon: 'pi pi-compass',
-          routerLink: '/activities/mythic-plus',
-          command: () => this.navigate('/activities/mythic-plus')
+          label: 'Activity Tracker',
+          icon: 'pi pi-chart-bar',
+          routerLink: '/activities/tracker',
+          command: () => this.navigate('/activities/tracker')
         },
         {
           label: 'Raids',

@@ -77,17 +77,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'mythic-plus',
+        redirectTo: 'tracker',
         pathMatch: 'full'
-      },
-      {
-        path: 'mythic-plus',
-        loadComponent: () => import('./components/mythic-plus/mythic-plus.component').then(m => m.MythicPlusComponent),
-        title: 'Mythic+ Activities - WoW Character Manager',
-        data: {
-          breadcrumb: 'Mythic+',
-          description: 'Track Mythic+ dungeon progress'
-        }
       },
       {
         path: 'raids',

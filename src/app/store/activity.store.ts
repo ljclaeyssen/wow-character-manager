@@ -70,7 +70,8 @@ export const ActivityStore = signalStore(
         const mpSlots = calculateMythicPlusVaultSlots(activity.mythicPlus.dungeonCount);
 
         // Raid vault progress (2/4/6 bosses for 1/2/3 slots)
-        const totalRaidBosses = activity.raid.normalBossesKilled +
+        const totalRaidBosses = activity.raid.lfrBossesKilled +
+                               activity.raid.normalBossesKilled +
                                activity.raid.heroicBossesKilled +
                                activity.raid.mythicBossesKilled;
         const raidSlots = calculateRaidVaultSlots(totalRaidBosses);
@@ -80,6 +81,7 @@ export const ActivityStore = signalStore(
         if (activity.raid.mythicBossesKilled > 0) difficulties.push('Mythic');
         if (activity.raid.heroicBossesKilled > 0) difficulties.push('Heroic');
         if (activity.raid.normalBossesKilled > 0) difficulties.push('Normal');
+        if (activity.raid.lfrBossesKilled > 0) difficulties.push('LFR');
 
         summary[activity.characterId] = {
           characterId: activity.characterId,
@@ -124,7 +126,8 @@ export const ActivityStore = signalStore(
 
       Object.values(activities).forEach(activity => {
         const mpSlots = calculateMythicPlusVaultSlots(activity.mythicPlus.dungeonCount);
-        const totalBosses = activity.raid.normalBossesKilled +
+        const totalBosses = activity.raid.lfrBossesKilled +
+                           activity.raid.normalBossesKilled +
                            activity.raid.heroicBossesKilled +
                            activity.raid.mythicBossesKilled;
         const raidSlots = calculateRaidVaultSlots(totalBosses);
@@ -368,7 +371,8 @@ export const ActivityStore = signalStore(
       };
 
       // Calculate total bosses and update vault progress
-      const totalBosses = (updatedRaid.normalBossesKilled || 0) +
+      const totalBosses = (updatedRaid.lfrBossesKilled || 0) +
+                         (updatedRaid.normalBossesKilled || 0) +
                          (updatedRaid.heroicBossesKilled || 0) +
                          (updatedRaid.mythicBossesKilled || 0);
 

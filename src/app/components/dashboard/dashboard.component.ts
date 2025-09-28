@@ -18,7 +18,6 @@ import { ActivityService } from '../../services/activity.service';
 import { Character } from '../../models/character.model';
 import { Activity, CharacterActivity } from '../../models/activity.model';
 import { ActivityTrackerComponent } from '../activity-tracker/activity-tracker.component';
-import { MythicPlusComponent } from '../mythic-plus/mythic-plus.component';
 import { RaidProgressComponent } from '../raid-progress/raid-progress.component';
 import { WeeklyQuestComponent } from '../weekly-quest/weekly-quest.component';
 import { Faction } from '../../enums/faction.enum';
@@ -40,7 +39,6 @@ import { CharacterClass } from '../../enums/class.enum';
     TooltipModule,
     DividerModule,
     ActivityTrackerComponent,
-    MythicPlusComponent,
     RaidProgressComponent,
     WeeklyQuestComponent
   ],

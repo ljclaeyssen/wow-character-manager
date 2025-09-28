@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { DividerModule } from 'primeng/divider';
 import { TagModule } from 'primeng/tag';
+import { MessageModule } from 'primeng/message';
 
 import { ActivityStore } from '../../store/activity.store';
 import { ActivityService, VaultProgress, GreatVaultReward } from '../../services/activity.service';
@@ -27,7 +28,8 @@ import { ActivityType } from '../../enums/activity-type.enum';
     ButtonModule,
     TooltipModule,
     DividerModule,
-    TagModule
+    TagModule,
+    MessageModule
   ],
   templateUrl: './activity-tracker.component.html',
   styleUrl: './activity-tracker.component.scss',
@@ -265,6 +267,48 @@ export class ActivityTrackerComponent {
     console.log('Refreshing activity data...');
   }
 
+  // Mythic+ specific vault progress (like the mythic-plus component)
+  protected readonly mythicPlusVaultProgress = computed(() => {
+    const characterActivity = this.currentWeekActivities();
+    if (!characterActivity || !characterActivity.mythicPlus) {
+      return {
+        completed: 0,
+        required: [1, 4, 8],
+        slots: 0,
+        percentage: 0,
+        nextMilestone: { target: 1, remaining: 1 },
+        slotRewards: ['No reward', 'No reward', 'No reward']
+      };
+    }
+
+    const count = characterActivity.mythicPlus.dungeonCount;
+    const runs = characterActivity.mythicPlus.runs || [];
+
+    // Sort runs by key level (highest first) to determine vault rewards
+    const sortedRuns = [...runs].sort((a, b) => b.keyLevel - a.keyLevel);
+
+    // Calculate slot rewards based on sorted runs
+    const slotRewards = [
+      count >= 1 && sortedRuns[0] ? (sortedRuns[0].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic') : 'No reward',
+      count >= 4 && sortedRuns[3] ? (sortedRuns[3].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic') : 'No reward',
+      count >= 8 && sortedRuns[7] ? (sortedRuns[7].keyLevel >= this.MYTHIC_LOOT_THRESHOLD ? 'Mythic' : 'Heroic') : 'No reward'
+    ];
+
+    return {
+      completed: count,
+      required: [1, 4, 8],
+      slots: this.calculateMythicPlusSlots(count),
+      percentage: this.calculateMythicPlusProgressPercentage(count),
+      nextMilestone: this.getMythicPlusNextMilestone(count),
+      slotRewards
+    };
+  });
+
+  protected getMythicPlusVaultSlotSeverity(slotIndex: number): 'success' | 'info' | 'warn' {
+    const progress = this.mythicPlusVaultProgress();
+    return slotIndex < progress.slots ? 'success' : 'info';
+  }
+
   // Quick-add methods for Mythic+
   protected onAddHighLevelRun(): void {
     this.addQuickRun(this.MYTHIC_LOOT_THRESHOLD);
@@ -290,5 +334,80 @@ export class ActivityTrackerComponent {
 
     // Add the run to the store
     this.activityStore.addMythicPlusRun(characterId, newRun);
+  }
+
+  // Quick-add methods for Raid
+  protected onAddLFRBoss(): void {
+    this.addRaidBoss('lfr');
+  }
+
+  protected onAddNormalBoss(): void {
+    this.addRaidBoss('normal');
+  }
+
+  protected onAddHeroicBoss(): void {
+    this.addRaidBoss('heroic');
+  }
+
+  protected onAddMythicBoss(): void {
+    this.addRaidBoss('mythic');
+  }
+
+  private addRaidBoss(difficulty: 'lfr' | 'normal' | 'heroic' | 'mythic'): void {
+    const character = this.selectedCharacter();
+    if (!character) {
+      return;
+    }
+
+    const characterId = character.id;
+
+    // Get current raid activity to increment the appropriate counter
+    const currentActivity = this.activities()[characterId];
+    if (!currentActivity) {
+      return;
+    }
+
+    const updates: any = {};
+
+    switch (difficulty) {
+      case 'lfr':
+        updates.lfrBossesKilled = (currentActivity.raid.lfrBossesKilled || 0) + 1;
+        break;
+      case 'normal':
+        updates.normalBossesKilled = (currentActivity.raid.normalBossesKilled || 0) + 1;
+        break;
+      case 'heroic':
+        updates.heroicBossesKilled = (currentActivity.raid.heroicBossesKilled || 0) + 1;
+        break;
+      case 'mythic':
+        updates.mythicBossesKilled = (currentActivity.raid.mythicBossesKilled || 0) + 1;
+        break;
+    }
+
+    // Update the raid activity
+    this.activityStore.updateRaidActivity(characterId, updates);
+  }
+
+  // Helper methods for mythic+ vault calculations
+  private calculateMythicPlusSlots(count: number): number {
+    if (count >= 8) return 3;
+    if (count >= 4) return 2;
+    if (count >= 1) return 1;
+    return 0;
+  }
+
+  private calculateMythicPlusProgressPercentage(count: number): number {
+    // Progress towards next vault slot
+    if (count >= 8) return 100;
+    if (count >= 4) return Math.round((count / 8) * 100);
+    if (count >= 1) return Math.round((count / 4) * 100);
+    return Math.round((count / 1) * 100);
+  }
+
+  private getMythicPlusNextMilestone(count: number): { target: number; remaining: number } {
+    if (count < 1) return { target: 1, remaining: 1 - count };
+    if (count < 4) return { target: 4, remaining: 4 - count };
+    if (count < 8) return { target: 8, remaining: 8 - count };
+    return { target: 8, remaining: 0 };
   }
 }

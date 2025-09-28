@@ -47,7 +47,41 @@
               [showValue]="false"
               styleClass="source-progress">
             </p-progressBar>
-            <small class="source-requirement">2/4/6 bosses for slots</small>
+
+            <!-- Quick Add Buttons -->
+            <div class="quick-add-buttons" style="margin-top: 8px; display: flex; gap: 4px; flex-wrap: wrap;">
+              <button
+                class="wow-button lfr-button"
+                [disabled]="!selectedCharacter() || loading()"
+                (click)="onAddLFRBoss()"
+                title="Add LFR boss kill">
+                <i class="pi pi-plus"></i> LFR
+              </button>
+
+              <button
+                class="wow-button normal-button"
+                [disabled]="!selectedCharacter() || loading()"
+                (click)="onAddNormalBoss()"
+                title="Add Normal boss kill">
+                <i class="pi pi-plus"></i> Normal
+              </button>
+
+              <button
+                class="wow-button heroic-button"
+                [disabled]="!selectedCharacter() || loading()"
+                (click)="onAddHeroicBoss()"
+                title="Add Heroic boss kill">
+                <i class="pi pi-plus"></i> Heroic
+              </button>
+
+              <button
+                class="wow-button mythic-button"
+                [disabled]="!selectedCharacter() || loading()"
+                (click)="onAddMythicBoss()"
+                title="Add Mythic boss kill">
+                <i class="pi pi-plus"></i> Mythic
+              </button>
+            </div>
           </div>
 
           <div class="vault-source">
@@ -67,25 +101,21 @@
 
             <!-- Quick Add Buttons -->
             <div class="quick-add-buttons" style="margin-top: 8px; display: flex; gap: 4px;">
-              <p-button
-                label="+ <{{ MYTHIC_LOOT_THRESHOLD }}"
-                icon="pi pi-plus"
-                severity="info"
-                size="small"
+              <button
+                class="wow-button heroic-button"
                 [disabled]="!selectedCharacter() || loading()"
-                (onClick)="onAddLowLevelRun()"
-                pTooltip="Add run below {{ MYTHIC_LOOT_THRESHOLD }} (Heroic vault reward)">
-              </p-button>
+                (click)="onAddLowLevelRun()"
+                title="Add run below {{ MYTHIC_LOOT_THRESHOLD }} (Heroic vault reward)">
+                <i class="pi pi-plus"></i> <{{ MYTHIC_LOOT_THRESHOLD }}
+              </button>
 
-              <p-button
-                label="+ ≥{{ MYTHIC_LOOT_THRESHOLD }}"
-                icon="pi pi-plus"
-                severity="warn"
-                size="small"
+              <button
+                class="wow-button mythic-button"
                 [disabled]="!selectedCharacter() || loading()"
-                (onClick)="onAddHighLevelRun()"
-                pTooltip="Add run {{ MYTHIC_LOOT_THRESHOLD }}+ (Mythic vault reward)">
-              </p-button>
+                (click)="onAddHighLevelRun()"
+                title="Add run {{ MYTHIC_LOOT_THRESHOLD }}+ (Mythic vault reward)">
+                <i class="pi pi-plus"></i> ≥{{ MYTHIC_LOOT_THRESHOLD }}
+              </button>
             </div>
           </div>
 
@@ -161,89 +191,46 @@
         </div>
       </p-card>
 
-      <!-- Projected Vault Rewards -->
-      @if (projectedRewards().length > 0) {
-        <p-card header="Projected Vault Rewards" styleClass="rewards-card">
-          <div class="rewards-grid">
-            @for (reward of projectedRewards(); track reward.slot) {
-              <div class="reward-item">
-                <div class="reward-header">
-                  <i [class]="getVaultSourceIcon(reward.source)"></i>
-                  <span class="reward-slot">Slot {{ reward.slot }}</span>
-                </div>
-                <div class="reward-details">
-                  <span class="reward-source">{{ getVaultSourceLabel(reward.source) }}</span>
-                  <p-badge
-                    [value]="reward.quality"
-                    [severity]="getQualitySeverity(reward.quality)">
-                  </p-badge>
-                </div>
-                <div class="reward-ilvl">
-                  <span>{{ reward.itemLevel }} ilvl</span>
-                </div>
-              </div>
-            }
-          </div>
-        </p-card>
-      }
+      <!-- Great Vault Progress -->
+      <p-card header="Great Vault Progress" styleClass="vault-progress-card">
+        <div class="vault-header">
+          <span class="vault-title">Mythic+</span>
+          <span class="vault-slots">{{ mythicPlusVaultProgress().slots }}/3 slots</span>
+        </div>
 
-      <!-- Weekly Activity Summary -->
-      @if (currentWeekActivities()) {
-        <p-card header="This Week's Activity Summary" styleClass="activity-summary-card">
-          <div class="activity-summary">
-            <div class="summary-section">
-              <h4>Mythic Plus</h4>
-              <div class="activity-details">
-                <p-tag [value]="'Dungeons: ' + currentWeekActivities()!.mythicPlus.dungeonCount" severity="info"></p-tag>
-                @if (currentWeekActivities()!.mythicPlus.highestKeyLevel > 0) {
-                  <p-tag [value]="'Highest Key: +' + currentWeekActivities()!.mythicPlus.highestKeyLevel" severity="success"></p-tag>
-                }
-              </div>
-            </div>
+        <div class="vault-rewards-row">
+          <p-tag
+            [value]="mythicPlusVaultProgress().slotRewards[0]"
+            [severity]="mythicPlusVaultProgress().slotRewards[0] === 'Mythic' ? 'warn' : mythicPlusVaultProgress().slotRewards[0] === 'Heroic' ? 'info' : 'secondary'"
+            size="small">
+          </p-tag>
+          <p-tag
+            [value]="mythicPlusVaultProgress().slotRewards[1]"
+            [severity]="mythicPlusVaultProgress().slotRewards[1] === 'Mythic' ? 'warn' : mythicPlusVaultProgress().slotRewards[1] === 'Heroic' ? 'info' : 'secondary'"
+            size="small">
+          </p-tag>
+          <p-tag
+            [value]="mythicPlusVaultProgress().slotRewards[2]"
+            [severity]="mythicPlusVaultProgress().slotRewards[2] === 'Mythic' ? 'warn' : mythicPlusVaultProgress().slotRewards[2] === 'Heroic' ? 'info' : 'secondary'"
+            size="small">
+          </p-tag>
+        </div>
 
-            <div class="summary-section">
-              <h4>Raids</h4>
-              <div class="activity-details">
-                @if (currentWeekActivities()!.raid.normalBossesKilled > 0) {
-                  <p-tag [value]="'Normal: ' + currentWeekActivities()!.raid.normalBossesKilled" severity="secondary"></p-tag>
-                }
-                @if (currentWeekActivities()!.raid.heroicBossesKilled > 0) {
-                  <p-tag [value]="'Heroic: ' + currentWeekActivities()!.raid.heroicBossesKilled" severity="warning"></p-tag>
-                }
-                @if (currentWeekActivities()!.raid.mythicBossesKilled > 0) {
-                  <p-tag [value]="'Mythic: ' + currentWeekActivities()!.raid.mythicBossesKilled" severity="danger"></p-tag>
-                }
-              </div>
-            </div>
+        @if (mythicPlusVaultProgress().nextMilestone.remaining > 0) {
+          <p-message
+            severity="info"
+            styleClass="milestone-message">
+            <span>{{ mythicPlusVaultProgress().nextMilestone.remaining }} more runs needed for next vault slot</span>
+          </p-message>
+        } @else {
+          <p-message
+            severity="success"
+            styleClass="milestone-message">
+            <span>All Mythic+ vault slots earned this week!</span>
+          </p-message>
+        }
+      </p-card>
 
-            <div class="summary-section">
-              <h4>Weekly Quests</h4>
-              <div class="activity-details">
-                <p-tag
-                  [value]="'World Boss: ' + (currentWeekActivities()!.weeklyQuests.worldBossCompleted ? 'Done' : 'Not Done')"
-                  [severity]="currentWeekActivities()!.weeklyQuests.worldBossCompleted ? 'success' : 'contrast'">
-                </p-tag>
-                <p-tag
-                  [value]="'Spark: ' + currentWeekActivities()!.weeklyQuests.sparkFragments + '/2'"
-                  severity="info">
-                </p-tag>
-                <p-tag
-                  [value]="'Profession: ' + currentWeekActivities()!.weeklyQuests.professionQuestsDone"
-                  severity="info">
-                </p-tag>
-              </div>
-            </div>
-          </div>
-        </p-card>
-      } @else {
-        <p-card header="This Week's Activities" styleClass="no-activities-card">
-          <div class="no-activities">
-            <i class="pi pi-calendar-plus"></i>
-            <h4>No Activities This Week</h4>
-            <p>Start completing weekly content to track your Great Vault progress!</p>
-          </div>
-        </p-card>
-      }
     </div>
   } @else {
     <div class="no-character-selected">

@@ -165,51 +165,31 @@
     }
   }
 
-  // Projected Rewards Styles
-  .rewards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+  // Vault Progress Row Layout
+  .vault-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 
-    .reward-item {
-      padding: 1rem;
-      background: var(--surface-ground);
-      border-radius: var(--border-radius);
-      border: 1px solid var(--surface-border);
-
-      .reward-header {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.5rem;
-
-        i {
-          color: var(--primary-color);
-        }
-
-        .reward-slot {
-          font-weight: 500;
-        }
-      }
-
-      .reward-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.5rem;
-
-        .reward-source {
-          font-size: 0.9rem;
-          color: var(--text-color-secondary);
-        }
-      }
-
-      .reward-ilvl {
-        text-align: center;
-        font-weight: bold;
-        color: var(--text-color);
-      }
+    .vault-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-color);
     }
+
+    .vault-slots {
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+      font-weight: 500;
+    }
+  }
+
+  .vault-rewards-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
 
   // Recent Activities Styles
@@ -335,5 +315,101 @@
 
   .p-badge {
     font-size: 0.75rem;
+  }
+
+  // Custom WoW Quality Buttons
+  .wow-button {
+    padding: 0.375rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 32px;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    i {
+      font-size: 0.75rem;
+    }
+  }
+
+  .lfr-button {
+    background-color: #9d9d9d; // WoW Poor Gray
+    border-color: #9d9d9d;
+    color: #ffffff;
+
+    &:enabled:hover {
+      background-color: #888888;
+      border-color: #888888;
+      transform: translateY(-1px);
+    }
+
+    &:enabled:active {
+      background-color: #757575;
+      border-color: #757575;
+      transform: translateY(0);
+    }
+  }
+
+  .normal-button {
+    background-color: #0ea5e9; // WoW Uncommon Blue
+    border-color: #0ea5e9;
+    color: #ffffff;
+
+    &:enabled:hover {
+      background-color: #0284c7;
+      border-color: #0284c7;
+      transform: translateY(-1px);
+    }
+
+    &:enabled:active {
+      background-color: #0369a1;
+      border-color: #0369a1;
+      transform: translateY(0);
+    }
+  }
+
+  .heroic-button {
+    background-color: #a335ee; // WoW Epic Purple
+    border-color: #a335ee;
+    color: #ffffff;
+
+    &:enabled:hover {
+      background-color: #8f2fd1;
+      border-color: #8f2fd1;
+      transform: translateY(-1px);
+    }
+
+    &:enabled:active {
+      background-color: #7a28b3;
+      border-color: #7a28b3;
+      transform: translateY(0);
+    }
+  }
+
+  .mythic-button {
+    background-color: #ff8000; // WoW Legendary Orange
+    border-color: #ff8000;
+    color: #ffffff;
+
+    &:enabled:hover {
+      background-color: #e6730a;
+      border-color: #e6730a;
+      transform: translateY(-1px);
+    }
+
+    &:enabled:active {
+      background-color: #cc6600;
+      border-color: #cc6600;
+      transform: translateY(0);
+    }
   }
 }

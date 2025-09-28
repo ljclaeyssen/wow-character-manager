@@ -87,9 +87,9 @@ export class App implements OnInit {
       icon: 'pi pi-chart-bar',
       items: [
         {
-          label: 'Mythic+',
-          icon: 'pi pi-compass',
-          routerLink: '/activities/mythic-plus',
+          label: 'Activity Tracker',
+          icon: 'pi pi-chart-bar',
+          routerLink: '/activities/tracker',
           command: () => this.closeMobileSidebar()
         },
         {
