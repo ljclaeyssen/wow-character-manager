@@ -1,0 +1,272 @@
+.character-card {
+  position: relative;
+  background: var(--surface-card);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  width: 100%;
+  flex-shrink: 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-color-text));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+
+    &::before {
+      transform: scaleX(1);
+    }
+
+    .character-avatar {
+      transform: scale(1.1);
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-color-text));
+    }
+
+    .action-btn {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  &.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 25px rgba(var(--primary-color-rgb), 0.25);
+    background: linear-gradient(135deg, var(--surface-card), rgba(var(--primary-color-rgb), 0.02));
+
+    &::before {
+      transform: scaleX(1);
+    }
+
+    .selection-indicator {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .character-avatar {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-color-text));
+      color: white;
+    }
+  }
+
+  .character-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .character-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--surface-ground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-color-secondary);
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .character-info {
+      flex: 1;
+      min-width: 0;
+
+      .character-name {
+        margin: 0 0 0.25rem 0;
+        font-weight: 700;
+        font-size: 1.1rem;
+        line-height: 1.2;
+      }
+
+      .character-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: var(--text-color-secondary);
+
+        .character-class {
+          font-weight: 600;
+        }
+
+        .character-separator {
+          opacity: 0.5;
+        }
+
+        .character-faction {
+          font-weight: 500;
+
+          &.alliance {
+            color: #0ea5e9;
+          }
+
+          &.horde {
+            color: #dc2626;
+          }
+        }
+      }
+    }
+
+    .character-actions {
+      .action-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 50%;
+        background: var(--surface-ground);
+        color: var(--text-color-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: var(--primary-color);
+          color: white;
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .character-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .progress-section {
+      .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        .progress-title {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: var(--text-color);
+
+          i {
+            color: var(--primary-color);
+          }
+        }
+
+        .progress-value {
+          font-weight: 700;
+          color: var(--text-color);
+          font-size: 0.9rem;
+        }
+
+        .activity-count {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 32px;
+          height: 24px;
+          background: var(--surface-ground);
+          color: var(--text-color-secondary);
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          padding: 0 0.75rem;
+
+          &.active {
+            background: var(--primary-color);
+            color: white;
+          }
+        }
+      }
+
+      &.vault-section {
+        .progress-bar-container {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+
+          .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--surface-ground);
+            border-radius: 4px;
+            overflow: hidden;
+
+            .progress-fill {
+              height: 100%;
+              background: linear-gradient(90deg, var(--primary-color), var(--primary-color-text));
+              border-radius: 4px;
+              transition: width 0.3s ease;
+
+              &.complete {
+                background: linear-gradient(90deg, #10b981, #34d399);
+              }
+            }
+          }
+
+          .progress-percentage {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-color-secondary);
+            min-width: 35px;
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .last-activity-section {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-color-secondary);
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--surface-border);
+
+      i {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .selection-indicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.3s ease;
+
+    i {
+      font-size: 0.8rem;
+    }
+  }
+}

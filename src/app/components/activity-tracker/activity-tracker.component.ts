@@ -554,18 +554,12 @@ export class ActivityTrackerComponent {
     return weeklyQuests?.worldBossCompleted || false;
   });
 
-  // Spark Fragment Progress (every 2 weeks = 1 full spark)
-  protected readonly sparkProgress = computed(() => {
+  // Spark Fragment Quest Completion
+  protected readonly sparkQuestCompleted = computed(() => {
     const weeklyQuests = this.characterWeeklyQuests();
-    if (!weeklyQuests) return { current: 0, max: 2, percentage: 0 };
+    if (!weeklyQuests) return false;
 
-    const currentFragments = weeklyQuests.sparkFragments;
-
-    return {
-      current: currentFragments,
-      max: 2,
-      percentage: Math.round((currentFragments / 2) * 100)
-    };
+    return weeklyQuests.sparkFragments > 0;
   });
 
   // Profession Quest Progress
@@ -605,7 +599,7 @@ export class ActivityTrackerComponent {
     if (!character) return { completed: 0, total: 0, percentage: 0 };
 
     const worldBoss = this.worldBossCompleted() ? 1 : 0;
-    const spark = this.sparkProgress().current >= 1 ? 1 : 0;
+    const spark = this.sparkQuestCompleted() ? 1 : 0;
     const professions = this.professionQuestProgress().filter(p => p.completed).length;
     const weeklyEvent = this.weeklyEventCompleted() ? 1 : 0;
 
@@ -647,8 +641,8 @@ export class ActivityTrackerComponent {
       return;
     }
 
-    const currentFragments = currentActivity.weeklyQuests.sparkFragments;
-    const newFragments = currentFragments >= 2 ? 0 : currentFragments + 1;
+    const isCompleted = currentActivity.weeklyQuests.sparkFragments > 0;
+    const newFragments = isCompleted ? 0 : 1;
 
     this.activityStore.updateWeeklyQuests(character.id, {
       sparkFragments: newFragments

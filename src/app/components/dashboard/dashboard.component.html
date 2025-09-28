@@ -25,134 +25,60 @@
 
   </div>
 
-  <!-- Main Content Area -->
-  <div class="dashboard-main p-d-flex p-flex-column p-gap-4">
-    <!-- Character Overview Card -->
-    <p-card header="Character Overview" styleClass="character-overview-card">
-      @if (characters().length > 0) {
-
-        <!-- Modern Character Cards Grid -->
-        <div class="character-grid">
-          @for (character of enhancedCharacters(); track character.id) {
-            <div
-              class="character-card"
-              [class.selected]="selectedCharacter()?.id === character.id"
-              (click)="onCharacterSelect(character)">
-
-              <!-- Character Header -->
-              <div class="character-header">
-                <div class="character-avatar">
-                  <i class="pi pi-user"></i>
-                </div>
-                <div class="character-info">
-                  <h3 class="character-name" [style.color]="getClassColor(character.characterClass)">
-                    {{ character.name }}
-                  </h3>
-                  <div class="character-meta">
-                    <span class="character-class">{{ character.characterClass }}</span>
-                    <span class="character-separator">•</span>
-                    <span class="character-faction" [class]="character.faction.toLowerCase()">
-                      {{ character.faction }}
-                    </span>
-                  </div>
-                </div>
-                <div class="character-actions">
-                  <button
-                    class="action-btn edit-btn"
-                    (click)="onEditCharacter(character); $event.stopPropagation()"
-                    title="Edit Character">
-                    <i class="pi pi-pencil"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Progress Section -->
-              <div class="character-progress">
-                <!-- Vault Progress -->
-                <div class="progress-section vault-section">
-                  <div class="progress-header">
-                    <div class="progress-title">
-                      <i class="pi pi-trophy"></i>
-                      <span>Great Vault</span>
-                    </div>
-                    <div class="progress-value">{{ character.vaultProgress }}/9</div>
-                  </div>
-                  <div class="progress-bar-container">
-                    <div class="progress-bar">
-                      <div
-                        class="progress-fill"
-                        [style.width.%]="character.vaultPercentage"
-                        [class.complete]="character.vaultPercentage === 100">
-                      </div>
-                    </div>
-                    <span class="progress-percentage">{{ character.vaultPercentage }}%</span>
-                  </div>
-                </div>
-
-                <!-- Weekly Activities -->
-                <div class="progress-section activities-section">
-                  <div class="progress-header">
-                    <div class="progress-title">
-                      <i class="pi pi-calendar"></i>
-                      <span>Weekly Activities</span>
-                    </div>
-                    <div class="activity-count" [class.active]="character.weeklyActivities > 0">
-                      {{ character.weeklyActivities }}
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Last Activity -->
-                @if (character.lastActivity) {
-                  <div class="last-activity-section">
-                    <i class="pi pi-clock"></i>
-                    <span>{{ formatRelativeTime(character.lastActivity) }}</span>
-                  </div>
-                }
-              </div>
-
-              <!-- Selection Indicator -->
-              <div class="selection-indicator">
-                <i class="pi pi-check"></i>
-              </div>
+  <!-- Main Content Area with Split Layout -->
+  <div class="dashboard-main">
+    <div class="dashboard-split">
+      <!-- Left Panel - Character Selection (25%) -->
+      <div class="left-panel">
+        <p-card header="Characters" styleClass="character-overview-card">
+          @if (characters().length > 0) {
+            <!-- Character Cards List -->
+            <div class="character-list">
+              @for (character of enhancedCharacters(); track character.id) {
+                <wow-character-card
+                  [character]="character"
+                  [selected]="selectedCharacter()?.id === character.id"
+                  (characterSelect)="onCharacterSelect($event)"
+                  (characterEdit)="onEditCharacter($event)">
+                </wow-character-card>
+              }
+            </div>
+          } @else {
+            <div class="no-characters">
+              <i class="pi pi-users"></i>
+              <h3>No Characters</h3>
+              <p>Create your first character to start tracking!</p>
+              <p-button
+                label="Add Character"
+                icon="pi pi-plus"
+                severity="info"
+                size="small"
+                routerLink="/characters">
+              </p-button>
             </div>
           }
-        </div>
-      } @else {
-        <div class="no-characters">
-          <i class="pi pi-users"></i>
-          <h3>No Characters Created</h3>
-          <p>Create your first character to start tracking your WoW progress!</p>
-          <p-button
-            label="View Characters"
-            icon="pi pi-users"
-            severity="info"
-            routerLink="/characters">
-          </p-button>
-        </div>
-      }
-    </p-card>
+        </p-card>
+      </div>
 
-    <!-- Activity Tracking Card -->
-    @if (selectedCharacter()) {
-      <p-card
-        styleClass="activity-tracking-card">
-
-        <wow-activity-tracker
-          [selectedCharacter]="selectedCharacter()">
-        </wow-activity-tracker>
-
-      </p-card>
-    } @else {
-      <p-panel header="Select a Character" styleClass="no-selection-panel">
-        <div class="no-selection">
-          <i class="pi pi-hand-point-up"></i>
-          <h3>Select a Character Above</h3>
-          <p>Choose a character from the overview to view their detailed activity tracking and progress.</p>
-        </div>
-      </p-panel>
-    }
-
+      <!-- Right Panel - Activity Tracking (75%) -->
+      <div class="right-panel">
+        @if (selectedCharacter()) {
+          <p-card styleClass="activity-tracking-card">
+            <wow-activity-tracker
+              [selectedCharacter]="selectedCharacter()">
+            </wow-activity-tracker>
+          </p-card>
+        } @else {
+          <p-card header="Select a Character" styleClass="no-selection-card">
+            <div class="no-selection">
+              <i class="pi pi-hand-point-left"></i>
+              <h3>Select a Character</h3>
+              <p>Choose a character from the left panel to view their detailed activity tracking and progress.</p>
+            </div>
+          </p-card>
+        }
+      </div>
+    </div>
   </div>
 
 

@@ -18,6 +18,7 @@ import { ActivityService } from '../../services/activity.service';
 import { Character } from '../../models/character.model';
 import { Activity, CharacterActivity } from '../../models/activity.model';
 import { ActivityTrackerComponent } from '../activity-tracker/activity-tracker.component';
+import { CharacterCardComponent, EnhancedCharacter } from '../character-card/character-card.component';
 import { Faction } from '../../enums/faction.enum';
 import { CharacterClass } from '../../enums/class.enum';
 
@@ -36,7 +37,8 @@ import { CharacterClass } from '../../enums/class.enum';
     BadgeModule,
     TooltipModule,
     DividerModule,
-    ActivityTrackerComponent
+    ActivityTrackerComponent,
+    CharacterCardComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
