@@ -1,0 +1,176 @@
+<!-- Reset Notification Display -->
+@if (shouldShowNotification()) {
+  <div class="reset-notification-container">
+    <!-- Main Notification Message -->
+    <p-message
+      [severity]="notificationState().severity"
+      [closable]="notificationState().autoHide"
+      styleClass="reset-main-message"
+      (onClose)="onDismissNotification()">
+
+      <ng-template pTemplate="icon">
+        <i [class]="getNotificationIcon()"></i>
+      </ng-template>
+
+      <div class="reset-message-content">
+        <div class="reset-message-header">
+          <h4 class="reset-title">Weekly Reset</h4>
+          <p-tag
+            [value]="resetStatusMessage()"
+            [severity]="resetSeverity()"
+            styleClass="reset-status-tag">
+          </p-tag>
+        </div>
+
+        <div class="reset-message-body">
+          <p class="reset-description">
+            @if (resetInfo()?.isResetDay) {
+              🚨 Weekly reset is happening now! Complete your activities before they reset.
+            } @else if (resetInfo()?.daysUntilReset === 0) {
+              ⏰ Weekly reset today! Time remaining: {{ timeUntilReset() }}
+            } @else if (resetInfo()?.daysUntilReset === 1) {
+              📅 Weekly reset tomorrow! Make sure to complete your weekly activities.
+            } @else {
+              📋 Weekly reset in {{ resetInfo()?.daysUntilReset }} days. Plan your activities accordingly.
+            }
+          </p>
+
+          <!-- Countdown Display -->
+          <div class="reset-countdown">
+            <div class="countdown-item">
+              <span class="countdown-number">{{ countdownDisplay().days }}</span>
+              <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-item">
+              <span class="countdown-number">{{ countdownDisplay().hours }}</span>
+              <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-separator">:</div>
+            <div class="countdown-item">
+              <span class="countdown-number">{{ countdownDisplay().minutes }}</span>
+              <span class="countdown-label">Minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="reset-actions">
+          <p-button
+            label="Reset Info"
+            icon="pi pi-info-circle"
+            severity="secondary"
+            [outlined]="true"
+            size="small"
+            (onClick)="onShowResetInfo()">
+          </p-button>
+
+          @if (canManualReset()) {
+            <p-button
+              label="Manual Reset"
+              icon="pi pi-refresh"
+              severity="warn"
+              [loading]="isLoading()"
+              size="small"
+              pTooltip="Manually trigger weekly reset"
+              tooltipPosition="top"
+              (onClick)="onManualResetClick()">
+            </p-button>
+          }
+
+          @if (notificationState().autoHide) {
+            <p-button
+              label="Dismiss"
+              icon="pi pi-times"
+              severity="secondary"
+              [text]="true"
+              size="small"
+              (onClick)="onDismissNotification()">
+            </p-button>
+          }
+        </div>
+      </div>
+    </p-message>
+  </div>
+}
+
+<!-- Compact Reset Status (Always Visible) -->
+<div class="reset-status-compact">
+  <p-card styleClass="reset-status-card">
+    <div class="compact-reset-info">
+      <div class="compact-reset-header">
+        <i class="pi pi-calendar compact-reset-icon"></i>
+        <span class="compact-reset-title">Weekly Reset</span>
+        <p-tag
+          [value]="timeUntilReset()"
+          [severity]="resetSeverity()"
+          styleClass="compact-reset-tag">
+        </p-tag>
+      </div>
+
+      <div class="compact-reset-details">
+        <span class="compact-reset-date">
+          Next: {{ resetInfo()?.nextResetDate | date:'short' }}
+        </span>
+
+        @if (resetInfo()?.isResetDay) {
+          <span class="compact-reset-alert">
+            <i class="pi pi-exclamation-triangle"></i>
+            Reset in progress!
+          </span>
+        }
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="compact-reset-actions">
+        @if (!shouldShowNotification()) {
+          <p-button
+            icon="pi pi-eye"
+            severity="secondary"
+            [text]="true"
+            size="small"
+            pTooltip="Show reset notification"
+            tooltipPosition="top"
+            (onClick)="onShowNotification()">
+          </p-button>
+        }
+
+        <p-button
+          icon="pi pi-info-circle"
+          severity="secondary"
+          [text]="true"
+          size="small"
+          pTooltip="Reset information"
+          tooltipPosition="top"
+          (onClick)="onShowResetInfo()">
+        </p-button>
+
+        @if (canManualReset()) {
+          <p-button
+            icon="pi pi-refresh"
+            severity="warn"
+            [text]="true"
+            size="small"
+            [loading]="isLoading()"
+            pTooltip="Manual reset"
+            tooltipPosition="top"
+            (onClick)="onManualResetClick()">
+          </p-button>
+        }
+      </div>
+    </div>
+  </p-card>
+</div>
+
+<!-- Reset History (Debug/Info) -->
+@if (lastResetTriggered()) {
+  <div class="reset-history">
+    <p-message severity="success" [closable]="true" styleClass="reset-history-message">
+      <div class="reset-history-content">
+        <span class="reset-history-text">
+          Last reset: {{ lastResetTriggered() | date:'medium' }}
+        </span>
+      </div>
+    </p-message>
+  </div>
+}

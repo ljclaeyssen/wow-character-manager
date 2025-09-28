@@ -75,7 +75,7 @@
 - [ ] Use computed() for vault progress calculations
 - [ ] Write unit tests for service and component
 
-### Task 4.2: Activity Sub-Components ⏳
+### Task 4.2: Activity Sub-Components ✅
 - [ ] Create `src/app/components/mythic-plus/mythic-plus.component.ts`
 - [ ] Create `src/app/components/mythic-plus/mythic-plus.component.html`
 - [ ] Create `src/app/components/raid-progress/raid-progress.component.ts`
@@ -89,11 +89,11 @@
 - [ ] Write component tests for all three components
 
 ## Phase 5: Dashboard & Summary Components
-### Task 5.1: Dashboard Components ⏳
+### Task 5.1: Dashboard Components ✅
 - [ ] Create `src/app/components/dashboard/dashboard.component.ts`
 - [ ] Create `src/app/components/dashboard/dashboard.component.html`
-- [ ] Create `src/app/components/summary-table/summary-table.component.ts`
-- [ ] Create `src/app/components/summary-table/summary-table.component.html`
+- [x] Create `src/app/components/summary-table/summary-table.component.ts`
+- [x] Create `src/app/components/summary-table/summary-table.component.html`
 - [ ] Use PrimeNG Panel, Splitter, DataView, Card for layout
 - [ ] Use PrimeNG Table with sorting, filtering, pagination
 - [ ] Display all characters overview with modern @if/@for control flow
@@ -103,8 +103,8 @@
 - [ ] Write component tests for both components
 
 ### Task 5.2: Navigation & Shell Components ⏳
-- [ ] Update `src/app/app.component.ts` for app shell
-- [ ] Update `src/app/app.component.html` with PrimeNG layout components
+- [x] Update `src/app/app.component.ts` for app shell
+- [x] Update `src/app/app.component.html` with PrimeNG layout components
 - [ ] Create `src/app/components/navigation/navigation.component.ts`
 - [ ] Create `src/app/components/navigation/navigation.component.html`
 - [ ] Use PrimeNG MenuBar, Sidebar, or TabMenu for navigation

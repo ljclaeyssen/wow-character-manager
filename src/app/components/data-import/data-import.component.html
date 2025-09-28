@@ -1,0 +1,364 @@
+<!-- Data Import Interface -->
+<div class="data-import-container">
+  <!-- Header -->
+  <p-panel header="Data Import" styleClass="import-panel">
+    <ng-template pTemplate="icons">
+      <p-button
+        icon="pi pi-question-circle"
+        [text]="true"
+        [rounded]="true"
+        severity="secondary"
+        pTooltip="Import your previously exported character and activity data"
+        tooltipPosition="left">
+      </p-button>
+    </ng-template>
+
+    <!-- Status Message -->
+    @if (importState().message) {
+      <p-message
+        [severity]="importState().messageType!"
+        [closable]="true"
+        styleClass="import-message"
+        (onClose)="dismissMessage()">
+        {{ importState().message }}
+      </p-message>
+    }
+
+    <!-- File Upload Section -->
+    <div class="file-upload-section">
+      <h4>Select Import File</h4>
+
+      @if (!selectedFile()) {
+        <!-- File Upload Area -->
+        <p-fileUpload
+          mode="basic"
+          name="importFile"
+          accept=".json"
+          [maxFileSize]="52428800"
+          [auto]="false"
+          [chooseLabel]="'Choose JSON File'"
+          chooseIcon="pi pi-upload"
+          severity="primary"
+          (onSelect)="onFileSelect($event)"
+          styleClass="file-upload-input">
+        </p-fileUpload>
+
+        <div class="upload-help">
+          <div class="help-content">
+            <i class="pi pi-info-circle help-icon"></i>
+            <div class="help-text">
+              <span class="help-title">Select a JSON export file</span>
+              <span class="help-description">
+                Choose a file previously exported from this application.
+                Maximum file size: 50 MB
+              </span>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <!-- Selected File Display -->
+        <div class="selected-file">
+          <div class="file-info">
+            <div class="file-header">
+              <i [class]="getValidationIcon()" [ngClass]="getValidationColor()"></i>
+              <span class="file-name">{{ selectedFile()?.name }}</span>
+              <p-button
+                icon="pi pi-times"
+                [text]="true"
+                [rounded]="true"
+                severity="secondary"
+                size="small"
+                pTooltip="Remove file"
+                (onClick)="onFileRemove()">
+              </p-button>
+            </div>
+            <div class="file-details">
+              <span class="file-size">{{ formatFileSize(selectedFile()?.size || 0) }}</span>
+              @if (validationResult()?.metadata?.exportDate) {
+                <span class="export-date">
+                  Exported: {{ validationResult()?.metadata?.exportDate | date:'medium' }}
+                </span>
+              }
+            </div>
+          </div>
+
+          <!-- Validation Results -->
+          @if (validationResult()) {
+            <div class="validation-results">
+              @if (validationResult()?.isValid) {
+                <!-- Success Validation -->
+                <div class="validation-success">
+                  <i class="pi pi-check-circle success-icon"></i>
+                  <span class="success-text">File validated successfully</span>
+                </div>
+
+                <!-- Data Summary -->
+                <div class="data-summary">
+                  <h6>File Contents:</h6>
+                  <div class="summary-items">
+                    @if (validationResult()?.characterCount) {
+                      <div class="summary-item">
+                        <i class="pi pi-users"></i>
+                        <span>{{ validationResult()?.characterCount }} characters</span>
+                      </div>
+                    }
+                    @if (validationResult()?.activityCount) {
+                      <div class="summary-item">
+                        <i class="pi pi-calendar"></i>
+                        <span>{{ validationResult()?.activityCount }} activity records</span>
+                      </div>
+                    }
+                    @if (validationResult()?.resetHistoryCount) {
+                      <div class="summary-item">
+                        <i class="pi pi-history"></i>
+                        <span>{{ validationResult()?.resetHistoryCount }} reset entries</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              } @else {
+                <!-- Validation Errors -->
+                <div class="validation-errors">
+                  <div class="error-header">
+                    <i class="pi pi-times-circle error-icon"></i>
+                    <span class="error-text">Validation failed</span>
+                  </div>
+                  <div class="error-list">
+                    @for (error of validationResult()?.errors; track error) {
+                      <div class="error-item">
+                        <i class="pi pi-exclamation-triangle"></i>
+                        <span>{{ error }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- Warnings -->
+              @if (validationResult()?.warnings && validationResult()?.warnings!.length > 0) {
+                <div class="validation-warnings">
+                  <div class="warning-header">
+                    <i class="pi pi-exclamation-triangle warning-icon"></i>
+                    <span class="warning-text">Warnings</span>
+                  </div>
+                  <div class="warning-list">
+                    @for (warning of validationResult()?.warnings; track warning) {
+                      <div class="warning-item">
+                        <span>{{ warning }}</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Import Options -->
+    @if (hasValidFile()) {
+      <p-divider></p-divider>
+
+      <div class="import-options">
+        <h4>Import Options</h4>
+
+        <div class="option-groups">
+          <!-- Data Type Options -->
+          <div class="option-group">
+            <h6>Data Types</h6>
+
+            @if (validationResult()?.characterCount) {
+              <div class="import-option">
+                <p-checkbox
+                  [ngModel]="importOptions().mergeCharacters"
+                  [binary]="true"
+                  (ngModelChange)="updateImportOption('mergeCharacters', $event)">
+                </p-checkbox>
+                <div class="option-content">
+                  <span class="option-label">Import Characters</span>
+                  <span class="option-description">
+                    {{ validationResult()?.characterCount }} characters found
+                  </span>
+                </div>
+              </div>
+            }
+
+            @if (validationResult()?.activityCount) {
+              <div class="import-option">
+                <p-checkbox
+                  [ngModel]="importOptions().mergeActivities"
+                  [binary]="true"
+                  (ngModelChange)="updateImportOption('mergeActivities', $event)">
+                </p-checkbox>
+                <div class="option-content">
+                  <span class="option-label">Import Activities</span>
+                  <span class="option-description">
+                    {{ validationResult()?.activityCount }} activity records found
+                  </span>
+                </div>
+              </div>
+            }
+
+            @if (validationResult()?.resetHistoryCount) {
+              <div class="import-option">
+                <p-checkbox
+                  [ngModel]="importOptions().importResetHistory"
+                  [binary]="true"
+                  (ngModelChange)="updateImportOption('importResetHistory', $event)">
+                </p-checkbox>
+                <div class="option-content">
+                  <span class="option-label">Import Reset History</span>
+                  <span class="option-description">
+                    {{ validationResult()?.resetHistoryCount }} reset entries found
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Merge Options -->
+          <div class="option-group">
+            <h6>Merge Settings</h6>
+
+            <div class="import-option">
+              <p-checkbox
+                [ngModel]="importOptions().overwriteExisting"
+                [binary]="true"
+                (ngModelChange)="updateImportOption('overwriteExisting', $event)">
+              </p-checkbox>
+              <div class="option-content">
+                <span class="option-label">Overwrite Existing Data</span>
+                <span class="option-description">
+                  Replace existing items with imported data if conflicts occur
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conflict Warning -->
+        @if (hasConflicts() && !importOptions().overwriteExisting) {
+          <div class="conflict-warning">
+            <i class="pi pi-exclamation-triangle"></i>
+            <div class="conflict-content">
+              <span class="conflict-title">Potential Conflicts Detected</span>
+              <span class="conflict-description">
+                Some imported data may conflict with existing data.
+                Existing items will be preserved unless overwrite is enabled.
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Import Summary -->
+      @if (importSummary()) {
+        <p-divider></p-divider>
+
+        <div class="import-summary">
+          <h5>Import Summary</h5>
+          <div class="summary-content">
+            <div class="summary-stats">
+              @if (importSummary()?.characters) {
+                <div class="stat-item">
+                  <i class="pi pi-users stat-icon"></i>
+                  <span class="stat-value">{{ importSummary()?.characters }}</span>
+                  <span class="stat-label">Characters</span>
+                </div>
+              }
+              @if (importSummary()?.activities) {
+                <div class="stat-item">
+                  <i class="pi pi-calendar stat-icon"></i>
+                  <span class="stat-value">{{ importSummary()?.activities }}</span>
+                  <span class="stat-label">Activities</span>
+                </div>
+              }
+              @if (importSummary()?.resetHistory) {
+                <div class="stat-item">
+                  <i class="pi pi-history stat-icon"></i>
+                  <span class="stat-value">{{ importSummary()?.resetHistory }}</span>
+                  <span class="stat-label">Reset Entries</span>
+                </div>
+              }
+            </div>
+            @if (importState().lastImportDate) {
+              <div class="last-import">
+                <span class="last-import-label">Last Import:</span>
+                <span class="last-import-date">{{ importState().lastImportDate | date:'medium' }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+
+    <!-- Import Actions -->
+    @if (hasValidFile()) {
+      <p-divider></p-divider>
+
+      <div class="import-actions">
+        @if (importState().isImporting) {
+          <!-- Progress Display -->
+          <div class="import-progress">
+            <div class="progress-content">
+              <p-progressSpinner
+                [style]="{ width: '32px', height: '32px' }"
+                styleClass="progress-spinner">
+              </p-progressSpinner>
+              <div class="progress-text">
+                <span class="progress-message">{{ importState().message }}</span>
+                <span class="progress-percentage">{{ importState().progress }}%</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                [style.width.%]="importState().progress">
+              </div>
+            </div>
+          </div>
+        } @else {
+          <!-- Import Button -->
+          <div class="import-button-container">
+            <p-button
+              label="Import Data"
+              icon="pi pi-upload"
+              severity="primary"
+              [loading]="importState().isImporting"
+              [disabled]="!canImport()"
+              (onClick)="performImport()">
+            </p-button>
+
+            @if (!canImport() && !hasValidFile()) {
+              <span class="action-hint">Select and validate a file to import</span>
+            }
+            @if (canImport()) {
+              <span class="action-hint success-hint">Ready to import</span>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Help Information -->
+    <p-divider></p-divider>
+
+    <div class="import-help">
+      <div class="help-content">
+        <h6>Import Information</h6>
+        <ul class="help-list">
+          <li>Only JSON files exported from this application are supported</li>
+          <li>File validation ensures data integrity before import</li>
+          <li>Merge options allow selective import of data types</li>
+          <li>Existing data is preserved unless overwrite is enabled</li>
+          <li>Import process provides detailed progress and conflict resolution</li>
+          <li>All data remains on your device - nothing is uploaded</li>
+        </ul>
+      </div>
+    </div>
+  </p-panel>
+</div>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

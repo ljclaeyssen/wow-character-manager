@@ -36,7 +36,7 @@ export class NotificationService {
    */
   showWarning(message: string, title = 'Warning', duration = 4000): void {
     this.messageService.add({
-      severity: 'warning',
+      severity: 'warn',
       summary: title,
       detail: message,
       life: duration

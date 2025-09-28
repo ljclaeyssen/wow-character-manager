@@ -1,0 +1,451 @@
+<div class="summary-table-container">
+  <!-- Header Section -->
+  <p-panel header="Character Summary" [toggleable]="false" styleClass="summary-header-panel">
+    <!-- Statistics Cards -->
+    <div class="summary-stats">
+      <div class="stats-grid p-d-grid p-gap-3">
+        <div class="p-col-12 p-md-6 p-lg-3">
+          <p-card styleClass="stat-card">
+            <div class="stat-content p-d-flex p-align-center p-gap-3">
+              <i class="pi pi-users stat-icon"></i>
+              <div class="stat-details p-d-flex p-flex-column">
+                <span class="stat-value">{{ tableStats().totalCharacters }}</span>
+                <span class="stat-label">Total Characters</span>
+              </div>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="p-col-12 p-md-6 p-lg-3">
+          <p-card styleClass="stat-card">
+            <div class="stat-content p-d-flex p-align-center p-gap-3">
+              <i class="pi pi-chart-line stat-icon"></i>
+              <div class="stat-details p-d-flex p-flex-column">
+                <span class="stat-value">{{ tableStats().averageCompletion }}%</span>
+                <span class="stat-label">Average Completion</span>
+              </div>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="p-col-12 p-md-6 p-lg-3">
+          <p-card styleClass="stat-card">
+            <div class="stat-content p-d-flex p-align-center p-gap-3">
+              <i class="pi pi-star stat-icon"></i>
+              <div class="stat-details p-d-flex p-flex-column">
+                <span class="stat-value">{{ tableStats().totalVaultSlots }}</span>
+                <span class="stat-label">Total Vault Slots</span>
+              </div>
+            </div>
+          </p-card>
+        </div>
+
+        <div class="p-col-12 p-md-6 p-lg-3">
+          <p-card styleClass="stat-card">
+            <div class="stat-content p-d-flex p-align-center p-gap-3">
+              <i class="pi pi-check-circle stat-icon"></i>
+              <div class="stat-details p-d-flex p-flex-column">
+                <span class="stat-value">{{ tableStats().goalsMetCount }}</span>
+                <span class="stat-label">Goals Met</span>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <div class="search-section">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input
+            type="text"
+            pInputText
+            placeholder="Search characters..."
+            (input)="onGlobalFilter($event)"
+            class="global-search">
+        </span>
+      </div>
+
+      <div class="action-buttons">
+        <p-button
+          icon="pi pi-refresh"
+          label="Refresh"
+          severity="secondary"
+          [loading]="loading()"
+          (onClick)="refreshData()"
+          pTooltip="Refresh character data">
+        </p-button>
+
+        <p-button
+          icon="pi pi-download"
+          label="Export All"
+          severity="info"
+          (onClick)="exportCSV()"
+          pTooltip="Export all characters to CSV">
+        </p-button>
+
+        <p-button
+          icon="pi pi-file-excel"
+          label="Export Selected"
+          severity="success"
+          [disabled]="selectedCharacters().length === 0"
+          (onClick)="exportSelected()"
+          pTooltip="Export selected characters to CSV">
+        </p-button>
+      </div>
+    </div>
+  </p-panel>
+
+  <!-- Table Section -->
+  <p-card styleClass="table-card">
+    <p-table
+      #dt
+      [value]="filteredCharacters()"
+      [loading]="charactersLoading() || activitiesLoading()"
+      [paginator]="true"
+      [rows]="rows()"
+      [first]="first()"
+      [rowsPerPageOptions]="[10, 25, 50, 100]"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} characters"
+      [globalFilterFields]="['name', 'race', 'characterClass', 'specialization']"
+      selectionMode="multiple"
+      [(selection)]="selectedCharacters"
+      dataKey="id"
+      responsiveLayout="scroll"
+      styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines"
+      (onRowSelect)="onRowSelect($event)"
+      (onRowUnselect)="onRowUnselect($event)">
+
+      <!-- Table Header -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="name" style="min-width: 10rem">
+            Character
+            <p-sortIcon field="name"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="name"
+              display="menu"
+              placeholder="Search by name">
+            </p-columnFilter>
+          </th>
+          <th pSortableColumn="characterClass" style="min-width: 8rem">
+            Class
+            <p-sortIcon field="characterClass"></p-sortIcon>
+            <p-columnFilter
+              field="characterClass"
+              matchMode="in"
+              display="menu"
+              [showOperator]="false"
+              [showMatchModes]="false"
+              [showAddButton]="false">
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <p-multiSelect
+                  [ngModel]="value"
+                  [options]="classOptions"
+                  placeholder="Any"
+                  (onChange)="filter($event.value)"
+                  optionLabel="label">
+                </p-multiSelect>
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <th pSortableColumn="level" style="min-width: 6rem">
+            Level
+            <p-sortIcon field="level"></p-sortIcon>
+            <p-columnFilter
+              type="numeric"
+              field="level"
+              display="menu"
+              placeholder="Level">
+            </p-columnFilter>
+          </th>
+          <th style="min-width: 12rem">
+            Mythic+ Progress
+          </th>
+          <th style="min-width: 12rem">
+            Raid Progress
+          </th>
+          <th style="min-width: 10rem">
+            Weekly Quests
+          </th>
+          <th pSortableColumn="overallCompletion" style="min-width: 10rem">
+            Overall
+            <p-sortIcon field="overallCompletion"></p-sortIcon>
+          </th>
+          <th pSortableColumn="vaultSlotsTotal" style="min-width: 8rem">
+            Vault Slots
+            <p-sortIcon field="vaultSlotsTotal"></p-sortIcon>
+          </th>
+          <th pSortableColumn="lastActivity" style="min-width: 10rem">
+            Last Activity
+            <p-sortIcon field="lastActivity"></p-sortIcon>
+          </th>
+          <th style="min-width: 8rem">Status</th>
+        </tr>
+      </ng-template>
+
+      <!-- Table Body -->
+      <ng-template pTemplate="body" let-character let-rowIndex="rowIndex">
+        <tr [class.active-character]="character.isActive">
+          <td>
+            <p-tableCheckbox [value]="character"></p-tableCheckbox>
+          </td>
+
+          <!-- Character Info -->
+          <td>
+            <div class="character-info">
+              <div class="character-name">
+                <span class="name-text" [style.color]="getClassColor(character.characterClass)">
+                  {{ character.name }}
+                </span>
+                <p-tag
+                  [value]="character.faction"
+                  [severity]="getFactionSeverity(character.faction)"
+                  size="small">
+                </p-tag>
+              </div>
+              <div class="character-details">
+                <span class="race-class">{{ formatRaceName(character.race) }} {{ character.specialization }}</span>
+              </div>
+            </div>
+          </td>
+
+          <!-- Class -->
+          <td>
+            <p-tag
+              [value]="formatClassName(character.characterClass)"
+              [style.background-color]="getClassColor(character.characterClass)"
+              [style.color]="'#000000'">
+            </p-tag>
+          </td>
+
+          <!-- Level -->
+          <td>
+            <span class="level-badge">{{ character.level }}</span>
+          </td>
+
+          <!-- Mythic+ Progress -->
+          <td>
+            <div class="progress-section">
+              <div class="progress-header">
+                <span class="progress-text">{{ character.mythicPlusProgress.dungeonCount }}/8 Dungeons</span>
+                <p-badge
+                  [value]="character.mythicPlusProgress.vaultSlots + '/3'"
+                  [severity]="getProgressSeverity(character.mythicPlusProgress.percentage)">
+                </p-badge>
+              </div>
+              <p-progressBar
+                [value]="character.mythicPlusProgress.percentage"
+                [showValue]="false"
+                styleClass="progress-small">
+              </p-progressBar>
+              <div class="progress-details">
+                <span class="highest-key">Highest: +{{ character.mythicPlusProgress.highestKey }}</span>
+              </div>
+            </div>
+          </td>
+
+          <!-- Raid Progress -->
+          <td>
+            <div class="progress-section">
+              <div class="progress-header">
+                <span class="progress-text">{{ character.raidProgress.totalBosses }} Bosses</span>
+                <p-badge
+                  [value]="character.raidProgress.vaultSlots + '/3'"
+                  [severity]="getProgressSeverity(character.raidProgress.percentage)">
+                </p-badge>
+              </div>
+              <p-progressBar
+                [value]="character.raidProgress.percentage"
+                [showValue]="false"
+                styleClass="progress-small">
+              </p-progressBar>
+              <div class="progress-details">
+                <span class="difficulty">{{ character.raidProgress.highestDifficulty }}</span>
+              </div>
+            </div>
+          </td>
+
+          <!-- Weekly Quests -->
+          <td>
+            <div class="progress-section">
+              <div class="progress-header">
+                <span class="progress-text">
+                  {{ character.weeklyQuestProgress.completed }}/{{ character.weeklyQuestProgress.total }}
+                </span>
+              </div>
+              <p-progressBar
+                [value]="character.weeklyQuestProgress.percentage"
+                [showValue]="false"
+                styleClass="progress-small">
+              </p-progressBar>
+            </div>
+          </td>
+
+          <!-- Overall Completion -->
+          <td>
+            <div class="overall-progress">
+              <div class="completion-circle">
+                <span class="completion-text">{{ character.overallCompletion }}%</span>
+              </div>
+              <p-progressBar
+                [value]="character.overallCompletion"
+                [showValue]="false"
+                styleClass="progress-small">
+              </p-progressBar>
+            </div>
+          </td>
+
+          <!-- Vault Slots -->
+          <td>
+            <div class="vault-slots">
+              <p-badge
+                [value]="character.vaultSlotsTotal + '/6'"
+                [severity]="getVaultSlotSeverity(character.vaultSlotsTotal)"
+                size="large">
+              </p-badge>
+              @if (character.vaultSlotsTotal >= 6) {
+                <i class="pi pi-crown vault-icon" pTooltip="Max Vault Slots!"></i>
+              }
+            </div>
+          </td>
+
+          <!-- Last Activity -->
+          <td>
+            <div class="activity-info">
+              <span class="activity-date">{{ formatDate(character.lastActivity) }}</span>
+              <span class="activity-relative">{{ formatRelativeTime(character.lastActivity) }}</span>
+            </div>
+          </td>
+
+          <!-- Status -->
+          <td>
+            <div class="status-indicators">
+              @if (character.isActive) {
+                <p-tag value="Active" severity="success" icon="pi pi-check"></p-tag>
+              } @else {
+                <p-tag value="Inactive" severity="warn" icon="pi pi-clock"></p-tag>
+              }
+              @if (character.weeklyGoalMet) {
+                <p-tag value="Goal Met" severity="info" icon="pi pi-star" size="small"></p-tag>
+              }
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Empty State -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="11" class="empty-state">
+            <div class="empty-content">
+              <i class="pi pi-users empty-icon"></i>
+              <h3>No Characters Found</h3>
+              <p>
+                @if (globalFilterValue()) {
+                  No characters match your search criteria.
+                } @else {
+                  Start by adding some characters to track their progress.
+                }
+              </p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Loading Template -->
+      <ng-template pTemplate="loadingbody">
+        <tr>
+          <td colspan="11">
+            <div class="loading-content">
+              <i class="pi pi-spin pi-spinner loading-icon"></i>
+              <span>Loading character data...</span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+
+  <!-- Mobile View -->
+  <div class="mobile-view" [class.hidden]="false">
+    @for (character of filteredCharacters(); track character.id) {
+      <p-card styleClass="mobile-character-card">
+        <div class="mobile-character-content">
+          <!-- Header -->
+          <div class="mobile-header">
+            <div class="character-name-section">
+              <span class="character-name" [style.color]="getClassColor(character.characterClass)">
+                {{ character.name }}
+              </span>
+              <p-tag [value]="character.faction" [severity]="getFactionSeverity(character.faction)"></p-tag>
+            </div>
+          </div>
+
+          <!-- Class and Race -->
+          <div class="mobile-details">
+            <span>{{ formatRaceName(character.race) }} {{ formatClassName(character.characterClass) }}</span>
+            <span>{{ character.specialization }}</span>
+          </div>
+
+          <!-- Progress Sections -->
+          <div class="mobile-progress">
+            <div class="progress-row">
+              <span class="progress-label">Overall</span>
+              <div class="progress-container">
+                <p-progressBar [value]="character.overallCompletion" [showValue]="false"></p-progressBar>
+                <span class="progress-value">{{ character.overallCompletion }}%</span>
+              </div>
+            </div>
+
+            <div class="progress-row">
+              <span class="progress-label">M+</span>
+              <div class="progress-container">
+                <p-progressBar [value]="character.mythicPlusProgress.percentage" [showValue]="false"></p-progressBar>
+                <span class="progress-value">{{ character.mythicPlusProgress.dungeonCount }}/8</span>
+              </div>
+            </div>
+
+            <div class="progress-row">
+              <span class="progress-label">Raids</span>
+              <div class="progress-container">
+                <p-progressBar [value]="character.raidProgress.percentage" [showValue]="false"></p-progressBar>
+                <span class="progress-value">{{ character.raidProgress.totalBosses }} bosses</span>
+              </div>
+            </div>
+
+            <div class="progress-row">
+              <span class="progress-label">Quests</span>
+              <div class="progress-container">
+                <p-progressBar [value]="character.weeklyQuestProgress.percentage" [showValue]="false"></p-progressBar>
+                <span class="progress-value">{{ character.weeklyQuestProgress.completed }}/{{ character.weeklyQuestProgress.total }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="mobile-footer">
+            <div class="vault-info">
+              <p-badge [value]="character.vaultSlotsTotal + '/6'" [severity]="getVaultSlotSeverity(character.vaultSlotsTotal)"></p-badge>
+              <span>Vault Slots</span>
+            </div>
+            <div class="status-info">
+              @if (character.isActive) {
+                <p-tag value="Active" severity="success"></p-tag>
+              } @else {
+                <p-tag value="Inactive" severity="warn"></p-tag>
+              }
+            </div>
+          </div>
+        </div>
+      </p-card>
+    }
+  </div>
+</div>

@@ -1,0 +1,571 @@
+// Loading Component Styles
+.loading-container {
+  position: relative;
+  display: block;
+}
+
+// Fullscreen Loading Styles
+.fullscreen-loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+
+  .fullscreen-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+    padding: 2rem;
+    background: var(--surface-card);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--surface-border);
+    max-width: 400px;
+    width: 90%;
+
+    .loading-message {
+      h3 {
+        margin: 0 0 0.5rem 0;
+        color: var(--text-color);
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .elapsed-time {
+        margin: 0;
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+      }
+    }
+
+    .loading-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .timeout-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--red-50);
+      border: 1px solid var(--red-200);
+      border-radius: 8px;
+      width: 100%;
+
+      .timeout-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--red-700);
+
+        .timeout-icon {
+          font-size: 1.25rem;
+          color: var(--red-600);
+        }
+
+        .timeout-text {
+          font-weight: 500;
+        }
+      }
+
+      .timeout-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+}
+
+// Overlay Loading Styles
+.overlay-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+
+  .overlay-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
+  }
+
+  .overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--surface-card);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--surface-border);
+
+    .overlay-message {
+      span {
+        color: var(--text-color);
+        font-weight: 500;
+      }
+    }
+
+    .overlay-actions {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
+  }
+}
+
+// Inline Loading Styles
+.inline-loading {
+  .inline-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--surface-100);
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+
+    .inline-message {
+      flex: 1;
+      color: var(--text-color);
+      font-weight: 500;
+    }
+  }
+
+  .inline-timeout {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: var(--orange-50);
+    border: 1px solid var(--orange-200);
+    border-radius: 6px;
+
+    .timeout-content {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--orange-700);
+
+      i {
+        color: var(--orange-600);
+      }
+
+      span {
+        flex: 1;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Button Loading Styles
+.button-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+// Skeleton Loading Styles
+.skeleton-loading {
+  .skeleton-card {
+    ::ng-deep .p-card {
+      .p-card-header,
+      .p-card-body,
+      .p-card-footer {
+        padding: 1rem;
+      }
+    }
+
+    .skeleton-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .skeleton-header-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
+      }
+    }
+
+    .skeleton-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .skeleton-footer {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: flex-end;
+    }
+  }
+
+  .skeleton-table {
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+    overflow: hidden;
+
+    .skeleton-table-header,
+    .skeleton-table-row {
+      display: grid;
+      grid-template-columns: repeat(var(--columns, 3), 1fr);
+      gap: 1px;
+      background: var(--surface-border);
+
+      .skeleton-table-cell {
+        background: var(--surface-card);
+        padding: 0.75rem;
+      }
+    }
+
+    .skeleton-table-header {
+      background: var(--surface-100);
+
+      .skeleton-table-cell {
+        background: var(--surface-100);
+      }
+    }
+  }
+}
+
+// Spinner Styles
+.loading-spinner {
+  ::ng-deep .p-progress-spinner-circle {
+    stroke: var(--primary-color);
+    animation: spinner-dash 2s ease-in-out infinite;
+  }
+
+  &.spinner-small {
+    ::ng-deep .p-progress-spinner-circle {
+      stroke-width: 4;
+    }
+  }
+
+  &.spinner-medium {
+    ::ng-deep .p-progress-spinner-circle {
+      stroke-width: 3;
+    }
+  }
+
+  &.spinner-large {
+    ::ng-deep .p-progress-spinner-circle {
+      stroke-width: 2;
+    }
+  }
+
+  &.spinner-fullscreen {
+    ::ng-deep .p-progress-spinner-circle {
+      stroke: var(--primary-500);
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+    }
+  }
+
+  &.spinner-overlay {
+    ::ng-deep .p-progress-spinner-circle {
+      stroke: var(--primary-600);
+    }
+  }
+}
+
+// Skeleton Animation Styles
+::ng-deep .p-skeleton {
+  background: linear-gradient(90deg, var(--surface-200) 25%, var(--surface-300) 50%, var(--surface-200) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-wave 2s infinite;
+
+  &.skeleton-avatar {
+    margin: 0;
+  }
+
+  &.skeleton-title {
+    margin-bottom: 0.25rem;
+  }
+
+  &.skeleton-subtitle {
+    margin-bottom: 0;
+  }
+
+  &.skeleton-row {
+    margin-bottom: 0.75rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.skeleton-button {
+    border-radius: 4px;
+  }
+
+  &.skeleton-table-cell {
+    margin: 0;
+    border-radius: 0;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .fullscreen-loading {
+    .fullscreen-content {
+      padding: 1.5rem;
+      gap: 1.5rem;
+
+      .loading-message {
+        h3 {
+          font-size: 1.1rem;
+        }
+      }
+
+      .timeout-message {
+        .timeout-actions {
+          flex-direction: column;
+          width: 100%;
+
+          ::ng-deep .p-button {
+            width: 100%;
+          }
+        }
+      }
+
+      .loading-actions {
+        flex-direction: column;
+        width: 100%;
+
+        ::ng-deep .p-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .overlay-loading {
+    .overlay-content {
+      padding: 1rem;
+      width: 90%;
+      max-width: 300px;
+    }
+  }
+
+  .inline-loading {
+    .inline-content {
+      padding: 0.75rem;
+      gap: 0.5rem;
+
+      .inline-message {
+        font-size: 0.9rem;
+      }
+    }
+
+    .inline-timeout {
+      .timeout-content {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+
+        ::ng-deep .p-button {
+          flex: 1;
+          min-width: 5rem;
+        }
+      }
+    }
+  }
+
+  .skeleton-loading {
+    .skeleton-card {
+      .skeleton-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .skeleton-footer {
+        flex-direction: column;
+
+        ::ng-deep .p-skeleton {
+          width: 100% !important;
+        }
+      }
+    }
+
+    .skeleton-table {
+      .skeleton-table-header,
+      .skeleton-table-row {
+        grid-template-columns: 1fr;
+
+        .skeleton-table-cell {
+          padding: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+// Animation Keyframes
+@keyframes spinner-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -15;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -125;
+  }
+}
+
+@keyframes skeleton-wave {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Loading state transitions
+.loading-container {
+  transition: opacity 0.3s ease;
+
+  &[style*="display: none"] {
+    opacity: 0;
+  }
+}
+
+.fullscreen-loading,
+.overlay-loading {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.inline-loading {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Theme-specific adjustments for dark mode
+:host-context(.p-dark) {
+  .fullscreen-loading {
+    background: rgba(0, 0, 0, 0.95);
+
+    .fullscreen-content {
+      background: var(--surface-800);
+      border-color: var(--surface-700);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+      .timeout-message {
+        background: var(--red-900);
+        border-color: var(--red-700);
+
+        .timeout-content {
+          color: var(--red-100);
+
+          .timeout-icon {
+            color: var(--red-300);
+          }
+        }
+      }
+    }
+  }
+
+  .overlay-loading {
+    .overlay-backdrop {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .overlay-content {
+      background: var(--surface-800);
+      border-color: var(--surface-700);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .inline-loading {
+    .inline-content {
+      background: var(--surface-700);
+      border-color: var(--surface-600);
+    }
+
+    .inline-timeout {
+      background: var(--orange-900);
+      border-color: var(--orange-700);
+
+      .timeout-content {
+        color: var(--orange-100);
+
+        i {
+          color: var(--orange-300);
+        }
+      }
+    }
+  }
+
+  .skeleton-table {
+    border-color: var(--surface-600);
+
+    .skeleton-table-header,
+    .skeleton-table-row {
+      background: var(--surface-600);
+
+      .skeleton-table-cell {
+        background: var(--surface-800);
+      }
+    }
+
+    .skeleton-table-header {
+      .skeleton-table-cell {
+        background: var(--surface-700);
+      }
+    }
+  }
+
+  ::ng-deep .p-skeleton {
+    background: linear-gradient(90deg, var(--surface-600) 25%, var(--surface-500) 50%, var(--surface-600) 75%);
+    background-size: 200% 100%;
+  }
+}

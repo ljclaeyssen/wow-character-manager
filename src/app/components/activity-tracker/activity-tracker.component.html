@@ -1,0 +1,244 @@
+<div class="activity-tracker-container">
+  @if (selectedCharacter()) {
+    <div class="character-header">
+      <h2>{{ selectedCharacter()!.name }} - Weekly Progress</h2>
+      <div class="reset-info">
+        <i class="pi pi-clock"></i>
+        <span>Reset in: {{ timeUntilReset() }}</span>
+        <p-button
+          icon="pi pi-refresh"
+          [text]="true"
+          size="small"
+          pTooltip="Refresh Data"
+          (onClick)="onRefreshData()">
+        </p-button>
+      </div>
+    </div>
+
+    <div class="tracker-grid">
+      <!-- Great Vault Progress Card -->
+      <p-card header="Great Vault Progress" styleClass="vault-progress-card">
+        <div class="vault-summary">
+          <div class="vault-total">
+            <span class="vault-slots">{{ vaultProgress().total }}/9</span>
+            <span class="vault-label">Vault Slots</span>
+          </div>
+          <p-progressBar
+            [value]="vaultProgressPercentage()"
+            [showValue]="false"
+            styleClass="vault-main-progress">
+          </p-progressBar>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="vault-sources">
+          <div class="vault-source">
+            <div class="source-header">
+              <i class="pi pi-trophy raid-icon"></i>
+              <span class="source-label">Raid</span>
+              <p-badge
+                [value]="vaultProgress().raid + '/3'"
+                [severity]="getProgressSeverity(weeklyProgress().raidProgress)">
+              </p-badge>
+            </div>
+            <p-progressBar
+              [value]="weeklyProgress().raidProgress"
+              [showValue]="false"
+              styleClass="source-progress">
+            </p-progressBar>
+            <small class="source-requirement">2/4/6 bosses for slots</small>
+          </div>
+
+          <div class="vault-source">
+            <div class="source-header">
+              <i class="pi pi-compass mythic-plus-icon"></i>
+              <span class="source-label">Mythic+</span>
+              <p-badge
+                [value]="vaultProgress().mythicPlus + '/3'"
+                [severity]="getProgressSeverity(weeklyProgress().mythicPlusProgress)">
+              </p-badge>
+            </div>
+            <p-progressBar
+              [value]="weeklyProgress().mythicPlusProgress"
+              [showValue]="false"
+              styleClass="source-progress">
+            </p-progressBar>
+            <small class="source-requirement">1/4/8 dungeons for slots</small>
+          </div>
+
+          <div class="vault-source">
+            <div class="source-header">
+              <i class="pi pi-flag pvp-icon"></i>
+              <span class="source-label">PvP</span>
+              <p-badge
+                [value]="vaultProgress().pvp + '/3'"
+                [severity]="getProgressSeverity(weeklyProgress().pvpProgress)">
+              </p-badge>
+            </div>
+            <p-progressBar
+              [value]="weeklyProgress().pvpProgress"
+              [showValue]="false"
+              styleClass="source-progress">
+            </p-progressBar>
+            <small class="source-requirement">5/10/15 wins for slots</small>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Activity Summary Card -->
+      <p-card header="Weekly Activity Summary" styleClass="activity-summary-card">
+        <div class="activity-stats">
+          <div class="stat-item">
+            <i class="pi pi-chart-bar"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ activityStats().totalActivities }}</span>
+              <span class="stat-label">Total Activities</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-compass"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ activityStats().mythicPlusCompleted }}</span>
+              <span class="stat-label">M+ Completed</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-trophy"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ activityStats().raidsCompleted }}</span>
+              <span class="stat-label">Raid Bosses</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-flag"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ activityStats().pvpMatches }}</span>
+              <span class="stat-label">PvP Matches</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-bookmark"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ activityStats().questsCompleted }}</span>
+              <span class="stat-label">Quests</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-star"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ activityStats().achievementsEarned }}</span>
+              <span class="stat-label">Achievements</span>
+            </div>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Projected Vault Rewards -->
+      @if (projectedRewards().length > 0) {
+        <p-card header="Projected Vault Rewards" styleClass="rewards-card">
+          <div class="rewards-grid">
+            @for (reward of projectedRewards(); track reward.slot) {
+              <div class="reward-item">
+                <div class="reward-header">
+                  <i [class]="getVaultSourceIcon(reward.source)"></i>
+                  <span class="reward-slot">Slot {{ reward.slot }}</span>
+                </div>
+                <div class="reward-details">
+                  <span class="reward-source">{{ getVaultSourceLabel(reward.source) }}</span>
+                  <p-badge
+                    [value]="reward.quality"
+                    [severity]="getQualitySeverity(reward.quality)">
+                  </p-badge>
+                </div>
+                <div class="reward-ilvl">
+                  <span>{{ reward.itemLevel }} ilvl</span>
+                </div>
+              </div>
+            }
+          </div>
+        </p-card>
+      }
+
+      <!-- Weekly Activity Summary -->
+      @if (currentWeekActivities()) {
+        <p-card header="This Week's Activity Summary" styleClass="activity-summary-card">
+          <div class="activity-summary">
+            <div class="summary-section">
+              <h4>Mythic Plus</h4>
+              <div class="activity-details">
+                <p-tag [value]="'Dungeons: ' + currentWeekActivities()!.mythicPlus.dungeonCount" severity="info"></p-tag>
+                @if (currentWeekActivities()!.mythicPlus.highestKeyLevel > 0) {
+                  <p-tag [value]="'Highest Key: +' + currentWeekActivities()!.mythicPlus.highestKeyLevel" severity="success"></p-tag>
+                }
+              </div>
+            </div>
+
+            <div class="summary-section">
+              <h4>Raids</h4>
+              <div class="activity-details">
+                @if (currentWeekActivities()!.raid.normalBossesKilled > 0) {
+                  <p-tag [value]="'Normal: ' + currentWeekActivities()!.raid.normalBossesKilled" severity="secondary"></p-tag>
+                }
+                @if (currentWeekActivities()!.raid.heroicBossesKilled > 0) {
+                  <p-tag [value]="'Heroic: ' + currentWeekActivities()!.raid.heroicBossesKilled" severity="warning"></p-tag>
+                }
+                @if (currentWeekActivities()!.raid.mythicBossesKilled > 0) {
+                  <p-tag [value]="'Mythic: ' + currentWeekActivities()!.raid.mythicBossesKilled" severity="danger"></p-tag>
+                }
+              </div>
+            </div>
+
+            <div class="summary-section">
+              <h4>Weekly Quests</h4>
+              <div class="activity-details">
+                <p-tag
+                  [value]="'World Boss: ' + (currentWeekActivities()!.weeklyQuests.worldBossCompleted ? 'Done' : 'Not Done')"
+                  [severity]="currentWeekActivities()!.weeklyQuests.worldBossCompleted ? 'success' : 'contrast'">
+                </p-tag>
+                <p-tag
+                  [value]="'Spark: ' + currentWeekActivities()!.weeklyQuests.sparkFragments + '/2'"
+                  severity="info">
+                </p-tag>
+                <p-tag
+                  [value]="'Profession: ' + currentWeekActivities()!.weeklyQuests.professionQuestsDone"
+                  severity="info">
+                </p-tag>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      } @else {
+        <p-card header="This Week's Activities" styleClass="no-activities-card">
+          <div class="no-activities">
+            <i class="pi pi-calendar-plus"></i>
+            <h4>No Activities This Week</h4>
+            <p>Start completing weekly content to track your Great Vault progress!</p>
+          </div>
+        </p-card>
+      }
+    </div>
+  } @else {
+    <div class="no-character-selected">
+      <p-card>
+        <div class="empty-state">
+          <i class="pi pi-user-plus"></i>
+          <h3>No Character Selected</h3>
+          <p>Select a character to view their weekly activity progress and Great Vault status.</p>
+        </div>
+      </p-card>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="loading-overlay">
+      <i class="pi pi-spin pi-spinner"></i>
+      <span>Loading activity data...</span>
+    </div>
+  }
+</div>

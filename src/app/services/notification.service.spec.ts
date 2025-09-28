@@ -104,7 +104,7 @@ describe('NotificationService', () => {
       service.showWarning(message, title);
 
       expect(messageService.add).toHaveBeenCalledWith({
-        severity: 'warning',
+        severity: 'warn',
         summary: title,
         detail: message,
         life: 4000
@@ -117,7 +117,7 @@ describe('NotificationService', () => {
       service.showWarning(message);
 
       expect(messageService.add).toHaveBeenCalledWith({
-        severity: 'warning',
+        severity: 'warn',
         summary: 'Warning',
         detail: message,
         life: 4000

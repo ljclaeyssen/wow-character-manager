@@ -1,0 +1,393 @@
+.mythic-plus-container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .mythic-plus-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--surface-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-border);
+
+    h3 {
+      margin: 0;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+  }
+
+  .mythic-plus-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+
+    .vault-progress-card,
+    .add-run-card,
+    .stats-card {
+      height: fit-content;
+    }
+
+    .recent-runs-card,
+    .no-runs-card,
+    .rewards-guide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Vault Progress Styles
+  .vault-summary {
+    margin-bottom: 1rem;
+
+    .vault-slots-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .slots-earned {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      .slots-label {
+        font-size: 0.8rem;
+        color: var(--text-color-secondary);
+      }
+    }
+
+    .vault-requirements {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+
+      .requirement-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--surface-ground);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--surface-border);
+
+        .requirement-count {
+          font-weight: bold;
+          color: var(--text-color);
+          margin-bottom: 0.25rem;
+        }
+
+        .requirement-label {
+          font-size: 0.75rem;
+          color: var(--text-color-secondary);
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .vault-progress-bar {
+    height: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .milestone-message {
+    margin-bottom: 0;
+  }
+
+  // Add Run Form Styles
+  .run-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      label {
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      &.checkbox-field {
+        flex-direction: row;
+        align-items: center;
+
+        label {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .no-character-warning {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  // Statistics Styles
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .stat-icon {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .stat-content {
+        display: flex;
+        flex-direction: column;
+
+        .stat-value {
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: var(--text-color);
+        }
+
+        .stat-label {
+          font-size: 0.75rem;
+          color: var(--text-color-secondary);
+        }
+      }
+    }
+  }
+
+  .overall-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .overall-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .overall-label {
+        font-weight: 500;
+        color: var(--text-color);
+      }
+    }
+  }
+
+  .keystone-tag {
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+
+  // Recent Runs Styles
+  .runs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .run-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .run-info {
+        flex: 1;
+
+        .run-description {
+          font-weight: 500;
+          color: var(--text-color);
+        }
+
+        .run-date {
+          font-size: 0.8rem;
+          color: var(--text-color-secondary);
+        }
+      }
+
+      .run-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+  }
+
+  .more-runs {
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  // Rewards Guide Styles
+  .rewards-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .reward-tier {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .tier-description {
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // Empty States
+  .no-character,
+  .no-runs {
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+
+      i {
+        font-size: 3rem;
+        color: var(--text-color-secondary);
+        margin-bottom: 1rem;
+      }
+
+      h3, h4 {
+        margin: 0.5rem 0;
+        color: var(--text-color);
+      }
+
+      p {
+        color: var(--text-color-secondary);
+        margin: 0;
+      }
+    }
+  }
+
+  // Loading Overlay
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 1000;
+
+    i {
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    span {
+      color: var(--text-color);
+      font-weight: 500;
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    .mythic-plus-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mythic-plus-header {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .vault-requirements {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .overall-stats {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .run-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+
+      .run-actions {
+        align-self: flex-end;
+      }
+    }
+  }
+}
+
+// PrimeNG component customizations
+:host ::ng-deep {
+  .vault-progress-bar .p-progressbar-value {
+    background: linear-gradient(90deg, #8b5cf6, #a855f7);
+  }
+
+  .p-card-header {
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .p-badge {
+    font-size: 0.75rem;
+  }
+
+  .p-dropdown,
+  .p-inputnumber {
+    width: 100%;
+  }
+
+  .p-panel .p-panel-header {
+    background: var(--surface-section);
+  }
+
+  .p-message {
+    .p-message-wrapper {
+      padding: 0.75rem;
+    }
+
+    .p-message-text {
+      font-size: 0.9rem;
+    }
+  }
+
+  .p-tag {
+    font-size: 0.8rem;
+  }
+}

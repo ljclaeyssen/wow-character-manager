@@ -1,0 +1,339 @@
+.activity-tracker-container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .character-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--surface-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-border);
+
+    h2 {
+      margin: 0;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    .reset-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+
+      i {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .tracker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+    }
+
+    .vault-progress-card,
+    .activity-summary-card,
+    .rewards-card,
+    .recent-activities-card,
+    .no-activities-card {
+      height: fit-content;
+    }
+
+    .recent-activities-card,
+    .no-activities-card {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Vault Progress Styles
+  .vault-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .vault-total {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .vault-slots {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      .vault-label {
+        font-size: 0.8rem;
+        color: var(--text-color-secondary);
+      }
+    }
+
+    .vault-main-progress {
+      flex: 1;
+      height: 1.5rem;
+    }
+  }
+
+  .vault-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .vault-source {
+      .source-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        .source-label {
+          flex: 1;
+          font-weight: 500;
+        }
+
+        .raid-icon {
+          color: #ffd700;
+        }
+
+        .mythic-plus-icon {
+          color: #8b5cf6;
+        }
+
+        .pvp-icon {
+          color: #ef4444;
+        }
+      }
+
+      .source-progress {
+        height: 0.75rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .source-requirement {
+        color: var(--text-color-secondary);
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  // Activity Summary Styles
+  .activity-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      i {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .stat-content {
+        display: flex;
+        flex-direction: column;
+
+        .stat-value {
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: var(--text-color);
+        }
+
+        .stat-label {
+          font-size: 0.75rem;
+          color: var(--text-color-secondary);
+        }
+      }
+    }
+  }
+
+  // Projected Rewards Styles
+  .rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+
+    .reward-item {
+      padding: 1rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .reward-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        i {
+          color: var(--primary-color);
+        }
+
+        .reward-slot {
+          font-weight: 500;
+        }
+      }
+
+      .reward-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+
+        .reward-source {
+          font-size: 0.9rem;
+          color: var(--text-color-secondary);
+        }
+      }
+
+      .reward-ilvl {
+        text-align: center;
+        font-weight: bold;
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // Recent Activities Styles
+  .activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .activity-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        font-size: 0.875rem;
+      }
+
+      .activity-content {
+        flex: 1;
+
+        .activity-description {
+          font-weight: 500;
+          color: var(--text-color);
+        }
+
+        .activity-date {
+          font-size: 0.8rem;
+          color: var(--text-color-secondary);
+        }
+      }
+
+      .activity-vault {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .more-activities {
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  // Empty States
+  .no-character-selected,
+  .no-activities {
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+
+      i {
+        font-size: 3rem;
+        color: var(--text-color-secondary);
+        margin-bottom: 1rem;
+      }
+
+      h3, h4 {
+        margin: 0.5rem 0;
+        color: var(--text-color);
+      }
+
+      p {
+        color: var(--text-color-secondary);
+        margin: 0;
+      }
+    }
+  }
+
+  // Loading Overlay
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 1000;
+
+    i {
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    span {
+      color: var(--text-color);
+      font-weight: 500;
+    }
+  }
+}
+
+// PrimeNG component customizations
+:host ::ng-deep {
+  .vault-main-progress .p-progressbar-value {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-color-text));
+  }
+
+  .source-progress .p-progressbar-value {
+    background: var(--primary-color);
+  }
+
+  .p-card-header {
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .p-badge {
+    font-size: 0.75rem;
+  }
+}

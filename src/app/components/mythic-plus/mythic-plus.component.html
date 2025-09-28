@@ -1,0 +1,271 @@
+<div class="mythic-plus-container">
+  @if (selectedCharacter()) {
+    <div class="mythic-plus-header">
+      <h3>{{ selectedCharacter()!.name }} - Mythic+ Progress</h3>
+      <p-badge
+        [value]="rewardQuality()"
+        [severity]="rewardQuality() === 'Mythic' ? 'warn' : 'info'"
+        size="large">
+      </p-badge>
+    </div>
+
+    <div class="mythic-plus-grid">
+      <!-- Vault Progress Card -->
+      <p-card header="Great Vault Progress" styleClass="vault-progress-card">
+        <div class="vault-summary">
+          <div class="vault-slots-display">
+            <span class="slots-earned">{{ vaultProgress().slots }}/3</span>
+            <span class="slots-label">Vault Slots</span>
+          </div>
+
+          <div class="vault-requirements">
+            <div class="requirement-item">
+              <span class="requirement-count">{{ vaultProgress().completed }}/1</span>
+              <span class="requirement-label">First Slot</span>
+              <p-badge
+                [value]="vaultProgress().completed >= 1 ? '✓' : ''"
+                [severity]="getVaultSlotSeverity(0)">
+              </p-badge>
+            </div>
+            <div class="requirement-item">
+              <span class="requirement-count">{{ vaultProgress().completed }}/4</span>
+              <span class="requirement-label">Second Slot</span>
+              <p-badge
+                [value]="vaultProgress().completed >= 4 ? '✓' : ''"
+                [severity]="getVaultSlotSeverity(1)">
+              </p-badge>
+            </div>
+            <div class="requirement-item">
+              <span class="requirement-count">{{ vaultProgress().completed }}/8</span>
+              <span class="requirement-label">Third Slot</span>
+              <p-badge
+                [value]="vaultProgress().completed >= 8 ? '✓' : ''"
+                [severity]="getVaultSlotSeverity(2)">
+              </p-badge>
+            </div>
+          </div>
+        </div>
+
+        <p-progressBar
+          [value]="vaultProgress().percentage"
+          [showValue]="false"
+          styleClass="vault-progress-bar">
+        </p-progressBar>
+
+        @if (vaultProgress().nextMilestone.remaining > 0) {
+          <p-message
+            severity="info"
+            styleClass="milestone-message">
+            <span>{{ vaultProgress().nextMilestone.remaining }} more runs needed for next vault slot</span>
+          </p-message>
+        } @else {
+          <p-message
+            severity="success"
+            styleClass="milestone-message">
+            <span>All Mythic+ vault slots earned this week!</span>
+          </p-message>
+        }
+      </p-card>
+
+      <!-- Add New Run Card -->
+      <p-card header="Add Mythic+ Run" styleClass="add-run-card">
+        <div class="run-form">
+          <div class="form-field">
+            <label for="dungeon">Dungeon</label>
+            <p-select
+              id="dungeon"
+              [(ngModel)]="selectedDungeon"
+              [options]="dungeonOptions"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select dungeon"
+              styleClass="w-full">
+            </p-select>
+          </div>
+
+          <div class="form-field">
+            <label for="keystone">Keystone Level</label>
+            <p-inputNumber
+              id="keystone"
+              [(ngModel)]="keystoneLevel"
+              [min]="2"
+              [max]="30"
+              [showButtons]="true"
+              styleClass="w-full">
+            </p-inputNumber>
+          </div>
+
+          <div class="form-field checkbox-field">
+            <label for="inTime">
+              <input
+                type="checkbox"
+                id="inTime"
+                [(ngModel)]="completedInTime">
+              Completed in time
+            </label>
+          </div>
+
+          <p-button
+            label="Add Run"
+            icon="pi pi-plus"
+            severity="success"
+            styleClass="w-full"
+            [disabled]="!canAddRun() || loading()"
+            (onClick)="onAddMythicPlus()">
+          </p-button>
+        </div>
+
+        @if (!selectedCharacter()) {
+          <p-message
+            severity="warn"
+            styleClass="no-character-warning">
+            <span>Select a character to add Mythic+ runs</span>
+          </p-message>
+        }
+      </p-card>
+
+      <!-- Weekly Statistics -->
+      <p-card header="Weekly Statistics" styleClass="stats-card">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <i class="pi pi-chart-bar stat-icon"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ weeklyStats().totalRuns }}</span>
+              <span class="stat-label">Total Runs</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-star stat-icon"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ weeklyStats().highestKeyLevel || '-' }}</span>
+              <span class="stat-label">Highest Key</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-chart-line stat-icon"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ weeklyStats().averageKeyLevel || '-' }}</span>
+              <span class="stat-label">Average Key</span>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <i class="pi pi-clock stat-icon"></i>
+            <div class="stat-content">
+              <span class="stat-value">{{ weeklyStats().inTimeRuns }}</span>
+              <span class="stat-label">In Time</span>
+            </div>
+          </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="overall-stats">
+          <div class="overall-stat">
+            <span class="overall-label">Season Best:</span>
+            <p-tag
+              [value]="'+' + highestKeystone()"
+              [severity]="getKeystoneSeverity(highestKeystone())"
+              styleClass="keystone-tag">
+            </p-tag>
+          </div>
+
+          <div class="overall-stat">
+            <span class="overall-label">Vault Quality:</span>
+            <p-tag
+              [value]="rewardQuality()"
+              [severity]="rewardQuality() === 'Mythic' ? 'warn' : 'info'">
+            </p-tag>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- Recent Runs -->
+      @if (currentWeekMythicPlus().length > 0) {
+        <p-card header="This Week's Runs" styleClass="recent-runs-card">
+          <div class="runs-list">
+            @for (activity of currentWeekMythicPlus().slice(0, 10); track activity.id) {
+              <div class="run-item">
+                <div class="run-info">
+                  <div class="run-description">{{ activity.description }}</div>
+                  <div class="run-date">{{ formatDate(activity.date) }}</div>
+                </div>
+
+                <div class="run-actions">
+                  @if (activity.vaultSlot) {
+                    <p-badge
+                      value="Vault"
+                      severity="success"
+                      size="small">
+                    </p-badge>
+                  }
+
+                  <p-button
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [text]="true"
+                    size="small"
+                    pTooltip="Remove run"
+                    (onClick)="onRemoveActivity(activity.id)">
+                  </p-button>
+                </div>
+              </div>
+            }
+          </div>
+
+          @if (currentWeekMythicPlus().length > 10) {
+            <p-divider></p-divider>
+            <div class="more-runs">
+              <span>{{ currentWeekMythicPlus().length - 10 }} more runs this week</span>
+            </div>
+          }
+        </p-card>
+      } @else {
+        <p-card header="This Week's Runs" styleClass="no-runs-card">
+          <div class="no-runs">
+            <i class="pi pi-compass"></i>
+            <h4>No Mythic+ Runs This Week</h4>
+            <p>Start adding your completed Mythic+ dungeons to track your Great Vault progress!</p>
+          </div>
+        </p-card>
+      }
+
+      <!-- Keystone Level Guide -->
+      <p-panel header="Keystone Level Rewards" [toggleable]="true" [collapsed]="true" styleClass="rewards-guide">
+        <div class="rewards-info">
+          <div class="reward-tier">
+            <p-tag value="Heroic" severity="info"></p-tag>
+            <span class="tier-description">Keystone levels 2-9 provide Heroic quality vault rewards</span>
+          </div>
+          <div class="reward-tier">
+            <p-tag value="Mythic" severity="warn"></p-tag>
+            <span class="tier-description">Keystone levels 10+ provide Mythic quality vault rewards</span>
+          </div>
+          <div class="reward-tier">
+            <p-tag value="Progress" severity="success"></p-tag>
+            <span class="tier-description">Complete 1/4/8 dungeons for 1/2/3 vault slots</span>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  } @else {
+    <div class="no-character">
+      <p-card>
+        <div class="empty-state">
+          <i class="pi pi-user-plus"></i>
+          <h3>No Character Selected</h3>
+          <p>Select a character to track their Mythic+ progress and vault status.</p>
+        </div>
+      </p-card>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="loading-overlay">
+      <i class="pi pi-spin pi-spinner"></i>
+      <span>Updating Mythic+ data...</span>
+    </div>
+  }
+</div>

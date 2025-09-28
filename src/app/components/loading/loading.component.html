@@ -1,0 +1,234 @@
+<!-- Loading Component -->
+<div [ngClass]="getContainerStyleClass()" [style.display]="loading() ? 'block' : 'none'">
+
+  <!-- Fullscreen Loading -->
+  @if (effectiveConfig().type === 'fullscreen') {
+    <div class="fullscreen-loading">
+      <div class="fullscreen-content">
+        <p-progressSpinner
+          [style]="{ width: spinnerSize(), height: spinnerSize() }"
+          [styleClass]="getSpinnerStyleClass()">
+        </p-progressSpinner>
+
+        <div class="loading-message">
+          <h3>{{ getLoadingMessage() }}</h3>
+          @if (elapsedTime() > 3000) {
+            <p class="elapsed-time">{{ formatElapsedTime() }}</p>
+          }
+        </div>
+
+        @if (effectiveConfig().showCancelButton && !timedOut()) {
+          <div class="loading-actions">
+            <p-button
+              label="Cancel"
+              icon="pi pi-times"
+              severity="secondary"
+              [outlined]="true"
+              (onClick)="cancel()">
+            </p-button>
+          </div>
+        }
+
+        @if (shouldShowTimeout()) {
+          <div class="timeout-message">
+            <div class="timeout-content">
+              <i class="pi pi-exclamation-triangle timeout-icon"></i>
+              <span class="timeout-text">Operation timed out after {{ formatElapsedTime() }}</span>
+            </div>
+            <div class="timeout-actions">
+              <p-button
+                label="Retry"
+                icon="pi pi-refresh"
+                severity="primary"
+                (onClick)="retry()">
+              </p-button>
+              <p-button
+                label="Cancel"
+                icon="pi pi-times"
+                severity="secondary"
+                [outlined]="true"
+                (onClick)="cancel()">
+              </p-button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Overlay Loading -->
+  @if (effectiveConfig().type === 'overlay') {
+    <div class="overlay-loading">
+      <div class="overlay-backdrop"></div>
+      <div class="overlay-content">
+        <p-progressSpinner
+          [style]="{ width: spinnerSize(), height: spinnerSize() }"
+          [styleClass]="getSpinnerStyleClass()">
+        </p-progressSpinner>
+
+        @if (effectiveConfig().message) {
+          <div class="overlay-message">
+            <span>{{ getLoadingMessage() }}</span>
+          </div>
+        }
+
+        @if (effectiveConfig().showCancelButton && !timedOut()) {
+          <div class="overlay-actions">
+            <p-button
+              icon="pi pi-times"
+              [text]="true"
+              [rounded]="true"
+              severity="secondary"
+              pTooltip="Cancel"
+              (onClick)="cancel()">
+            </p-button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Inline Loading -->
+  @if (effectiveConfig().type === 'inline') {
+    <div class="inline-loading">
+      <div class="inline-content">
+        <p-progressSpinner
+          [style]="{ width: spinnerSize(), height: spinnerSize() }"
+          [styleClass]="getSpinnerStyleClass()">
+        </p-progressSpinner>
+
+        @if (effectiveConfig().message) {
+          <span class="inline-message">{{ getLoadingMessage() }}</span>
+        }
+
+        @if (effectiveConfig().showCancelButton && !timedOut()) {
+          <p-button
+            icon="pi pi-times"
+            [text]="true"
+            size="small"
+            severity="secondary"
+            pTooltip="Cancel"
+            (onClick)="cancel()">
+          </p-button>
+        }
+      </div>
+
+      @if (shouldShowTimeout()) {
+        <div class="inline-timeout">
+          <div class="timeout-content">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>Timed out</span>
+            <p-button
+              label="Retry"
+              icon="pi pi-refresh"
+              size="small"
+              severity="primary"
+              [outlined]="true"
+              (onClick)="retry()">
+            </p-button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Button Loading -->
+  @if (effectiveConfig().type === 'button') {
+    <div class="button-loading">
+      <p-progressSpinner
+        [style]="{ width: spinnerSize(), height: spinnerSize() }"
+        [styleClass]="getSpinnerStyleClass()">
+      </p-progressSpinner>
+    </div>
+  }
+
+  <!-- Skeleton Loading -->
+  @if (effectiveConfig().type === 'skeleton') {
+    <div class="skeleton-loading">
+
+      <!-- Card-style Skeleton -->
+      <p-card styleClass="skeleton-card">
+        <ng-template pTemplate="header">
+          @if (effectiveSkeletonConfig().showAvatar) {
+            <div class="skeleton-header">
+              <p-skeleton
+                shape="circle"
+                size="4rem"
+                styleClass="skeleton-avatar">
+              </p-skeleton>
+              <div class="skeleton-header-text">
+                <p-skeleton
+                  width="8rem"
+                  height="1.2rem"
+                  styleClass="skeleton-title">
+                </p-skeleton>
+                <p-skeleton
+                  width="12rem"
+                  height="0.8rem"
+                  styleClass="skeleton-subtitle">
+                </p-skeleton>
+              </div>
+            </div>
+          }
+        </ng-template>
+
+        @if (effectiveSkeletonConfig().showText) {
+          <div class="skeleton-content">
+            @for (row of generateSkeletonRows(); track $index) {
+              <p-skeleton
+                [width]="row.width"
+                [height]="row.height"
+                styleClass="skeleton-row">
+              </p-skeleton>
+            }
+          </div>
+        }
+
+        <ng-template pTemplate="footer">
+          <div class="skeleton-footer">
+            <p-skeleton
+              width="5rem"
+              height="2rem"
+              styleClass="skeleton-button">
+            </p-skeleton>
+            <p-skeleton
+              width="5rem"
+              height="2rem"
+              styleClass="skeleton-button">
+            </p-skeleton>
+          </div>
+        </ng-template>
+      </p-card>
+
+      <!-- Table-style Skeleton -->
+      @if (effectiveSkeletonConfig().columns && effectiveSkeletonConfig().columns! > 1) {
+        <div class="skeleton-table">
+          <!-- Table Header -->
+          <div class="skeleton-table-header">
+            @for (col of generateTableColumns(); track $index) {
+              <p-skeleton
+                width="100%"
+                height="2rem"
+                styleClass="skeleton-table-cell">
+              </p-skeleton>
+            }
+          </div>
+
+          <!-- Table Rows -->
+          @for (row of generateTableRows(); track $index) {
+            <div class="skeleton-table-row">
+              @for (col of generateTableColumns(); track $index) {
+                <p-skeleton
+                  width="100%"
+                  height="1.5rem"
+                  styleClass="skeleton-table-cell">
+                </p-skeleton>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+</div>

@@ -11,12 +11,21 @@ import {
 } from '../models/activity.model';
 import { StorageService } from '../services/storage.service';
 import { NotificationService } from '../services/notification.service';
+import { ResetService } from '../services/reset.service';
 
 interface ActivityState {
   activities: Record<string, CharacterActivity>; // keyed by characterId
   currentWeekStart: Date;
   loading: boolean;
   error: string | null;
+  // Reset tracking
+  lastResetDate: Date | null;
+  isResetInProgress: boolean;
+  resetHistory: Array<{
+    resetDate: Date;
+    charactersReset: string[];
+    preservedData: Record<string, CharacterActivity>;
+  }>;
 }
 
 export const ActivityStore = signalStore(
@@ -27,7 +36,11 @@ export const ActivityStore = signalStore(
     activities: {},
     currentWeekStart: getWeekStartDate(),
     loading: false,
-    error: null
+    error: null,
+    // Reset tracking
+    lastResetDate: null,
+    isResetInProgress: false,
+    resetHistory: []
   }),
 
   // Add computed selectors
@@ -153,14 +166,44 @@ export const ActivityStore = signalStore(
 
     // Loading states
     isLoading: computed(() => store.loading()),
-    hasError: computed(() => !!store.error())
+    hasError: computed(() => !!store.error()),
+
+    // Reset state computed properties
+    resetStatus: computed(() => ({
+      lastResetDate: store.lastResetDate(),
+      isResetInProgress: store.isResetInProgress(),
+      daysSinceReset: store.lastResetDate()
+        ? Math.floor((Date.now() - store.lastResetDate()!.getTime()) / (1000 * 60 * 60 * 24))
+        : null,
+      hasRecentHistory: store.resetHistory().length > 0
+    })),
+
+    // Get reset history (limited to last 10 resets)
+    recentResetHistory: computed(() => {
+      return store.resetHistory()
+        .sort((a, b) => b.resetDate.getTime() - a.resetDate.getTime())
+        .slice(0, 10);
+    }),
+
+    // Check if character needs reset
+    charactersNeedingReset: computed(() => {
+      const activities = store.activities();
+      const currentWeekStart = store.currentWeekStart();
+
+      return Object.keys(activities).filter(characterId => {
+        const activity = activities[characterId];
+        return activity.weekStartDate.getTime() < currentWeekStart.getTime();
+      });
+    })
   })),
 
   // Add methods for state mutations
   withMethods((store) => {
     const storageService = inject(StorageService);
     const notificationService = inject(NotificationService);
+    const resetService = inject(ResetService);
     const STORAGE_KEY = 'wow-activities';
+    const RESET_HISTORY_KEY = 'wow-reset-history';
 
     const methods = {
     // Initialize activity for character
@@ -187,6 +230,7 @@ export const ActivityStore = signalStore(
           weekStartDate: weekStart,
           completed: false,
           lastUpdated: new Date(),
+          lfrBossesKilled: 0,
           normalBossesKilled: 0,
           heroicBossesKilled: 0,
           mythicBossesKilled: 0,
@@ -343,65 +387,6 @@ export const ActivityStore = signalStore(
       }
     },
 
-    // Weekly reset functionality
-    performWeeklyReset: () => {
-      const newWeekStart = getWeekStartDate();
-      const activities = store.activities();
-
-      // Reset all character activities for new week
-      const resetActivities: Record<string, CharacterActivity> = {};
-
-      Object.keys(activities).forEach(characterId => {
-        // Initialize fresh activity for new week
-        const newActivity: CharacterActivity = {
-          characterId,
-          weekStartDate: newWeekStart,
-          mythicPlus: {
-            characterId,
-            weekStartDate: newWeekStart,
-            completed: false,
-            lastUpdated: new Date(),
-            dungeonCount: 0,
-            highestKeyLevel: 0,
-            vaultProgress: { slot1: false, slot2: false, slot3: false }
-          },
-          raid: {
-            characterId,
-            weekStartDate: newWeekStart,
-            completed: false,
-            lastUpdated: new Date(),
-            normalBossesKilled: 0,
-            heroicBossesKilled: 0,
-            mythicBossesKilled: 0,
-            vaultProgress: { slot1: false, slot2: false, slot3: false }
-          },
-          weeklyQuests: {
-            characterId,
-            weekStartDate: newWeekStart,
-            completed: false,
-            lastUpdated: new Date(),
-            worldBossCompleted: false,
-            sparkFragments: 0,
-            professionQuestsDone: 0,
-            weeklyEventCompleted: false
-          },
-          lastUpdated: new Date()
-        };
-
-        resetActivities[characterId] = newActivity;
-      });
-
-      patchState(store, {
-        activities: resetActivities,
-        currentWeekStart: newWeekStart
-      });
-
-      methods.saveToLocalStorage();
-
-      // Show weekly reset notification
-      notificationService.showWeeklyReset();
-    },
-
     // Error handling
     setError: (error: string | null) => {
       patchState(store, { error, loading: false });
@@ -495,6 +480,211 @@ export const ActivityStore = signalStore(
           }
         })
       )
+    ),
+
+    // Weekly reset methods
+    performWeeklyReset: () => {
+      patchState(store, { isResetInProgress: true });
+
+      try {
+        const currentActivities = store.activities();
+        const currentWeekStart = getWeekStartDate();
+        const resetDate = new Date();
+
+        // Preserve current week's data for history
+        const preservedData = { ...currentActivities };
+
+        // Reset all character activities for new week
+        const resetActivities: Record<string, CharacterActivity> = {};
+        Object.keys(currentActivities).forEach(characterId => {
+          resetActivities[characterId] = createFreshWeeklyActivity(characterId, currentWeekStart);
+        });
+
+        // Create reset history entry
+        const historyEntry = {
+          resetDate,
+          charactersReset: Object.keys(currentActivities),
+          preservedData
+        };
+
+        // Update reset history (keep last 10 entries)
+        const updatedHistory = [historyEntry, ...store.resetHistory()].slice(0, 10);
+
+        // Update store state
+        patchState(store, {
+          activities: resetActivities,
+          currentWeekStart,
+          lastResetDate: resetDate,
+          isResetInProgress: false,
+          resetHistory: updatedHistory
+        });
+
+        // Save to storage
+        methods.saveToLocalStorage();
+        methods.saveResetHistory();
+
+        // Notify user
+        notificationService.showSuccess(
+          `Weekly reset completed for ${Object.keys(currentActivities).length} characters`,
+          'Weekly Reset'
+        );
+
+        console.log('Weekly reset completed successfully');
+
+      } catch (error) {
+        console.error('Weekly reset failed:', error);
+        patchState(store, {
+          isResetInProgress: false,
+          error: 'Failed to perform weekly reset'
+        });
+        notificationService.showError('Failed to perform weekly reset');
+      }
+    },
+
+    // Manual reset trigger
+    triggerManualReset: () => {
+      if (store.isResetInProgress()) {
+        notificationService.showWarning('Reset already in progress');
+        return;
+      }
+
+      methods.performWeeklyReset();
+    },
+
+    // Reset specific character
+    resetCharacterActivity: (characterId: string) => {
+      const currentWeekStart = store.currentWeekStart();
+      const currentActivities = store.activities();
+
+      if (!currentActivities[characterId]) {
+        methods.initializeCharacterActivity(characterId);
+        return;
+      }
+
+      const freshActivity = createFreshWeeklyActivity(characterId, currentWeekStart);
+
+      patchState(store, {
+        activities: {
+          ...currentActivities,
+          [characterId]: freshActivity
+        }
+      });
+
+      methods.saveToLocalStorage();
+      notificationService.showInfo(`Reset activity for character ${characterId}`);
+    },
+
+    // Historical data methods
+    getCharacterHistoryForWeek: (characterId: string, weekStartDate: Date): CharacterActivity | null => {
+      // Search through reset history for specific week
+      const targetWeekTime = weekStartDate.getTime();
+
+      for (const historyEntry of store.resetHistory()) {
+        const preservedActivity = historyEntry.preservedData[characterId];
+        if (preservedActivity && preservedActivity.weekStartDate.getTime() === targetWeekTime) {
+          return preservedActivity;
+        }
+      }
+
+      return null;
+    },
+
+    // Save/load reset history
+    saveResetHistory: () => {
+      const historyData = {
+        resetHistory: store.resetHistory().map(entry => ({
+          resetDate: entry.resetDate.toISOString(),
+          charactersReset: entry.charactersReset,
+          preservedData: Object.fromEntries(
+            Object.entries(entry.preservedData).map(([charId, activity]) => [
+              charId,
+              {
+                ...activity,
+                weekStartDate: activity.weekStartDate.toISOString(),
+                lastUpdated: activity.lastUpdated.toISOString(),
+                mythicPlus: {
+                  ...activity.mythicPlus,
+                  weekStartDate: activity.mythicPlus.weekStartDate.toISOString(),
+                  lastUpdated: activity.mythicPlus.lastUpdated.toISOString()
+                },
+                raid: {
+                  ...activity.raid,
+                  weekStartDate: activity.raid.weekStartDate.toISOString(),
+                  lastUpdated: activity.raid.lastUpdated.toISOString()
+                },
+                weeklyQuests: {
+                  ...activity.weeklyQuests,
+                  weekStartDate: activity.weeklyQuests.weekStartDate.toISOString(),
+                  lastUpdated: activity.weeklyQuests.lastUpdated.toISOString()
+                }
+              }
+            ])
+          )
+        })),
+        lastSaved: new Date().toISOString()
+      };
+
+      const success = storageService.set(RESET_HISTORY_KEY, historyData);
+      if (!success) {
+        console.warn('Failed to save reset history');
+      }
+    },
+
+    loadResetHistory: () => {
+      try {
+        const data = storageService.get(RESET_HISTORY_KEY) as any;
+        if (data && data.resetHistory) {
+          const processedHistory = data.resetHistory.map((entry: any) => ({
+            resetDate: new Date(entry.resetDate),
+            charactersReset: entry.charactersReset,
+            preservedData: Object.fromEntries(
+              Object.entries(entry.preservedData).map(([charId, activity]: [string, any]) => [
+                charId,
+                {
+                  ...activity,
+                  weekStartDate: new Date(activity.weekStartDate),
+                  lastUpdated: new Date(activity.lastUpdated),
+                  mythicPlus: {
+                    ...activity.mythicPlus,
+                    weekStartDate: new Date(activity.mythicPlus.weekStartDate),
+                    lastUpdated: new Date(activity.mythicPlus.lastUpdated)
+                  },
+                  raid: {
+                    ...activity.raid,
+                    weekStartDate: new Date(activity.raid.weekStartDate),
+                    lastUpdated: new Date(activity.raid.lastUpdated)
+                  },
+                  weeklyQuests: {
+                    ...activity.weeklyQuests,
+                    weekStartDate: new Date(activity.weeklyQuests.weekStartDate),
+                    lastUpdated: new Date(activity.weeklyQuests.lastUpdated)
+                  }
+                }
+              ])
+            )
+          }));
+
+          patchState(store, { resetHistory: processedHistory });
+        }
+      } catch (error) {
+        console.error('Failed to load reset history:', error);
+      }
+    },
+
+    // Listen to reset service events
+    subscribeToResetEvents: rxMethod<void>(
+      pipe(
+        switchMap(() => resetService.resetEvent$),
+        tap(() => {
+          console.log('Reset event received from ResetService');
+          methods.performWeeklyReset();
+        }),
+        catchError((error) => {
+          console.error('Error handling reset event:', error);
+          methods.setError('Failed to handle reset event');
+          return of(null);
+        })
+      )
     )
     };
 
@@ -506,6 +696,9 @@ export const ActivityStore = signalStore(
     onInit: (store) => {
       console.log('ActivityStore initialized');
 
+      // Load reset history first
+      store.loadResetHistory();
+
       // Check if weekly reset is needed
       const currentWeekStart = getWeekStartDate();
       if (store.currentWeekStart().getTime() !== currentWeekStart.getTime()) {
@@ -514,6 +707,11 @@ export const ActivityStore = signalStore(
 
       // Auto-load from localStorage
       store.loadFromLocalStorage();
+
+      // Subscribe to reset service events
+      store.subscribeToResetEvents();
+
+      console.log('ActivityStore reset integration complete');
     },
     onDestroy: () => {
       console.log('ActivityStore destroyed');
@@ -553,4 +751,50 @@ function calculateRaidVaultSlots(bossCount: number): number {
   if (bossCount >= 4) return 2;
   if (bossCount >= 2) return 1;
   return 0;
+}
+
+function createFreshWeeklyActivity(characterId: string, weekStartDate: Date): CharacterActivity {
+  return {
+    characterId,
+    weekStartDate,
+    mythicPlus: {
+      characterId,
+      weekStartDate,
+      completed: false,
+      lastUpdated: new Date(),
+      dungeonCount: 0,
+      highestKeyLevel: 0,
+      vaultProgress: {
+        slot1: false,
+        slot2: false,
+        slot3: false
+      }
+    },
+    raid: {
+      characterId,
+      weekStartDate,
+      completed: false,
+      lastUpdated: new Date(),
+      lfrBossesKilled: 0,
+      normalBossesKilled: 0,
+      heroicBossesKilled: 0,
+      mythicBossesKilled: 0,
+      vaultProgress: {
+        slot1: false,
+        slot2: false,
+        slot3: false
+      }
+    },
+    weeklyQuests: {
+      characterId,
+      weekStartDate,
+      completed: false,
+      lastUpdated: new Date(),
+      worldBossCompleted: false,
+      sparkFragments: 0,
+      professionQuestsDone: 0,
+      weeklyEventCompleted: false
+    },
+    lastUpdated: new Date()
+  };
 }

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -12,6 +12,7 @@ import { Character } from '../../models/character.model';
 import { Faction } from '../../enums/faction.enum';
 import { CharacterClass } from '../../enums/class.enum';
 import { Race } from '../../enums/race.enum';
+import { CharacterFormGroup } from '../../forms/character-form-group';
 import {
   DropdownOption,
   RaceOption,
@@ -42,9 +43,9 @@ import {
   styleUrl: './character-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CharacterFormComponent {
-  private readonly formBuilder = inject(FormBuilder);
+export class CharacterFormComponent implements OnDestroy {
   private readonly characterStore = inject(CharacterStore);
+
 
   // Input signals
   readonly visible = input<boolean>(false);
@@ -109,46 +110,21 @@ export class CharacterFormComponent {
   );
 
   constructor() {
-    this.characterForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(12)]],
-      faction: ['', Validators.required],
-      race: ['', Validators.required],
-      characterClass: ['', Validators.required],
-      specialization: ['', Validators.required],
-      professions: [[], [this.maxProfessionsValidator]]
-    });
+    this.characterForm = new CharacterFormGroup() as any;
 
-    // Watch for faction changes to reset race and update signal
+    // Watch for faction changes to update signal
     this.characterForm.get('faction')?.valueChanges.subscribe((faction) => {
-      this.factionValue.set(faction);
-      // Only reset dependent fields if this is a user-initiated change, not a programmatic one
-      if (!this.isLoadingCharacterData) {
-        this.characterForm.get('race')?.setValue('');
-        this.raceValue.set(null);
-        this.characterForm.get('characterClass')?.setValue('');
-        this.classValue.set(null);
-        this.characterForm.get('specialization')?.setValue('');
-      }
+      this.factionValue.set(faction || null);
     });
 
-    // Watch for race changes to reset class and specialization and update signal
+    // Watch for race changes to update signal
     this.characterForm.get('race')?.valueChanges.subscribe((race) => {
-      this.raceValue.set(race);
-      // Only reset dependent fields if this is a user-initiated change, not a programmatic one
-      if (!this.isLoadingCharacterData) {
-        this.characterForm.get('characterClass')?.setValue('');
-        this.classValue.set(null);
-        this.characterForm.get('specialization')?.setValue('');
-      }
+      this.raceValue.set(race || null);
     });
 
-    // Watch for class changes to reset specialization and update signal
+    // Watch for class changes to update signal
     this.characterForm.get('characterClass')?.valueChanges.subscribe((characterClass) => {
-      this.classValue.set(characterClass);
-      // Only reset dependent fields if this is a user-initiated change, not a programmatic one
-      if (!this.isLoadingCharacterData) {
-        this.characterForm.get('specialization')?.setValue('');
-      }
+      this.classValue.set(characterClass || null);
     });
 
     // Load character data when edit character changes
@@ -160,6 +136,10 @@ export class CharacterFormComponent {
         this.resetForm();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    // Component cleanup if needed
   }
 
   protected onHide(): void {
@@ -174,19 +154,15 @@ export class CharacterFormComponent {
 
   protected onSubmit(): void {
     this.submitAttempted.set(true);
+    (this.characterForm as unknown as CharacterFormGroup).markAllFieldsTouched();
 
-    if (this.characterForm.valid) {
+    if ((this.characterForm as unknown as CharacterFormGroup).isReadyForSubmission()) {
       this.loading.set(true);
 
-      const formValue = this.characterForm.value;
+      const characterData = (this.characterForm as unknown as CharacterFormGroup).getCharacterData();
       const character: Character = {
+        ...characterData,
         id: this.editCharacter()?.id || this.generateId(),
-        name: formValue.name,
-        race: formValue.race,
-        faction: formValue.faction,
-        characterClass: formValue.characterClass,
-        specialization: formValue.specialization,
-        professions: formValue.professions || [],
         createdAt: this.editCharacter()?.createdAt || new Date(),
         updatedAt: new Date()
       };
@@ -207,46 +183,18 @@ export class CharacterFormComponent {
   }
 
   protected getFieldError(fieldName: string): string | null {
-    const field = this.characterForm.get(fieldName);
-    if (!field || !field.errors || (!field.touched && !this.submitAttempted())) {
-      return null;
-    }
-
-    const errors = field.errors;
-    if (errors['required']) return `${this.getFieldLabel(fieldName)} is required`;
-    if (errors['minlength']) return `${this.getFieldLabel(fieldName)} must be at least ${errors['minlength'].requiredLength} characters`;
-    if (errors['maxlength']) return `${this.getFieldLabel(fieldName)} must be no more than ${errors['maxlength'].requiredLength} characters`;
-    if (errors['min']) return `${this.getFieldLabel(fieldName)} must be at least ${errors['min'].min}`;
-    if (errors['max']) return `${this.getFieldLabel(fieldName)} must be no more than ${errors['max'].max}`;
-    if (errors['maxProfessions']) return `You can select a maximum of ${PROFESSION_CONSTRAINTS.MAX_PROFESSIONS} professions`;
-
-    return 'Invalid value';
+    return (this.characterForm as unknown as CharacterFormGroup).getFieldError(fieldName as any);
   }
 
-  private getFieldLabel(fieldName: string): string {
-    const labels: Record<string, string> = {
-      name: 'Character Name',
-      faction: 'Faction',
-      race: 'Race',
-      characterClass: 'Class',
-      specialization: 'Specialization',
-      professions: 'Professions'
-    };
-    return labels[fieldName] || fieldName;
+  protected hasFieldError(fieldName: string): boolean {
+    return (this.characterForm as unknown as CharacterFormGroup).hasFieldError(fieldName as any);
   }
 
   private loadCharacterData(character: Character): void {
     // Set flag to prevent cascading form updates
     this.isLoadingCharacterData = true;
 
-    this.characterForm.patchValue({
-      name: character.name,
-      faction: character.faction,
-      race: character.race,
-      characterClass: character.characterClass,
-      specialization: character.specialization,
-      professions: character.professions
-    });
+    (this.characterForm as unknown as CharacterFormGroup).loadCharacter(character);
 
     // Update signals to match loaded character data
     this.factionValue.set(character.faction);
@@ -263,14 +211,7 @@ export class CharacterFormComponent {
     // Set flag to prevent cascading form updates
     this.isLoadingCharacterData = true;
 
-    this.characterForm.reset({
-      name: '',
-      faction: '',
-      race: '',
-      characterClass: '',
-      specialization: '',
-      professions: []
-    });
+    (this.characterForm as unknown as CharacterFormGroup).resetForm();
     this.submitAttempted.set(false);
 
     // Reset signals
@@ -288,11 +229,4 @@ export class CharacterFormComponent {
     return `char-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  private maxProfessionsValidator(control: any) {
-    const professions = control.value;
-    if (professions && professions.length > PROFESSION_CONSTRAINTS.MAX_PROFESSIONS) {
-      return { maxProfessions: true };
-    }
-    return null;
-  }
 }

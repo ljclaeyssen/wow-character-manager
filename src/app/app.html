@@ -1,83 +1,251 @@
-<div class="app-container">
+<div class="app-shell">
+  <!-- Loading Overlay -->
+  @if (isLoading()) {
+    <div class="loading-overlay">
+      <div class="loading-content">
+        <p-progressBar mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        <span class="loading-text">Loading...</span>
+      </div>
+    </div>
+  }
+
   <!-- Main Navigation Toolbar -->
   <p-toolbar class="app-toolbar">
     <ng-template pTemplate="start">
       <div class="flex align-items-center gap-3">
-        <i class="pi pi-users text-2xl text-primary"></i>
-        <span class="text-xl font-bold">{{ title() }}</span>
+        <!-- Mobile Menu Toggle -->
+        <p-button
+          icon="pi pi-bars"
+          [text]="true"
+          [rounded]="true"
+          severity="secondary"
+          class="mobile-menu-button"
+          [class.visible]="appState().isMobile"
+          (onClick)="toggleMobileSidebar()"
+          ariaLabel="Toggle Mobile Menu">
+        </p-button>
+
+        <!-- App Logo and Title -->
+        <div class="app-brand">
+          <i class="pi pi-users brand-icon"></i>
+          <div class="brand-content">
+            <span class="brand-title">{{ title() }}</span>
+            <span class="brand-version">v{{ version() }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+      <!-- Desktop Navigation Menu -->
+      <div class="desktop-navigation" [class.hidden]="appState().isMobile">
+        <p-menubar [model]="menuItems()" styleClass="app-menubar">
+          <ng-template pTemplate="start">
+            <!-- Navigation stats -->
+            <div class="nav-stats">
+              <p-tag
+                [value]="headerStats().totalCharacters + ' Characters'"
+                severity="info"
+                icon="pi pi-users">
+              </p-tag>
+              <p-tag
+                [value]="headerStats().activeCharacters + ' Active'"
+                severity="success"
+                icon="pi pi-check-circle">
+              </p-tag>
+              <p-badge
+                [value]="headerStats().totalVaultSlots"
+                [severity]="getVaultSlotSeverity(headerStats().totalVaultSlots)"
+                size="large">
+              </p-badge>
+            </div>
+          </ng-template>
+        </p-menubar>
       </div>
     </ng-template>
 
     <ng-template pTemplate="end">
-      <div class="flex gap-2">
-        <p-button
-          icon="pi pi-home"
-          [text]="true"
-          [rounded]="true"
-          severity="secondary"
-          ariaLabel="Dashboard">
-        </p-button>
-        <p-button
-          icon="pi pi-cog"
-          [text]="true"
-          [rounded]="true"
-          severity="secondary"
-          ariaLabel="Settings">
-        </p-button>
+      <div class="toolbar-actions">
+        <!-- Reset Timer -->
+        <div class="reset-timer">
+          <p-tag
+            [value]="'Reset: ' + headerStats().nextResetTime"
+            severity="warn"
+            icon="pi pi-clock">
+          </p-tag>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <p-button
+            icon="pi pi-refresh"
+            [text]="true"
+            [rounded]="true"
+            severity="secondary"
+            [loading]="isLoading()"
+            (onClick)="refreshData()"
+            pTooltip="Refresh Data"
+            ariaLabel="Refresh">
+          </p-button>
+
+          @if (hasError()) {
+            <p-button
+              icon="pi pi-exclamation-triangle"
+              [text]="true"
+              [rounded]="true"
+              severity="danger"
+              (onClick)="clearError()"
+              pTooltip="Clear Errors"
+              ariaLabel="Clear Errors">
+            </p-button>
+          }
+
+          <p-button
+            icon="pi pi-cog"
+            [text]="true"
+            [rounded]="true"
+            severity="secondary"
+            routerLink="/settings"
+            pTooltip="Settings"
+            ariaLabel="Settings">
+          </p-button>
+        </div>
       </div>
     </ng-template>
   </p-toolbar>
 
-  <!-- Main Content Area -->
-  <div class="app-content">
-    @if (isLoading()) {
-      <!-- Loading State -->
-      <p-panel header="Loading...">
-        <div class="flex align-items-center justify-content-center p-4">
-          <i class="pi pi-spin pi-spinner text-2xl"></i>
-          <span class="ml-2">Loading your WoW characters...</span>
-        </div>
-      </p-panel>
-    } @else {
-      <!-- Main Application Content -->
-      <p-card>
-        <ng-template pTemplate="header">
-          <div class="card-header p-3">
-            <h2 class="m-0">World of Warcraft Character Manager</h2>
-            <p class="text-color-secondary m-0 mt-2">
-              Track your characters' weekly activities and Great Vault progress
-            </p>
+  <!-- Mobile Sidebar Navigation -->
+  <p-drawer
+    [(visible)]="appState().sidebarVisible"
+    position="left"
+    [modal]="true"
+    [dismissible]="true"
+    styleClass="mobile-sidebar"
+    (onHide)="onSidebarHide()">
+
+    <ng-template pTemplate="header">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <i class="pi pi-users sidebar-brand-icon"></i>
+          <div class="sidebar-brand-content">
+            <span class="sidebar-brand-title">{{ title() }}</span>
+            <span class="sidebar-brand-version">v{{ version() }}</span>
           </div>
-        </ng-template>
-
-        <!-- Character Management Interface -->
-        <div class="character-management-container">
-          @if (currentView() === 'list') {
-            <wow-character-list
-              (addCharacter)="onAddCharacter()"
-              (editCharacter)="onEditCharacter($event)"
-              (characterSelected)="onCharacterSelected($event)" />
-          } @else if (currentView() === 'detail' && selectedCharacter()) {
-            <wow-character-detail
-              [character]="selectedCharacter()!"
-              (editCharacter)="onEditCharacter($event)"
-              (deleteCharacter)="onDeleteCharacter($event)"
-              (closeDetail)="onCloseDetail()" />
-          }
-
-          <!-- Character Form Modal -->
-          <wow-character-form
-            [visible]="showCharacterForm()"
-            [editCharacter]="editingCharacter()"
-            (visibleChange)="onFormVisibilityChange($event)"
-            (characterSaved)="onCharacterSaved($event)"
-            (formCancelled)="onFormCancelled()" />
         </div>
-      </p-card>
-    }
-  </div>
+      </div>
+    </ng-template>
 
-  <!-- Global Toast Messages -->
-  <p-toast position="top-right" />
+    <ng-template pTemplate="content">
+      <div class="sidebar-content">
+        <!-- Quick Stats -->
+        <div class="sidebar-stats">
+          <div class="stat-item">
+            <span class="stat-label">Characters</span>
+            <span class="stat-value">{{ headerStats().totalCharacters }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Active</span>
+            <span class="stat-value">{{ headerStats().activeCharacters }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Vault Slots</span>
+            <span class="stat-value">{{ headerStats().totalVaultSlots }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Reset</span>
+            <span class="stat-value">{{ headerStats().nextResetTime }}</span>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Items -->
+        <div class="sidebar-menu">
+          @for (item of mobileMenuItems(); track item.label) {
+            @if (item.disabled) {
+              <div class="menu-section-header">
+                <i [class]="item.icon"></i>
+                <span>{{ item.label }}</span>
+              </div>
+            } @else {
+              <a
+                [routerLink]="item.routerLink"
+                class="menu-item"
+                [class.menu-child-item]="item.styleClass === 'menu-child-item'"
+                (click)="item.command && item.command({})">
+                <i [class]="item.icon"></i>
+                <span>{{ item.label }}</span>
+              </a>
+            }
+          }
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+      <div class="sidebar-footer">
+        <p-button
+          label="Close Menu"
+          icon="pi pi-times"
+          severity="secondary"
+          [text]="true"
+          (onClick)="closeMobileSidebar()">
+        </p-button>
+      </div>
+    </ng-template>
+  </p-drawer>
+
+  <!-- Error Banner -->
+  @if (hasError()) {
+    <div class="error-banner">
+      <div class="error-content">
+        <i class="pi pi-exclamation-triangle error-icon"></i>
+        <span class="error-message">{{ hasError() }}</span>
+        <p-button
+          icon="pi pi-times"
+          [text]="true"
+          severity="danger"
+          size="small"
+          (onClick)="clearError()"
+          ariaLabel="Dismiss Error">
+        </p-button>
+      </div>
+    </div>
+  }
+
+  <!-- Main Content Area -->
+  <main class="app-main">
+    <div class="main-content">
+      <!-- Router Outlet for navigation -->
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Global Toast Notifications -->
+  <p-toast
+    position="top-right"
+    [preventOpenDuplicates]="true"
+    [preventDuplicates]="true"
+    [showTransformOptions]="'translateX(100%)'"
+    [hideTransformOptions]="'translateX(100%)'"
+    [showTransitionOptions]="'300ms ease-out'"
+    [hideTransitionOptions]="'250ms ease-in'">
+  </p-toast>
+
+  <!-- Loading Skeletons for Initial Load -->
+  @if (charactersLoading() || activitiesLoading()) {
+    <div class="skeleton-overlay">
+      <div class="skeleton-content">
+        @for (item of [1,2,3]; track item) {
+          <div class="skeleton-card">
+            <p-skeleton height="2rem" class="mb-2"></p-skeleton>
+            <p-skeleton height="4rem" class="mb-3"></p-skeleton>
+            <div class="flex gap-2">
+              <p-skeleton width="5rem" height="1.5rem"></p-skeleton>
+              <p-skeleton width="5rem" height="1.5rem"></p-skeleton>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
 </div>
 

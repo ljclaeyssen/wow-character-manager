@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CharacterStore } from '../../store/character.store';
 import { ActivityStore } from '../../store/activity.store';
 import { Character } from '../../models/character.model';
+import { CharacterFormComponent } from '../character-form/character-form.component';
 import { Faction } from '../../enums/faction.enum';
 import { CharacterClass } from '../../enums/class.enum';
 import { Race } from '../../enums/race.enum';
@@ -34,7 +35,8 @@ import {
     TagModule,
     ProgressBarModule,
     TooltipModule,
-    InputTextModule
+    InputTextModule,
+    CharacterFormComponent
   ],
   templateUrl: './character-list.component.html',
   styleUrl: './character-list.component.scss',
@@ -51,6 +53,10 @@ export class CharacterListComponent {
 
   // Table configuration
   protected readonly selectedCharacter = signal<Character | null>(null);
+
+  // Character form state
+  protected readonly showCharacterForm = signal(false);
+  protected readonly editingCharacter = signal<Character | null>(null);
 
   // Pagination and filtering
   protected readonly globalFilterValue = signal<string>('');
@@ -91,7 +97,8 @@ export class CharacterListComponent {
   }
 
   protected onEditCharacter(character: Character): void {
-    this.editCharacter.emit(character);
+    this.editingCharacter.set(character);
+    this.showCharacterForm.set(true);
   }
 
   protected onDeleteCharacter(character: Character): void {
@@ -99,7 +106,18 @@ export class CharacterListComponent {
   }
 
   protected onAddCharacter(): void {
-    this.addCharacter.emit();
+    this.editingCharacter.set(null);
+    this.showCharacterForm.set(true);
+  }
+
+  protected onCharacterFormClose(): void {
+    this.showCharacterForm.set(false);
+    this.editingCharacter.set(null);
+  }
+
+  protected onCharacterSaved(): void {
+    this.showCharacterForm.set(false);
+    this.editingCharacter.set(null);
   }
 
   protected onGlobalFilter(event: any): void {

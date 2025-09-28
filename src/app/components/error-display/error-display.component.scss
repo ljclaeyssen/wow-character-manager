@@ -1,0 +1,555 @@
+// Error Display Component Styles
+.error-display-container {
+  width: 100%;
+}
+
+// Inline Error Display Styles
+.inline-errors {
+  .error-summary {
+    background: var(--surface-card);
+    border: 1px solid var(--orange-200);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    .summary-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .summary-icon {
+        color: var(--orange-500);
+        font-size: 1.5rem;
+      }
+
+      .summary-text {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .summary-title {
+          font-weight: 600;
+          color: var(--text-color);
+          font-size: 1.1rem;
+        }
+
+        .summary-details {
+          color: var(--text-color-secondary);
+          font-size: 0.9rem;
+        }
+      }
+
+      .summary-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+  }
+
+  .error-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .error-item {
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      background: var(--surface-card);
+      transition: all 0.2s ease;
+
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      // Severity-specific styles
+      &.error-critical {
+        border-left: 4px solid var(--red-500);
+        background: var(--red-50);
+
+        .error-icon {
+          color: var(--red-600);
+        }
+
+        .error-title {
+          color: var(--red-700);
+        }
+      }
+
+      &.error-warning {
+        border-left: 4px solid var(--orange-500);
+        background: var(--orange-50);
+
+        .error-icon {
+          color: var(--orange-600);
+        }
+
+        .error-title {
+          color: var(--orange-700);
+        }
+      }
+
+      &.error-info {
+        border-left: 4px solid var(--blue-500);
+        background: var(--blue-50);
+
+        .error-icon {
+          color: var(--blue-600);
+        }
+
+        .error-title {
+          color: var(--blue-700);
+        }
+      }
+
+      .error-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 1rem;
+
+        .error-main {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          flex: 1;
+
+          .error-icon {
+            font-size: 1.25rem;
+            margin-top: 0.1rem;
+          }
+
+          .error-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .error-title-row {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+              flex-wrap: wrap;
+
+              .error-title {
+                font-weight: 600;
+                font-size: 1rem;
+              }
+
+              .error-type {
+                background: var(--surface-200);
+                color: var(--text-color-secondary);
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+                font-size: 0.75rem;
+                font-weight: 500;
+              }
+            }
+
+            .error-message {
+              color: var(--text-color);
+              margin: 0;
+              line-height: 1.5;
+            }
+
+            .error-timestamp {
+              color: var(--text-color-secondary);
+              font-size: 0.8rem;
+              font-style: italic;
+            }
+          }
+        }
+
+        .error-actions {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          margin-left: 1rem;
+        }
+      }
+
+      .error-details {
+        padding: 0 1rem 1rem 1rem;
+
+        .details-content {
+          h6 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+          }
+
+          .details-text,
+          .context-text {
+            background: var(--surface-100);
+            border: 1px solid var(--surface-border);
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin: 0 0 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-color);
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+          }
+        }
+      }
+
+      .error-recovery {
+        padding: 0 1rem 1rem 1rem;
+
+        .recovery-content {
+          .recovery-title {
+            color: var(--text-color-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            display: block;
+          }
+
+          .recovery-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Modal Error Display Styles
+.error-modal {
+  ::ng-deep .p-dialog {
+    .p-dialog-header {
+      background: var(--surface-card);
+      border-bottom: 1px solid var(--surface-border);
+
+      .modal-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+
+        .modal-icon {
+          font-size: 1.5rem;
+          color: var(--red-600);
+        }
+
+        .modal-title-section {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+          }
+
+          .modal-type {
+            font-size: 0.8rem;
+            color: var(--text-color-secondary);
+          }
+        }
+      }
+    }
+
+    .p-dialog-content {
+      padding: 1.5rem;
+    }
+
+    .p-dialog-footer {
+      background: var(--surface-50);
+      border-top: 1px solid var(--surface-border);
+      padding: 1rem 1.5rem;
+    }
+  }
+
+  .modal-content {
+    .modal-message {
+      margin-bottom: 1.5rem;
+
+      .error-message-display {
+        ::ng-deep .p-message {
+          .p-message-wrapper {
+            padding: 1rem;
+          }
+        }
+      }
+    }
+
+    .modal-details,
+    .modal-context {
+      margin-bottom: 1.5rem;
+
+      h5 {
+        margin: 0 0 0.75rem 0;
+        color: var(--text-color);
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .details-container,
+      .context-container {
+        .details-content,
+        .context-content {
+          background: var(--surface-100);
+          border: 1px solid var(--surface-border);
+          border-radius: 4px;
+          padding: 1rem;
+          margin: 0;
+          font-family: 'Courier New', monospace;
+          font-size: 0.85rem;
+          color: var(--text-color);
+          white-space: pre-wrap;
+          word-break: break-word;
+          max-height: 300px;
+          overflow-y: auto;
+        }
+      }
+    }
+
+    .modal-timestamp {
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+      padding: 0.75rem;
+      background: var(--surface-100);
+      border-radius: 4px;
+
+      .timestamp-relative {
+        font-style: italic;
+        margin-left: 0.5rem;
+      }
+    }
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    .recovery-actions-modal {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}
+
+// No Errors State
+.no-errors-state {
+  padding: 2rem;
+  text-align: center;
+
+  .no-errors-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+
+    .no-errors-icon {
+      font-size: 2rem;
+      color: var(--green-500);
+    }
+
+    .no-errors-text {
+      color: var(--text-color-secondary);
+      font-size: 1rem;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .inline-errors {
+    .error-summary {
+      padding: 0.75rem;
+
+      .summary-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+
+        .summary-actions {
+          align-self: stretch;
+
+          ::ng-deep .p-button {
+            flex: 1;
+          }
+        }
+      }
+    }
+
+    .error-list {
+      .error-item {
+        .error-header {
+          flex-direction: column;
+          gap: 1rem;
+
+          .error-actions {
+            align-self: stretch;
+            margin-left: 0;
+            justify-content: space-between;
+          }
+        }
+
+        .error-recovery {
+          .recovery-content {
+            .recovery-actions {
+              flex-direction: column;
+
+              ::ng-deep .p-button {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .error-modal {
+    ::ng-deep .p-dialog {
+      .p-dialog-content {
+        padding: 1rem;
+      }
+
+      .p-dialog-footer {
+        padding: 1rem;
+      }
+    }
+
+    .modal-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+
+      .recovery-actions-modal {
+        justify-content: center;
+
+        ::ng-deep .p-button {
+          flex: 1;
+        }
+      }
+
+      .modal-controls {
+        justify-content: center;
+
+        ::ng-deep .p-button {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
+
+// Animation and Transitions
+.error-item {
+  animation: slideInDown 0.3s ease-out;
+}
+
+.error-details {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.error-recovery {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Theme-specific adjustments for dark mode
+:host-context(.p-dark) {
+  .error-item {
+    &.error-critical {
+      background: var(--red-900) !important;
+      border-color: var(--red-700) !important;
+
+      .error-title {
+        color: var(--red-100) !important;
+      }
+    }
+
+    &.error-warning {
+      background: var(--orange-900) !important;
+      border-color: var(--orange-700) !important;
+
+      .error-title {
+        color: var(--orange-100) !important;
+      }
+    }
+
+    &.error-info {
+      background: var(--blue-900) !important;
+      border-color: var(--blue-700) !important;
+
+      .error-title {
+        color: var(--blue-100) !important;
+      }
+    }
+
+    .error-content {
+      .error-title-row {
+        .error-type {
+          background: var(--surface-600) !important;
+          color: var(--text-color) !important;
+        }
+      }
+    }
+  }
+
+  .error-summary {
+    background: var(--surface-700) !important;
+    border-color: var(--orange-600) !important;
+  }
+
+  .details-text,
+  .context-text,
+  .details-content,
+  .context-content {
+    background: var(--surface-700) !important;
+    border-color: var(--surface-600) !important;
+  }
+
+  .modal-timestamp {
+    background: var(--surface-700) !important;
+  }
+
+  .error-modal {
+    ::ng-deep .p-dialog {
+      .p-dialog-footer {
+        background: var(--surface-700) !important;
+        border-color: var(--surface-600) !important;
+      }
+    }
+  }
+}

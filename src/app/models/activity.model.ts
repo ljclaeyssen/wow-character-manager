@@ -10,6 +10,8 @@ export interface WeeklyActivity {
 export interface MythicPlusActivity extends WeeklyActivity {
   dungeonCount: number; // Number of M+ dungeons completed
   highestKeyLevel: number; // Highest key level completed this week
+  averageKeyLevel?: number; // Average key level this week
+  inTimeRuns?: number; // Number of runs completed in time
   vaultProgress: {
     slot1: boolean; // 1 dungeon completed
     slot2: boolean; // 4 dungeons completed
@@ -19,6 +21,7 @@ export interface MythicPlusActivity extends WeeklyActivity {
 
 // Raid activity tracking
 export interface RaidActivity extends WeeklyActivity {
+  lfrBossesKilled: number;
   normalBossesKilled: number;
   heroicBossesKilled: number;
   mythicBossesKilled: number;

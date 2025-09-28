@@ -1,0 +1,400 @@
+// Reset Notification Container Styles
+.reset-notification-container {
+  margin: 1rem 0;
+  z-index: 1100;
+
+  .reset-main-message {
+    ::ng-deep .p-message {
+      border-radius: 8px;
+      box-shadow: var(--shadow-3);
+      border-left: 4px solid;
+
+      &.p-message-info {
+        border-left-color: var(--blue-500);
+        background: var(--blue-50);
+      }
+
+      &.p-message-warn {
+        border-left-color: var(--orange-500);
+        background: var(--orange-50);
+      }
+
+      &.p-message-error {
+        border-left-color: var(--red-500);
+        background: var(--red-50);
+      }
+
+      &.p-message-success {
+        border-left-color: var(--green-500);
+        background: var(--green-50);
+      }
+
+      .p-message-wrapper {
+        padding: 1.5rem;
+      }
+
+      .p-message-icon {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        align-self: flex-start;
+        margin-top: 0.25rem;
+      }
+    }
+
+    .reset-message-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      .reset-message-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+
+        .reset-title {
+          margin: 0;
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: var(--text-color);
+        }
+
+        .reset-status-tag {
+          font-weight: 500;
+        }
+      }
+
+      .reset-message-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .reset-description {
+          margin: 0;
+          font-size: 1rem;
+          line-height: 1.5;
+          color: var(--text-color-secondary);
+        }
+
+        .reset-countdown {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 1rem;
+          background: var(--surface-card);
+          border-radius: 6px;
+          border: 1px solid var(--surface-border);
+
+          .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 3rem;
+
+            .countdown-number {
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: var(--primary-color);
+              line-height: 1;
+            }
+
+            .countdown-label {
+              font-size: 0.75rem;
+              color: var(--text-color-secondary);
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              margin-top: 0.25rem;
+            }
+          }
+
+          .countdown-separator {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color-secondary);
+            margin: 0 0.25rem;
+          }
+        }
+      }
+
+      .reset-actions {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        margin-top: 0.5rem;
+
+        ::ng-deep .p-button {
+          &.p-button-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Compact Reset Status Styles
+.reset-status-compact {
+  margin: 0.5rem 0;
+
+  .reset-status-card {
+    ::ng-deep .p-card {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      box-shadow: var(--shadow-1);
+
+      .p-card-body {
+        padding: 1rem;
+      }
+    }
+
+    .compact-reset-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .compact-reset-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .compact-reset-icon {
+          font-size: 1rem;
+          color: var(--primary-color);
+        }
+
+        .compact-reset-title {
+          font-weight: 600;
+          color: var(--text-color);
+          flex: 1;
+        }
+
+        .compact-reset-tag {
+          font-size: 0.75rem;
+          font-weight: 500;
+        }
+      }
+
+      .compact-reset-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .compact-reset-date {
+          font-size: 0.875rem;
+          color: var(--text-color-secondary);
+        }
+
+        .compact-reset-alert {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          font-size: 0.875rem;
+          color: var(--red-600);
+          font-weight: 500;
+
+          i {
+            font-size: 0.75rem;
+          }
+        }
+      }
+
+      .compact-reset-actions {
+        display: flex;
+        gap: 0.25rem;
+        justify-content: flex-end;
+
+        ::ng-deep .p-button {
+          &.p-button-text {
+            padding: 0.25rem;
+            min-width: 2rem;
+            height: 2rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Reset History Styles
+.reset-history {
+  margin: 0.5rem 0;
+
+  .reset-history-message {
+    ::ng-deep .p-message {
+      background: var(--green-50);
+      border: 1px solid var(--green-200);
+      border-radius: 4px;
+
+      .p-message-wrapper {
+        padding: 0.75rem 1rem;
+      }
+
+      .p-message-icon {
+        font-size: 1rem;
+        margin-right: 0.5rem;
+      }
+    }
+
+    .reset-history-content {
+      .reset-history-text {
+        font-size: 0.875rem;
+        color: var(--green-800);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .reset-notification-container {
+    margin: 0.5rem 0;
+
+    .reset-main-message {
+      ::ng-deep .p-message .p-message-wrapper {
+        padding: 1rem;
+      }
+
+      .reset-message-content {
+        .reset-message-header {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .reset-title {
+            font-size: 1.1rem;
+          }
+        }
+
+        .reset-message-body {
+          .reset-countdown {
+            padding: 0.75rem;
+
+            .countdown-item {
+              min-width: 2.5rem;
+
+              .countdown-number {
+                font-size: 1.25rem;
+              }
+
+              .countdown-label {
+                font-size: 0.625rem;
+              }
+            }
+
+            .countdown-separator {
+              font-size: 1.25rem;
+              margin: 0 0.125rem;
+            }
+          }
+        }
+
+        .reset-actions {
+          justify-content: center;
+          flex-wrap: wrap;
+
+          ::ng-deep .p-button {
+            flex: 1;
+            min-width: 120px;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+
+  .reset-status-compact {
+    .compact-reset-info {
+      .compact-reset-header {
+        flex-wrap: wrap;
+
+        .compact-reset-tag {
+          font-size: 0.625rem;
+        }
+      }
+
+      .compact-reset-details {
+        .compact-reset-date {
+          font-size: 0.75rem;
+        }
+
+        .compact-reset-alert {
+          font-size: 0.75rem;
+        }
+      }
+
+      .compact-reset-actions {
+        justify-content: center;
+      }
+    }
+  }
+}
+
+// Animation Classes
+.reset-notification-container {
+  animation: slideInDown 0.3s ease-out;
+}
+
+.reset-status-compact {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Pulse animation for urgent notifications
+.reset-notification-container {
+  ::ng-deep .p-message.p-message-warn,
+  ::ng-deep .p-message.p-message-error {
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: var(--shadow-3);
+  }
+  50% {
+    box-shadow: var(--shadow-4);
+  }
+  100% {
+    box-shadow: var(--shadow-3);
+  }
+}
+
+// Theme-specific adjustments
+:host-context(.p-dark) {
+  .reset-countdown {
+    background: var(--surface-800) !important;
+    border-color: var(--surface-700) !important;
+  }
+
+  .compact-reset-info {
+    .compact-reset-date {
+      color: var(--text-color-secondary) !important;
+    }
+  }
+}

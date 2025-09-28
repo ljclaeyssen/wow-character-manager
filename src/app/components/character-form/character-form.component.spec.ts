@@ -13,7 +13,7 @@ import { Profession } from '../../enums/profession.enum';
 describe('CharacterFormComponent', () => {
   let component: CharacterFormComponent;
   let fixture: ComponentFixture<CharacterFormComponent>;
-  let mockCharacterStore: jasmine.SpyObj<CharacterStore>;
+  let mockCharacterStore: any;
 
   const mockCharacter: Character = {
     id: 'char-1',
@@ -29,7 +29,7 @@ describe('CharacterFormComponent', () => {
 
   beforeEach(async () => {
     mockCharacterStore = jasmine.createSpyObj('CharacterStore', ['addCharacter', 'updateCharacter'], {
-      characters: signal([]),
+      entities: signal([]),
       loading: signal(false),
       error: signal(null)
     });
@@ -56,115 +56,115 @@ describe('CharacterFormComponent', () => {
   });
 
   it('should initialize form with default values', () => {
-    expect(component.characterForm.get('name')?.value).toBe('');
-    expect(component.characterForm.get('faction')?.value).toBe('');
-    expect(component.characterForm.get('race')?.value).toBe('');
-    expect(component.characterForm.get('characterClass')?.value).toBe('');
-    expect(component.characterForm.get('specialization')?.value).toBe('');
-    expect(component.characterForm.get('professions')?.value).toEqual([]);
+    expect((component as any).characterForm.get('name')?.value).toBe('');
+    expect((component as any).characterForm.get('faction')?.value).toBe('');
+    expect((component as any).characterForm.get('race')?.value).toBe('');
+    expect((component as any).characterForm.get('characterClass')?.value).toBe('');
+    expect((component as any).characterForm.get('specialization')?.value).toBe('');
+    expect((component as any).characterForm.get('professions')?.value).toEqual([]);
   });
 
   it('should show create mode by default', () => {
-    expect(component.isEditMode()).toBeFalse();
-    expect(component.dialogTitle()).toBe('Add New Character');
+    expect((component as any).isEditMode()).toBeFalse();
+    expect((component as any).dialogTitle()).toBe('Add New Character');
   });
 
   it('should switch to edit mode when character provided', () => {
     fixture.componentRef.setInput('editCharacter', mockCharacter);
     fixture.detectChanges();
 
-    expect(component.isEditMode()).toBeTrue();
-    expect(component.dialogTitle()).toBe('Edit Character');
+    expect((component as any).isEditMode()).toBeTrue();
+    expect((component as any).dialogTitle()).toBe('Edit Character');
   });
 
   it('should load character data in edit mode', () => {
     fixture.componentRef.setInput('editCharacter', mockCharacter);
     fixture.detectChanges();
 
-    expect(component.characterForm.get('name')?.value).toBe('Thrall');
-    expect(component.characterForm.get('faction')?.value).toBe(Faction.Horde);
-    expect(component.characterForm.get('race')?.value).toBe(Race.Orc);
-    expect(component.characterForm.get('characterClass')?.value).toBe(CharacterClass.Shaman);
-    expect(component.characterForm.get('specialization')?.value).toBe('Enhancement');
-    expect(component.characterForm.get('professions')?.value).toEqual([Profession.Alchemy, Profession.Herbalism]);
+    expect((component as any).characterForm.get('name')?.value).toBe('Thrall');
+    expect((component as any).characterForm.get('faction')?.value).toBe(Faction.Horde);
+    expect((component as any).characterForm.get('race')?.value).toBe(Race.Orc);
+    expect((component as any).characterForm.get('characterClass')?.value).toBe(CharacterClass.Shaman);
+    expect((component as any).characterForm.get('specialization')?.value).toBe('Enhancement');
+    expect((component as any).characterForm.get('professions')?.value).toEqual([Profession.Alchemy, Profession.Herbalism]);
   });
 
   it('should validate required fields', () => {
-    component.characterForm.get('name')?.setValue('');
-    component.characterForm.get('faction')?.setValue('');
-    component.characterForm.get('race')?.setValue('');
+    (component as any).characterForm.get('name')?.setValue('');
+    (component as any).characterForm.get('faction')?.setValue('');
+    (component as any).characterForm.get('race')?.setValue('');
 
-    component.characterForm.markAllAsTouched();
+    (component as any).characterForm.markAllAsTouched();
     fixture.detectChanges();
 
-    expect(component.getFieldError('name')).toBe('Character Name is required');
-    expect(component.getFieldError('faction')).toBe('Faction is required');
-    expect(component.getFieldError('race')).toBe('Race is required');
+    expect((component as any).getFieldError('name')).toBe('Character Name is required');
+    expect((component as any).getFieldError('faction')).toBe('Faction is required');
+    expect((component as any).getFieldError('race')).toBe('Race is required');
   });
 
   it('should validate character name length', () => {
-    const nameControl = component.characterForm.get('name')!;
+    const nameControl = (component as any).characterForm.get('name')!;
 
     nameControl.setValue('X');
     nameControl.markAsTouched();
-    expect(component.getFieldError('name')).toBe('Character Name must be at least 2 characters');
+    expect((component as any).getFieldError('name')).toBe('Character Name must be at least 2 characters');
 
     nameControl.setValue('VeryLongCharacterName');
-    expect(component.getFieldError('name')).toBe('Character Name must be no more than 12 characters');
+    expect((component as any).getFieldError('name')).toBe('Character Name must be no more than 12 characters');
 
     nameControl.setValue('ValidName');
-    expect(component.getFieldError('name')).toBeNull();
+    expect((component as any).getFieldError('name')).toBeNull();
   });
 
 
   it('should validate profession limit', () => {
-    const professionsControl = component.characterForm.get('professions')!;
+    const professionsControl = (component as any).characterForm.get('professions')!;
 
     professionsControl.setValue([Profession.Alchemy, Profession.Herbalism, Profession.Mining]);
     professionsControl.markAsTouched();
-    expect(component.getFieldError('professions')).toBe('You can select a maximum of 2 professions');
+    expect((component as any).getFieldError('professions')).toBe('You can select a maximum of 2 professions');
 
     professionsControl.setValue([Profession.Alchemy, Profession.Herbalism]);
-    expect(component.getFieldError('professions')).toBeNull();
+    expect((component as any).getFieldError('professions')).toBeNull();
   });
 
   it('should filter races by faction', () => {
-    component.characterForm.get('faction')?.setValue(Faction.Horde);
+    (component as any).characterForm.get('faction')?.setValue(Faction.Horde);
     fixture.detectChanges();
 
-    const filteredRaces = component.filteredRaces();
-    expect(filteredRaces.every(race => race.faction === Faction.Horde)).toBeTrue();
-    expect(filteredRaces.some(race => race.value === Race.Orc)).toBeTrue();
-    expect(filteredRaces.some(race => race.value === Race.Human)).toBeFalse();
+    const filteredRaces = (component as any).filteredRaces();
+    expect(filteredRaces.every((race: any) => race.faction === Faction.Horde)).toBeTrue();
+    expect(filteredRaces.some((race: any) => race.value === Race.Orc)).toBeTrue();
+    expect(filteredRaces.some((race: any) => race.value === Race.Human)).toBeFalse();
   });
 
   it('should filter specializations by class', () => {
-    component.characterForm.get('characterClass')?.setValue(CharacterClass.Shaman);
+    (component as any).characterForm.get('characterClass')?.setValue(CharacterClass.Shaman);
     fixture.detectChanges();
 
-    const filteredSpecs = component.filteredSpecializations();
-    expect(filteredSpecs.every(spec => spec.characterClass === CharacterClass.Shaman)).toBeTrue();
-    expect(filteredSpecs.some(spec => spec.value === 'Enhancement')).toBeTrue();
-    expect(filteredSpecs.some(spec => spec.value === 'Arcane')).toBeFalse();
+    const filteredSpecs = (component as any).filteredSpecializations();
+    expect(filteredSpecs.every((spec: any) => spec.characterClass === CharacterClass.Shaman)).toBeTrue();
+    expect(filteredSpecs.some((spec: any) => spec.value === 'Enhancement')).toBeTrue();
+    expect(filteredSpecs.some((spec: any) => spec.value === 'Arcane')).toBeFalse();
   });
 
   it('should reset race when faction changes', () => {
-    component.characterForm.get('race')?.setValue(Race.Human);
-    component.characterForm.get('faction')?.setValue(Faction.Horde);
+    (component as any).characterForm.get('race')?.setValue(Race.Human);
+    (component as any).characterForm.get('faction')?.setValue(Faction.Horde);
 
-    expect(component.characterForm.get('race')?.value).toBe('');
+    expect((component as any).characterForm.get('race')?.value).toBe('');
   });
 
   it('should reset specialization when class changes', () => {
-    component.characterForm.get('specialization')?.setValue('Enhancement');
-    component.characterForm.get('characterClass')?.setValue(CharacterClass.Mage);
+    (component as any).characterForm.get('specialization')?.setValue('Enhancement');
+    (component as any).characterForm.get('characterClass')?.setValue(CharacterClass.Mage);
 
-    expect(component.characterForm.get('specialization')?.value).toBe('');
+    expect((component as any).characterForm.get('specialization')?.value).toBe('');
   });
 
   it('should emit visibleChange on hide', () => {
     spyOn(component.visibleChange, 'emit');
-    component.onHide();
+    (component as any).onHide();
     expect(component.visibleChange.emit).toHaveBeenCalledWith(false);
   });
 
@@ -172,22 +172,22 @@ describe('CharacterFormComponent', () => {
     spyOn(component.formCancelled, 'emit');
     spyOn(component.visibleChange, 'emit');
 
-    component.onCancel();
+    (component as any).onCancel();
 
     expect(component.formCancelled.emit).toHaveBeenCalled();
     expect(component.visibleChange.emit).toHaveBeenCalledWith(false);
   });
 
   it('should not submit invalid form', () => {
-    component.characterForm.get('name')?.setValue('');
-    component.onSubmit();
+    (component as any).characterForm.get('name')?.setValue('');
+    (component as any).onSubmit();
 
     expect(mockCharacterStore.addCharacter).not.toHaveBeenCalled();
-    expect(component.submitAttempted()).toBeTrue();
+    expect((component as any).submitAttempted()).toBeTrue();
   });
 
   it('should create new character on valid form submission', (done) => {
-    component.characterForm.patchValue({
+    (component as any).characterForm.patchValue({
       name: 'TestChar',
       faction: Faction.Alliance,
       race: Race.Human,
@@ -199,15 +199,15 @@ describe('CharacterFormComponent', () => {
     spyOn(component.characterSaved, 'emit');
     spyOn(component.visibleChange, 'emit');
 
-    component.onSubmit();
-    expect(component.loading()).toBeTrue();
+    (component as any).onSubmit();
+    expect((component as any).loading()).toBeTrue();
 
     // Wait for simulated API delay
     setTimeout(() => {
       expect(mockCharacterStore.addCharacter).toHaveBeenCalled();
       expect(component.characterSaved.emit).toHaveBeenCalled();
       expect(component.visibleChange.emit).toHaveBeenCalledWith(false);
-      expect(component.loading()).toBeFalse();
+      expect((component as any).loading()).toBeFalse();
       done();
     }, 600);
   });
@@ -216,13 +216,13 @@ describe('CharacterFormComponent', () => {
     fixture.componentRef.setInput('editCharacter', mockCharacter);
     fixture.detectChanges();
 
-    component.characterForm.patchValue({
+    (component as any).characterForm.patchValue({
       name: 'UpdatedThrall',
     });
 
     spyOn(component.characterSaved, 'emit');
 
-    component.onSubmit();
+    (component as any).onSubmit();
 
     setTimeout(() => {
       expect(mockCharacterStore.updateCharacter).toHaveBeenCalledWith('char-1', jasmine.any(Object));
@@ -247,18 +247,18 @@ describe('CharacterFormComponent', () => {
   });
 
   it('should reset form correctly', () => {
-    component.characterForm.patchValue({
+    (component as any).characterForm.patchValue({
       name: 'TestChar',
       faction: Faction.Alliance,
       race: Race.Human
     });
-    component.submitAttempted.set(true);
+    (component as any).submitAttempted.set(true);
 
-    component['resetForm']();
+    (component as any)['resetForm']();
 
-    expect(component.characterForm.get('name')?.value).toBe('');
-    expect(component.characterForm.get('faction')?.value).toBe('');
-    expect(component.characterForm.get('race')?.value).toBe('');
-    expect(component.submitAttempted()).toBeFalse();
+    expect((component as any).characterForm.get('name')?.value).toBe('');
+    expect((component as any).characterForm.get('faction')?.value).toBe('');
+    expect((component as any).characterForm.get('race')?.value).toBe('');
+    expect((component as any).submitAttempted()).toBeFalse();
   });
 });

@@ -9,10 +9,10 @@
   styleClass="character-form-dialog"
   (onHide)="onHide()">
 
-  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()" class="character-form">
+  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()" class="character-form p-d-flex p-flex-column p-gap-4">
 
     <!-- Character Name -->
-    <div class="form-field">
+    <div class="form-field p-d-flex p-flex-column p-gap-2">
       <label for="characterName" class="field-label">Character Name *</label>
       <input
         pInputText
@@ -111,7 +111,7 @@
     <!-- Profession Selection -->
     <div class="form-field">
       <label for="professions" class="field-label">Professions (Max 2)</label>
-      <p-multiSelect
+      <p-multiselect
         id="professions"
         formControlName="professions"
         [options]="professionOptions"
@@ -129,7 +129,7 @@
             <span>{{ option.label }}</span>
           </div>
         </ng-template>
-      </p-multiSelect>
+      </p-multiselect>
 
       @if (getFieldError('professions')) {
         <p-message severity="error" [text]="getFieldError('professions')!" class="field-error"></p-message>

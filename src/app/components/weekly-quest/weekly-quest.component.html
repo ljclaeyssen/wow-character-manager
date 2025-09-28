@@ -1,0 +1,302 @@
+<div class="weekly-quest-container">
+  @if (selectedCharacter()) {
+    <div class="quest-header">
+      <h3>{{ selectedCharacter()!.name }} - Weekly Quests</h3>
+      <p-badge
+        [value]="weeklyProgress().percentage + '%'"
+        [severity]="getProgressSeverity(weeklyProgress().percentage)"
+        size="large">
+      </p-badge>
+    </div>
+
+    <div class="quest-grid">
+      <!-- Weekly Progress Overview -->
+      <p-card header="Weekly Progress" styleClass="progress-overview-card">
+        <div class="progress-summary">
+          <div class="progress-display">
+            <span class="progress-completed">{{ weeklyProgress().completed }}/{{ weeklyProgress().total }}</span>
+            <span class="progress-label">Quests Completed</span>
+          </div>
+
+          <p-progressBar
+            [value]="weeklyProgress().percentage"
+            [showValue]="false"
+            styleClass="overall-progress-bar">
+          </p-progressBar>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="progress-breakdown">
+          <div class="progress-item">
+            <i class="pi pi-globe progress-icon"></i>
+            <span class="progress-name">World Boss</span>
+            <p-badge
+              [value]="worldBossCompleted() ? '✓' : ''"
+              [severity]="getCompletionSeverity(worldBossCompleted())">
+            </p-badge>
+          </div>
+
+          <div class="progress-item">
+            <i class="pi pi-star progress-icon"></i>
+            <span class="progress-name">Spark Fragment</span>
+            <p-badge
+              [value]="sparkProgress().current + '/' + sparkProgress().max"
+              [severity]="sparkProgress().current >= 1 ? 'success' : 'warn'">
+            </p-badge>
+          </div>
+
+          @for (profession of professionQuestProgress(); track profession.profession) {
+            <div class="progress-item">
+              <img
+                [src]="getProfessionIcon(profession.profession)"
+                [alt]="profession.profession"
+                class="profession-icon-small">
+              <span class="progress-name">{{ profession.profession }}</span>
+              <p-badge
+                [value]="profession.completed ? '✓' : ''"
+                [severity]="getCompletionSeverity(profession.completed)">
+              </p-badge>
+            </div>
+          }
+
+          <div class="progress-item">
+            <i class="pi pi-calendar progress-icon"></i>
+            <span class="progress-name">Weekly Event</span>
+            <p-badge
+              [value]="weeklyEventCompleted() ? '✓' : ''"
+              [severity]="getCompletionSeverity(weeklyEventCompleted())">
+            </p-badge>
+          </div>
+        </div>
+      </p-card>
+
+      <!-- World Boss Card -->
+      <p-card header="World Boss" styleClass="world-boss-card">
+        <div class="quest-item">
+          <div class="quest-info">
+            <h4>Defeat World Boss</h4>
+            <p>Complete the weekly world boss encounter for valuable rewards.</p>
+          </div>
+
+          <div class="quest-action">
+            <p-checkbox
+              [value]="worldBossCompleted()"
+              [binary]="true"
+              [disabled]="loading()"
+              (onChange)="onToggleWorldBoss()">
+            </p-checkbox>
+          </div>
+        </div>
+
+        @if (worldBossCompleted()) {
+          <p-message
+            severity="success"
+            styleClass="completion-message">
+            <span>World boss defeated this week!</span>
+          </p-message>
+        } @else {
+          <p-message
+            severity="info"
+            styleClass="completion-message">
+            <span>World boss still available this week</span>
+          </p-message>
+        }
+      </p-card>
+
+      <!-- Spark Fragments Card -->
+      <p-card header="Spark Fragments" styleClass="spark-card">
+        <div class="spark-progress">
+          <div class="spark-info">
+            <h4>Creation Catalyst Spark</h4>
+            <p>Collect spark fragments to create tier set pieces. Resets every 2 weeks.</p>
+          </div>
+
+          <div class="spark-display">
+            <span class="spark-count">{{ sparkProgress().current }}/{{ sparkProgress().max }}</span>
+            <p-progressBar
+              [value]="sparkProgress().percentage"
+              [showValue]="false"
+              styleClass="spark-progress-bar">
+            </p-progressBar>
+          </div>
+        </div>
+
+        <div class="spark-action">
+          <p-button
+            [label]="sparkProgress().current > 0 ? 'Remove Spark Quest' : 'Add Spark Quest'"
+            [icon]="sparkProgress().current > 0 ? 'pi pi-minus' : 'pi pi-plus'"
+            [severity]="sparkProgress().current > 0 ? 'danger' : 'success'"
+            [disabled]="loading()"
+            (onClick)="onToggleSparkQuest()">
+          </p-button>
+        </div>
+
+        @if (sparkProgress().current >= 2) {
+          <p-message
+            severity="success"
+            styleClass="completion-message">
+            <span>Full spark collected! Visit Creation Catalyst.</span>
+          </p-message>
+        }
+      </p-card>
+
+      <!-- Profession Quests Card -->
+      @if (selectedCharacter()!.professions.length > 0) {
+        <p-card header="Profession Quests" styleClass="profession-quests-card">
+          <div class="profession-list">
+            @for (profession of professionQuestProgress(); track profession.profession) {
+              <div class="profession-quest-item">
+                <div class="profession-header">
+                  <img
+                    [src]="getProfessionIcon(profession.profession)"
+                    [alt]="profession.profession"
+                    class="profession-icon">
+                  <div class="profession-info">
+                    <h5>{{ profession.name }}</h5>
+                    <p>{{ profession.description }}</p>
+                  </div>
+                </div>
+
+                <div class="profession-action">
+                  <p-checkbox
+                    [(ngModel)]="profession.completed"
+                    [binary]="true"
+                    [disabled]="loading()"
+                    (onChange)="onToggleProfessionQuest(profession.profession)">
+                  </p-checkbox>
+                </div>
+              </div>
+
+              @if (profession !== professionQuestProgress()[professionQuestProgress().length - 1]) {
+                <p-divider></p-divider>
+              }
+            }
+          </div>
+
+          <div class="profession-summary">
+            <span class="summary-text">
+              {{ completedProfessionQuests() }}/{{ professionQuestProgress().length }} profession quests completed
+            </span>
+          </div>
+        </p-card>
+      }
+
+      <!-- Weekly Event Card -->
+      <p-card header="Weekly Event" styleClass="weekly-event-card">
+        <div class="event-item">
+          <div class="event-info">
+            <h4>{{ currentWeekEvent }}</h4>
+            <p>Participate in this week's bonus event for extra rewards and experience.</p>
+          </div>
+
+          <div class="event-action">
+            <p-checkbox
+              [value]="weeklyEventCompleted()"
+              [binary]="true"
+              [disabled]="loading()"
+              (onChange)="onToggleWeeklyEvent()">
+            </p-checkbox>
+          </div>
+        </div>
+
+        @if (weeklyEventCompleted()) {
+          <p-message
+            severity="success"
+            styleClass="completion-message">
+            <span>Weekly event completed!</span>
+          </p-message>
+        } @else {
+          <p-message
+            severity="info"
+            styleClass="completion-message">
+            <span>Weekly event available until reset</span>
+          </p-message>
+        }
+      </p-card>
+
+      <!-- Weekly Quest Summary -->
+      @if (characterWeeklyQuests()) {
+        <p-card header="This Week's Progress Summary" styleClass="weekly-summary-card">
+          <div class="weekly-summary">
+            <div class="summary-item">
+              <span class="summary-label">World Boss:</span>
+              <p-tag
+                [value]="worldBossCompleted() ? 'Completed' : 'Not Done'"
+                [severity]="getCompletionSeverity(worldBossCompleted())">
+              </p-tag>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Spark Fragments:</span>
+              <p-tag
+                [value]="sparkProgress().current + '/' + sparkProgress().max"
+                [severity]="getProgressSeverity(sparkProgress().percentage)">
+              </p-tag>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Profession Quests:</span>
+              <p-tag
+                [value]="characterWeeklyQuests()!.professionQuestsDone + '/' + (selectedCharacter()?.professions?.length || 0)"
+                severity="info">
+              </p-tag>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Weekly Event:</span>
+              <p-tag
+                [value]="weeklyEventCompleted() ? 'Completed' : 'Not Done'"
+                [severity]="getCompletionSeverity(weeklyEventCompleted())">
+              </p-tag>
+            </div>
+          </div>
+        </p-card>
+      } @else {
+        <p-card header="This Week's Progress" styleClass="no-progress-card">
+          <div class="no-progress">
+            <i class="pi pi-bookmark"></i>
+            <h4>No Progress Yet</h4>
+            <p>Start completing weekly activities to track your progress!</p>
+          </div>
+        </p-card>
+      }
+
+      <!-- Weekly Reset Info -->
+      <p-panel header="Weekly Reset Information" [toggleable]="true" [collapsed]="true" styleClass="reset-info">
+        <div class="reset-details">
+          <div class="reset-item">
+            <p-tag value="World Boss" severity="info"></p-tag>
+            <span class="reset-description">Resets every Tuesday/Wednesday depending on region</span>
+          </div>
+          <div class="reset-item">
+            <p-tag value="Spark Fragments" severity="warn"></p-tag>
+            <span class="reset-description">Resets every 2 weeks (biweekly cycle)</span>
+          </div>
+          <div class="reset-item">
+            <p-tag value="Profession Quests" severity="success"></p-tag>
+            <span class="reset-description">Reset weekly, provide knowledge points</span>
+          </div>
+          <div class="reset-item">
+            <p-tag value="Weekly Events" severity="danger"></p-tag>
+            <span class="reset-description">Rotate weekly, bonus XP and rewards</span>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  } @else {
+    <div class="no-character">
+      <p-card>
+        <div class="empty-state">
+          <i class="pi pi-user-plus"></i>
+          <h3>No Character Selected</h3>
+          <p>Select a character to track their weekly quest progress and completions.</p>
+        </div>
+      </p-card>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="loading-overlay">
+      <i class="pi pi-spin pi-spinner"></i>
+      <span>Updating quest data...</span>
+    </div>
+  }
+</div>

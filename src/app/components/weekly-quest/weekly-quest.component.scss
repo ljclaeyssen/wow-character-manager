@@ -1,0 +1,452 @@
+.weekly-quest-container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .quest-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--surface-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-border);
+
+    h3 {
+      margin: 0;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+  }
+
+  .quest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+
+    .progress-overview-card {
+      grid-column: 1 / -1;
+    }
+
+    .recent-quests-card,
+    .no-quests-card,
+    .reset-info {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Progress Overview Styles
+  .progress-summary {
+    margin-bottom: 1rem;
+
+    .progress-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      .progress-completed {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+
+      .progress-label {
+        font-size: 0.8rem;
+        color: var(--text-color-secondary);
+      }
+    }
+
+    .overall-progress-bar {
+      height: 1.5rem;
+    }
+  }
+
+  .progress-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .progress-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .progress-icon {
+        font-size: 1.25rem;
+        color: var(--primary-color);
+        width: 1.5rem;
+        text-align: center;
+      }
+
+      .profession-icon-small {
+        width: 1.5rem;
+        height: 1.5rem;
+        object-fit: contain;
+      }
+
+      .progress-name {
+        flex: 1;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // Quest Item Styles
+  .quest-item,
+  .event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    .quest-info,
+    .event-info {
+      flex: 1;
+
+      h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--text-color);
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+      }
+    }
+
+    .quest-action,
+    .event-action {
+      margin-left: 1rem;
+    }
+  }
+
+  // Spark Progress Styles
+  .spark-progress {
+    margin-bottom: 1rem;
+
+    .spark-info {
+      margin-bottom: 1rem;
+
+      h4 {
+        margin: 0 0 0.5rem 0;
+        color: var(--text-color);
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+      }
+    }
+
+    .spark-display {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+
+      .spark-count {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        min-width: 4rem;
+      }
+
+      .spark-progress-bar {
+        flex: 1;
+        height: 1rem;
+      }
+    }
+  }
+
+  .spark-action {
+    margin-bottom: 1rem;
+
+    p-button {
+      width: 100%;
+    }
+  }
+
+  // Profession Quest Styles
+  .profession-list {
+    .profession-quest-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+
+      .profession-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+
+        .profession-icon {
+          width: 2rem;
+          height: 2rem;
+          object-fit: contain;
+        }
+
+        .profession-info {
+          h5 {
+            margin: 0 0 0.25rem 0;
+            color: var(--text-color);
+            font-weight: 600;
+          }
+
+          p {
+            margin: 0;
+            color: var(--text-color-secondary);
+            font-size: 0.8rem;
+          }
+        }
+      }
+
+      .profession-action {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .profession-summary {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: var(--surface-ground);
+    border-radius: var(--border-radius);
+    text-align: center;
+
+    .summary-text {
+      color: var(--text-color);
+      font-weight: 500;
+    }
+  }
+
+  // Recent Quests Styles
+  .quest-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .quest-completion-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .completion-info {
+        flex: 1;
+
+        .completion-description {
+          font-weight: 500;
+          color: var(--text-color);
+        }
+
+        .completion-date {
+          font-size: 0.8rem;
+          color: var(--text-color-secondary);
+        }
+      }
+
+      .completion-actions {
+        margin-left: 1rem;
+      }
+    }
+  }
+
+  .more-quests {
+    text-align: center;
+    color: var(--text-color-secondary);
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  // Reset Info Styles
+  .reset-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .reset-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem;
+      background: var(--surface-ground);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--surface-border);
+
+      .reset-description {
+        color: var(--text-color);
+      }
+    }
+  }
+
+  // Completion Messages
+  .completion-message {
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  // Empty States
+  .no-character,
+  .no-quests {
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+
+      i {
+        font-size: 3rem;
+        color: var(--text-color-secondary);
+        margin-bottom: 1rem;
+      }
+
+      h3, h4 {
+        margin: 0.5rem 0;
+        color: var(--text-color);
+      }
+
+      p {
+        color: var(--text-color-secondary);
+        margin: 0;
+      }
+    }
+  }
+
+  // Loading Overlay
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    z-index: 1000;
+
+    i {
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+
+    span {
+      color: var(--text-color);
+      font-weight: 500;
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 768px) {
+    .quest-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .quest-header {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .quest-item,
+    .event-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .quest-action,
+      .event-action {
+        margin-left: 0;
+        align-self: flex-end;
+      }
+    }
+
+    .profession-quest-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .profession-action {
+        margin-left: 0;
+        align-self: flex-end;
+      }
+    }
+
+    .spark-display {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+
+      .spark-count {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// PrimeNG component customizations
+:host ::ng-deep {
+  .overall-progress-bar .p-progressbar-value {
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-color-text));
+  }
+
+  .spark-progress-bar .p-progressbar-value {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  }
+
+  .p-card-header {
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .p-badge {
+    font-size: 0.75rem;
+  }
+
+  .p-checkbox {
+    .p-checkbox-box {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  .p-panel .p-panel-header {
+    background: var(--surface-section);
+  }
+
+  .p-message {
+    .p-message-wrapper {
+      padding: 0.75rem;
+    }
+
+    .p-message-text {
+      font-size: 0.9rem;
+    }
+  }
+
+  .p-tag {
+    font-size: 0.8rem;
+  }
+
+  .p-button {
+    &.p-button-success,
+    &.p-button-danger {
+      font-size: 0.9rem;
+    }
+  }
+}

@@ -6,7 +6,15 @@
       "Bash(npm start)",
       "Bash(npm test)",
       "Bash(npm run test:*)",
-      "Bash(ng serve)"
+      "Bash(ng serve)",
+      "Bash(npx ng build:*)",
+      "Bash(lsof:*)",
+      "Bash(npm test:*)",
+      "Bash(taskkill:*)",
+      "Bash(pkill:*)",
+      "Bash(ng build)",
+      "WebFetch(domain:primeng.org)",
+      "Bash(ng cache:*)"
     ],
     "deny": [],
     "ask": []

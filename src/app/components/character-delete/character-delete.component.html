@@ -1,0 +1,93 @@
+<div class="character-delete-container">
+  <!-- Quick Delete Button -->
+  <p-button
+    icon="pi pi-trash"
+    severity="danger"
+    [text]="true"
+    size="small"
+    pTooltip="Delete Character"
+    tooltipPosition="top"
+    (onClick)="confirmDelete()"
+    ariaLabel="Delete character">
+  </p-button>
+
+  <!-- Detailed Delete Button (for use in character detail view) -->
+  <p-button
+    label="Delete Character"
+    icon="pi pi-trash"
+    severity="danger"
+    [outlined]="true"
+    class="delete-character-btn detailed-delete hidden"
+    (onClick)="showDetailedConfirmation()"
+    ariaLabel="Delete character with details">
+  </p-button>
+
+  <!-- Character Summary Card (for detailed confirmation) -->
+  <div class="character-summary hidden">
+    <div class="character-info">
+      <div class="character-header">
+        <span
+          class="character-name"
+          [style.color]="getClassColor(character().characterClass)">
+          {{ character().name }}
+        </span>
+        <p-tag
+          [value]="character().faction"
+          [severity]="getFactionSeverity(character().faction)"
+          class="faction-tag">
+        </p-tag>
+      </div>
+
+      <div class="character-details">
+        <div class="detail-row">
+          <span class="detail-label">Race:</span>
+          <span class="detail-value">{{ getRaceDisplayName(character().race) }}</span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Class:</span>
+          <span
+            class="detail-value class-name"
+            [style.color]="getClassColor(character().characterClass)">
+            {{ character().characterClass }}
+          </span>
+        </div>
+
+        <div class="detail-row">
+          <span class="detail-label">Specialization:</span>
+          <span class="detail-value">{{ character().specialization }}</span>
+        </div>
+
+        @if (character().professions.length > 0) {
+          <div class="detail-row">
+            <span class="detail-label">Professions:</span>
+            <span class="detail-value">{{ formatProfessions(character().professions) }}</span>
+          </div>
+        }
+
+        <div class="detail-row">
+          <span class="detail-label">Created:</span>
+          <span class="detail-value">{{ formatCreatedDate(character().createdAt) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="delete-warning">
+      <i class="pi pi-exclamation-triangle warning-icon"></i>
+      <div class="warning-text">
+        <p><strong>Warning:</strong> This action cannot be undone!</p>
+        <p>All character data, including activities and progress, will be permanently deleted.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PrimeNG Confirmation Dialog -->
+  <p-confirmDialog
+    header="Delete Confirmation"
+    icon="pi pi-exclamation-triangle"
+    [style]="{ width: '450px' }"
+    [breakpoints]="{ '1024px': '75vw', '768px': '90vw' }">
+  </p-confirmDialog>
+</div>

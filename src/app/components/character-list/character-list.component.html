@@ -145,4 +145,13 @@
       </ng-template>
     </p-table>
   }
+
+  <!-- Character Form Dialog -->
+  <wow-character-form
+    [visible]="showCharacterForm()"
+    [editCharacter]="editingCharacter()"
+    (visibleChange)="showCharacterForm.set($event)"
+    (characterSaved)="onCharacterSaved()"
+    (formCancelled)="onCharacterFormClose()">
+  </wow-character-form>
 </div>
