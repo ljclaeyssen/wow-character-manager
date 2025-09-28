@@ -129,15 +129,10 @@
         [toggleable]="true"
         styleClass="activity-tracking-panel">
 
-        <div class="activity-panels">
-          <p-panel header="Overview" [toggleable]="true">
-            <wow-activity-tracker
-              [selectedCharacter]="selectedCharacter()">
-            </wow-activity-tracker>
-          </p-panel>
+        <wow-activity-tracker
+          [selectedCharacter]="selectedCharacter()">
+        </wow-activity-tracker>
 
-
-        </div>
       </p-panel>
     } @else {
       <p-panel header="Select a Character" styleClass="no-selection-panel">
