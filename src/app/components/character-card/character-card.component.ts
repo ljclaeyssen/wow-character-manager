@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Character } from '../../models/character.model';
 import { Faction } from '../../enums/faction.enum';
 import { CharacterClass } from '../../enums/class.enum';
+import { Profession } from '../../enums/profession.enum';
+import { FACTION_ICONS, CLASS_ICONS } from '../../constants/character-detail.constants';
 
 export interface EnhancedCharacter extends Character {
   weeklyActivities: number;
@@ -59,18 +61,16 @@ export class CharacterCardComponent {
     return colors[characterClass] || '#FFFFFF';
   }
 
-  protected formatRelativeTime(date: Date): string {
-    const now = new Date();
-    const diffMs = now.getTime() - new Date(date).getTime();
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffHours / 24);
 
-    if (diffDays > 0) {
-      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-    } else if (diffHours > 0) {
-      return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-    } else {
-      return 'Less than an hour ago';
-    }
+  protected getFactionIcon(faction: Faction): string {
+    return FACTION_ICONS[faction];
+  }
+
+  protected getClassIcon(characterClass: CharacterClass): string {
+    return CLASS_ICONS[characterClass];
+  }
+
+  protected getProfessionIcon(profession: Profession): string {
+    return `professions_icon/Ui_profession_${profession.toLowerCase()}.png`;
   }
 }

@@ -64,60 +64,56 @@
 
   .character-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 0.75rem;
     margin-bottom: 1rem;
 
-    .character-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--surface-ground);
+    .character-icons {
       display: flex;
+      flex-direction: row;
       align-items: center;
-      justify-content: center;
-      color: var(--text-color-secondary);
-      font-size: 1.25rem;
-      transition: all 0.3s ease;
+      gap: 0.5rem;
       flex-shrink: 0;
+
+      .faction-logo, .class-logo {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+      }
     }
 
     .character-info {
       flex: 1;
       min-width: 0;
+      display: flex;
+      align-items: center;
 
       .character-name {
-        margin: 0 0 0.25rem 0;
+        margin: 0;
         font-weight: 700;
-        font-size: 1.1rem;
-        line-height: 1.2;
+        font-size: 1.2rem;
+        line-height: 1.3;
       }
+    }
 
-      .character-meta {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.85rem;
-        color: var(--text-color-secondary);
+    .profession-icons {
+      display: flex;
+      gap: 0.25rem;
+      flex-shrink: 0;
+      margin-right: 0.5rem;
 
-        .character-class {
-          font-weight: 600;
-        }
+      .profession-logo {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+        border-radius: 4px;
 
-        .character-separator {
-          opacity: 0.5;
-        }
-
-        .character-faction {
-          font-weight: 500;
-
-          &.alliance {
-            color: #0ea5e9;
-          }
-
-          &.horde {
-            color: #dc2626;
-          }
+        &:hover {
+          transform: scale(1.1);
         }
       }
     }
@@ -234,19 +230,6 @@
       }
     }
 
-    .last-activity-section {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--text-color-secondary);
-      padding-top: 0.5rem;
-      border-top: 1px solid var(--surface-border);
-
-      i {
-        color: var(--primary-color);
-      }
-    }
   }
 
   .selection-indicator {

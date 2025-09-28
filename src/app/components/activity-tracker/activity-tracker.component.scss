@@ -56,35 +56,6 @@
     }
   }
 
-  // Vault Progress Styles
-  .vault-summary {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-
-    .vault-total {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .vault-slots {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--primary-color);
-      }
-
-      .vault-label {
-        font-size: 0.8rem;
-        color: var(--text-color-secondary);
-      }
-    }
-
-    .vault-main-progress {
-      flex: 1;
-      height: 1.5rem;
-    }
-  }
 
   .vault-sources {
     display: flex;
@@ -555,9 +526,6 @@
 
 // PrimeNG component customizations
 :host ::ng-deep {
-  .vault-main-progress .p-progressbar-value {
-    background: linear-gradient(90deg, var(--primary-color), var(--primary-color-text));
-  }
 
   .source-progress .p-progressbar-value {
     background: var(--primary-color);

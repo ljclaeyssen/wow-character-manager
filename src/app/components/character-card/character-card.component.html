@@ -5,20 +5,29 @@
 
   <!-- Character Header -->
   <div class="character-header">
-    <div class="character-avatar">
-      <i class="pi pi-user"></i>
+    <div class="character-icons">
+      <img
+        [src]="getFactionIcon(character().faction)"
+        [alt]="character().faction + ' faction'"
+        class="faction-logo">
+      <img
+        [src]="getClassIcon(character().characterClass)"
+        [alt]="character().characterClass + ' class'"
+        class="class-logo">
     </div>
     <div class="character-info">
       <h3 class="character-name" [style.color]="getClassColor(character().characterClass)">
         {{ character().name }}
       </h3>
-      <div class="character-meta">
-        <span class="character-class">{{ character().characterClass }}</span>
-        <span class="character-separator">•</span>
-        <span class="character-faction" [class]="character().faction.toLowerCase()">
-          {{ character().faction }}
-        </span>
-      </div>
+    </div>
+    <div class="profession-icons">
+      @for (profession of character().professions; track profession) {
+        <img
+          [src]="getProfessionIcon(profession)"
+          [alt]="profession + ' profession'"
+          class="profession-logo"
+          [title]="profession">
+      }
     </div>
     <div class="character-actions">
       <button
@@ -66,13 +75,6 @@
       </div>
     </div>
 
-    <!-- Last Activity -->
-    @if (character().lastActivity) {
-      <div class="last-activity-section">
-        <i class="pi pi-clock"></i>
-        <span>{{ formatRelativeTime(character().lastActivity!) }}</span>
-      </div>
-    }
   </div>
 
   <!-- Selection Indicator -->

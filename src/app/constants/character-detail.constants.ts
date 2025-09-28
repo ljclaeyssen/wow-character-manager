@@ -24,9 +24,25 @@ export const FACTION_COLORS = {
 } as const;
 
 export const FACTION_ICONS = {
-  [Faction.Alliance]: 'pi pi-shield',
-  [Faction.Horde]: 'pi pi-bolt'
+  [Faction.Alliance]: '/factions_icon/Alliance_64.png',
+  [Faction.Horde]: '/factions_icon/Horde_64.png'
 } as const;
+
+export const CLASS_ICONS: Record<CharacterClass, string> = {
+  [CharacterClass.DeathKnight]: '/classes_icon/Warrior_Icon.gif', // Fallback - no DeathKnight icon available
+  [CharacterClass.DemonHunter]: '/classes_icon/Rogue_Icon.gif', // Fallback - no DemonHunter icon available
+  [CharacterClass.Druid]: '/classes_icon/Druid_Icon.gif',
+  [CharacterClass.Evoker]: '/classes_icon/Classicon_evoker.png',
+  [CharacterClass.Hunter]: '/classes_icon/Hunter_Icon.gif',
+  [CharacterClass.Mage]: '/classes_icon/Mage_Icon.gif',
+  [CharacterClass.Monk]: '/classes_icon/Class_monk.png',
+  [CharacterClass.Paladin]: '/classes_icon/Paladin_Icon.gif',
+  [CharacterClass.Priest]: '/classes_icon/Priest_Icon.gif',
+  [CharacterClass.Rogue]: '/classes_icon/Rogue_Icon.gif',
+  [CharacterClass.Shaman]: '/classes_icon/Shaman_Icon.gif',
+  [CharacterClass.Warlock]: '/classes_icon/Warlock_Icon.gif',
+  [CharacterClass.Warrior]: '/classes_icon/Warrior_Icon.gif'
+};
 
 export const ACTIVITY_ICONS: Record<ActivityType, string> = {
   [ActivityType.MythicPlusCompleted]: 'pi pi-compass',
