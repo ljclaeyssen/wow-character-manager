@@ -1,0 +1,48 @@
+<p-card header="Profession Knowledge" styleClass="profession-knowledge-card">
+  @if (professionQuests().length > 0) {
+    <div class="profession-quest-grid">
+      @for (prof of professionQuests(); track prof.profession) {
+        <div class="profession-quest-item" [class.completed]="prof.completed">
+          <div class="profession-icon-wrapper">
+            <img
+              [src]="getProfessionIcon(prof.profession)"
+              [alt]="prof.profession"
+              class="profession-icon"
+              [class.completed]="prof.completed">
+          </div>
+          <div class="profession-details">
+            <span class="profession-name">{{ prof.profession }}</span>
+            <small class="profession-description">{{ prof.description }}</small>
+          </div>
+          <div class="profession-action">
+            <p-button
+              [icon]="prof.completed ? 'pi pi-check' : 'pi pi-plus'"
+              [severity]="prof.completed ? 'success' : 'secondary'"
+              [outlined]="!prof.completed"
+              [text]="false"
+              [rounded]="true"
+              size="small"
+              [disabled]="loading()"
+              [pTooltip]="prof.completed ? 'Mark as incomplete' : 'Mark as complete'"
+              (onClick)="onToggleProfessionQuest(prof.profession)">
+            </p-button>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (allQuestsCompleted()) {
+      <p-message
+        severity="success"
+        styleClass="profession-complete-message">
+        <span>All profession knowledge quests completed!</span>
+      </p-message>
+    }
+  } @else {
+    <div class="no-professions">
+      <i class="pi pi-briefcase"></i>
+      <h4>No Professions</h4>
+      <p>This character doesn't have any professions yet.</p>
+    </div>
+  }
+</p-card>

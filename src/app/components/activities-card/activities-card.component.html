@@ -1,0 +1,106 @@
+<p-card header="Activities" styleClass="vault-progress-card">
+  <div class="vault-sources">
+    <div class="vault-source">
+      <div class="source-header">
+        <i class="pi pi-trophy raid-icon"></i>
+        <span class="source-label">Raid</span>
+        <p-badge
+          [value]="vaultProgress().raid + '/3'"
+          [severity]="getProgressSeverity(weeklyProgress().raidProgress)">
+        </p-badge>
+      </div>
+      <p-progressBar
+        [value]="weeklyProgress().raidProgress"
+        [showValue]="false"
+        styleClass="source-progress">
+      </p-progressBar>
+
+      <!-- Quick Add Buttons -->
+      <div class="quick-add-buttons" style="margin-top: 8px; display: flex; gap: 4px; flex-wrap: wrap;">
+        <button
+          class="wow-button lfr-button"
+          [disabled]="!selectedCharacter() || loading()"
+          (click)="onAddLFRBoss()"
+          title="Add LFR boss kill">
+          <i class="pi pi-plus"></i> LFR
+        </button>
+
+        <button
+          class="wow-button normal-button"
+          [disabled]="!selectedCharacter() || loading()"
+          (click)="onAddNormalBoss()"
+          title="Add Normal boss kill">
+          <i class="pi pi-plus"></i> Normal
+        </button>
+
+        <button
+          class="wow-button heroic-button"
+          [disabled]="!selectedCharacter() || loading()"
+          (click)="onAddHeroicBoss()"
+          title="Add Heroic boss kill">
+          <i class="pi pi-plus"></i> Heroic
+        </button>
+
+        <button
+          class="wow-button mythic-button"
+          [disabled]="!selectedCharacter() || loading()"
+          (click)="onAddMythicBoss()"
+          title="Add Mythic boss kill">
+          <i class="pi pi-plus"></i> Mythic
+        </button>
+      </div>
+    </div>
+
+    <div class="vault-source">
+      <div class="source-header">
+        <i class="pi pi-compass mythic-plus-icon"></i>
+        <span class="source-label">Mythic+</span>
+        <p-badge
+          [value]="vaultProgress().mythicPlus + '/3'"
+          [severity]="getProgressSeverity(weeklyProgress().mythicPlusProgress)">
+        </p-badge>
+      </div>
+      <p-progressBar
+        [value]="weeklyProgress().mythicPlusProgress"
+        [showValue]="false"
+        styleClass="source-progress">
+      </p-progressBar>
+
+      <!-- Quick Add Buttons -->
+      <div class="quick-add-buttons" style="margin-top: 8px; display: flex; gap: 4px;">
+        <button
+          class="wow-button heroic-button"
+          [disabled]="!selectedCharacter() || loading()"
+          (click)="onAddLowLevelRun()"
+          [title]="'Add run below ' + MYTHIC_LOOT_THRESHOLD + ' (Heroic vault reward)'">
+          <i class="pi pi-plus"></i> <{{ MYTHIC_LOOT_THRESHOLD }}
+        </button>
+
+        <button
+          class="wow-button mythic-button"
+          [disabled]="!selectedCharacter() || loading()"
+          (click)="onAddHighLevelRun()"
+          [title]="'Add run ' + MYTHIC_LOOT_THRESHOLD + '+ (Mythic vault reward)'">
+          <i class="pi pi-plus"></i> ≥{{ MYTHIC_LOOT_THRESHOLD }}
+        </button>
+      </div>
+    </div>
+
+    <div class="vault-source">
+      <div class="source-header">
+        <i class="pi pi-flag pvp-icon"></i>
+        <span class="source-label">PvP</span>
+        <p-badge
+          [value]="vaultProgress().pvp + '/3'"
+          [severity]="getProgressSeverity(weeklyProgress().pvpProgress)">
+        </p-badge>
+      </div>
+      <p-progressBar
+        [value]="weeklyProgress().pvpProgress"
+        [showValue]="false"
+        styleClass="source-progress">
+      </p-progressBar>
+      <small class="source-requirement">5/10/15 wins for slots</small>
+    </div>
+  </div>
+</p-card>

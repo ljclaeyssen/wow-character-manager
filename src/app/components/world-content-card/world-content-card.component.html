@@ -1,0 +1,76 @@
+<p-card header="Weekly World Content" styleClass="world-content-card">
+  <!-- World Boss -->
+  <div class="quest-item">
+    <div class="quest-info">
+      <i class="pi pi-globe quest-icon world-boss-icon"></i>
+      <div class="quest-details">
+        <span class="quest-name">World Boss</span>
+        <small class="quest-description">Defeat the weekly world boss for loot</small>
+      </div>
+    </div>
+    <p-button
+      [icon]="worldBossCompleted() ? 'pi pi-check' : 'pi pi-plus'"
+      [severity]="worldBossCompleted() ? 'success' : 'secondary'"
+      [outlined]="!worldBossCompleted()"
+      [text]="false"
+      [rounded]="true"
+      size="small"
+      [disabled]="loading()"
+      [pTooltip]="worldBossCompleted() ? 'Mark as incomplete' : 'Mark as complete'"
+      (onClick)="onToggleWorldBoss()">
+    </p-button>
+  </div>
+
+  <!-- Spark Fragment -->
+  <div class="quest-item">
+    <div class="quest-info">
+      <i class="pi pi-star quest-icon spark-icon"></i>
+      <div class="quest-details">
+        <span class="quest-name">Spark Fragment</span>
+        <small class="quest-description">Complete weekly spark fragment quest</small>
+      </div>
+    </div>
+    <p-button
+      [icon]="sparkQuestCompleted() ? 'pi pi-check' : 'pi pi-plus'"
+      [severity]="sparkQuestCompleted() ? 'success' : 'secondary'"
+      [outlined]="!sparkQuestCompleted()"
+      [text]="false"
+      [rounded]="true"
+      size="small"
+      [disabled]="loading()"
+      [pTooltip]="sparkQuestCompleted() ? 'Mark as incomplete' : 'Mark as complete'"
+      (onClick)="onToggleSparkQuest()">
+    </p-button>
+  </div>
+
+  <!-- Weekly Event -->
+  <div class="quest-item">
+    <div class="quest-info">
+      <i class="pi pi-calendar quest-icon event-icon"></i>
+      <div class="quest-details">
+        <span class="quest-name">{{ currentWeekEvent() }}</span>
+        <small class="quest-description">Complete this week's bonus event</small>
+      </div>
+    </div>
+    <p-button
+      [icon]="weeklyEventCompleted() ? 'pi pi-check' : 'pi pi-plus'"
+      [severity]="weeklyEventCompleted() ? 'success' : 'secondary'"
+      [outlined]="!weeklyEventCompleted()"
+      [text]="false"
+      [rounded]="true"
+      size="small"
+      [disabled]="loading()"
+      [pTooltip]="weeklyEventCompleted() ? 'Mark as incomplete' : 'Mark as complete'"
+      (onClick)="onToggleWeeklyEvent()">
+    </p-button>
+  </div>
+
+  <!-- Quest Summary -->
+  @if (allQuestsCompleted()) {
+    <p-message
+      severity="success"
+      styleClass="quest-complete-message">
+      <span>All weekly content completed!</span>
+    </p-message>
+  }
+</p-card>

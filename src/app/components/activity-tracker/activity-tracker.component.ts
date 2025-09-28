@@ -581,6 +581,12 @@ export class ActivityTrackerComponent {
     });
   });
 
+  // All profession quests completed check
+  protected readonly allProfessionQuestsCompleted = computed(() => {
+    const quests = this.professionQuestProgress();
+    return quests.length > 0 && quests.every(p => p.completed);
+  });
+
   // Weekly Event Progress
   protected readonly weeklyEventCompleted = computed(() => {
     const weeklyQuests = this.characterWeeklyQuests();

@@ -181,32 +181,6 @@
     padding: 0.5rem;
   }
 
-  // Weekly Quests Styles
-  .weekly-quest-header {
-    margin-bottom: 1rem;
-
-    .quest-progress-summary {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-
-      .quest-completed {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--primary-color);
-      }
-
-      .quest-label {
-        color: var(--text-color-secondary);
-        font-size: 0.9rem;
-      }
-    }
-
-    .quest-progress-bar {
-      height: 0.75rem;
-    }
-  }
 
   .quest-item {
     display: flex;
@@ -303,29 +277,6 @@
     }
   }
 
-  // Profession Knowledge Styles
-  .profession-summary {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-
-    .profession-count {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--primary-color);
-    }
-
-    .profession-label {
-      color: var(--text-color-secondary);
-      font-size: 0.9rem;
-    }
-  }
-
-  .profession-progress-bar {
-    height: 0.75rem;
-    margin-bottom: 1rem;
-  }
 
   .profession-quest-grid {
     display: flex;

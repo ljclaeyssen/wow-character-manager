@@ -1,0 +1,89 @@
+.quest-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: var(--surface-ground);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--surface-border);
+
+  &:hover {
+    background: var(--surface-hover);
+  }
+
+  .quest-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+
+    .quest-icon {
+      font-size: 1.25rem;
+      color: var(--primary-color);
+    }
+
+    .quest-details {
+      display: flex;
+      flex-direction: column;
+
+      .quest-name {
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      .quest-description {
+        font-size: 0.8rem;
+        color: var(--text-color-secondary);
+      }
+    }
+  }
+
+  // Quest action button styles
+  .p-button {
+    width: 36px;
+    height: 36px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.p-button-success {
+      background: linear-gradient(135deg, #10b981, #34d399);
+      border-color: #10b981;
+
+      &:hover {
+        background: linear-gradient(135deg, #059669, #10b981);
+        border-color: #059669;
+      }
+    }
+
+    &.p-button-outlined.p-button-secondary {
+      border-color: var(--surface-border);
+      color: var(--text-color-secondary);
+
+      &:hover {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: white;
+      }
+    }
+  }
+}
+
+.quest-complete-message {
+  margin-top: 1rem;
+}
+
+// PrimeNG component customizations
+:host ::ng-deep {
+  .p-card {
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .p-card-header {
+    font-weight: 600;
+    color: var(--text-color);
+  }
+}
