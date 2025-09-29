@@ -33,7 +33,9 @@
       "Bash(find:*)",
       "Bash(move srcappcomponentsdashboard srcappfeaturesdashboardcomponents )",
       "Bash(move srcappcomponentsactivity-tracker srcappfeaturesdashboardcomponents )",
-      "Bash(move srcappcomponentscharacter-card srcappfeaturesdashboardcomponents)"
+      "Bash(move srcappcomponentscharacter-card srcappfeaturesdashboardcomponents)",
+      "Bash(git remote get-url:*)",
+      "Bash(npm run build:gh-pages:*)"
     ],
     "deny": [],
     "ask": []
