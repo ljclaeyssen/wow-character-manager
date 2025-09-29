@@ -96,8 +96,8 @@ export class CharacterListComponent {
   protected onCharacterSelect(character: Character): void {
     this.selectedCharacter.set(character);
     this.characterSelected.emit(character);
-    // Navigate to character detail page
-    this.router.navigate(['/characters/detail', character.id]);
+    // Navigation to character detail page disabled for now
+    // this.router.navigate(['/characters/detail', character.id]);
   }
 
   protected onEditCharacter(character: Character): void {
@@ -176,6 +176,20 @@ export class CharacterListComponent {
       pvp: pvpSlots,
       total
     };
+  }
+
+  protected getItemLevelDisplay(character: Character): string {
+    const ilvl = character.itemLevel;
+    return ilvl && ilvl > 0 ? `${ilvl} iLvl` : '';
+  }
+
+  protected getRioScoreDisplay(character: Character): string {
+    const rio = character.rioScore;
+    return rio && rio > 0 ? `${Math.round(rio)} RIO` : '';
+  }
+
+  protected hasProgressionData(character: Character): boolean {
+    return !!(character.itemLevel && character.itemLevel > 0) || !!(character.rioScore && character.rioScore > 0);
   }
 
 }

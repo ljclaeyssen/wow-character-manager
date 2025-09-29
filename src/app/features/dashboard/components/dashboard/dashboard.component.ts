@@ -140,7 +140,6 @@ export class DashboardComponent {
       if (!characterActivity) {
         return {
           ...character,
-          weeklyActivities: 0,
           vaultProgress: 0,
           vaultPercentage: 0,
           lastActivity: null
@@ -164,14 +163,8 @@ export class DashboardComponent {
       const totalVaultSlots = raidSlots + mythicPlusSlots;
       const vaultPercentage = Math.round((totalVaultSlots / 6) * 100); // Max 6 slots (3 M+ + 3 Raid)
 
-      const totalActivities = characterActivity.mythicPlus.dungeonCount + totalBosses +
-                              (characterActivity.weeklyQuests.worldBossCompleted ? 1 : 0) +
-                              characterActivity.weeklyQuests.professionQuestsDone +
-                              (characterActivity.weeklyQuests.weeklyEventCompleted ? 1 : 0);
-
       return {
         ...character,
-        weeklyActivities: totalActivities,
         vaultProgress: totalVaultSlots,
         vaultPercentage,
         lastActivity: characterActivity.lastUpdated

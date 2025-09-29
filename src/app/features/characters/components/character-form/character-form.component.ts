@@ -85,12 +85,12 @@ export class CharacterFormComponent {
   }
 
   protected onHide(): void {
+    this.formCancelled.emit();
     this.visibleChange.emit(false);
     this.characterForm.resetForm();
   }
 
   protected onCancel(): void {
-    this.formCancelled.emit();
     this.onHide();
   }
 

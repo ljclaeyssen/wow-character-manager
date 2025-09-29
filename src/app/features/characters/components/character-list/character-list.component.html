@@ -49,7 +49,7 @@
                   class="character-name"
                   [style.color]="getClassColor(character.characterClass)"
                   (click)="onCharacterSelect(character)"
-                  pTooltip="Click to select character"
+                  pTooltip="Click to highlight character"
                   tooltipPosition="top">
                   {{ character.name }}
                 </span>
@@ -73,6 +73,48 @@
                 </div>
               } @else {
                 <span class="no-professions">No professions</span>
+              }
+            </div>
+          </td>
+
+          <!-- Item Level -->
+          <td>
+            <div class="ilvl-cell">
+              @if (getItemLevelDisplay(character)) {
+                <p-tag
+                  [value]="getItemLevelDisplay(character)"
+                  severity="info"
+                  class="progression-tag"
+                  icon="pi pi-star-fill">
+                </p-tag>
+              } @else {
+                <p-tag
+                  value="No iLvl"
+                  severity="secondary"
+                  class="progression-tag no-data"
+                  icon="pi pi-clock">
+                </p-tag>
+              }
+            </div>
+          </td>
+
+          <!-- Raider.IO Score -->
+          <td>
+            <div class="rio-cell">
+              @if (getRioScoreDisplay(character)) {
+                <p-tag
+                  [value]="getRioScoreDisplay(character)"
+                  severity="info"
+                  class="progression-tag"
+                  icon="pi pi-trophy">
+                </p-tag>
+              } @else {
+                <p-tag
+                  value="No RIO"
+                  severity="secondary"
+                  class="progression-tag no-data"
+                  icon="pi pi-clock">
+                </p-tag>
               }
             </div>
           </td>

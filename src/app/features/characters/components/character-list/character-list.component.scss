@@ -248,6 +248,38 @@
       }
     }
 
+    // Item Level Cell
+    .ilvl-cell {
+      min-width: 120px;
+      text-align: center;
+      padding: 0.5rem;
+
+      .progression-tag {
+        font-size: 0.85rem;
+        font-weight: 500;
+
+        &.no-data {
+          opacity: 0.7;
+        }
+      }
+    }
+
+    // Raider.IO Score Cell
+    .rio-cell {
+      min-width: 120px;
+      text-align: center;
+      padding: 0.5rem;
+
+      .progression-tag {
+        font-size: 0.85rem;
+        font-weight: 500;
+
+        &.no-data {
+          opacity: 0.7;
+        }
+      }
+    }
+
     .vault-progress-cell {
       min-width: 200px;
 

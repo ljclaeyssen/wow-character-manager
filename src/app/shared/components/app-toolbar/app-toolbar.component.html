@@ -41,11 +41,6 @@
               severity="success"
               icon="pi pi-check-circle">
             </p-tag>
-            <p-badge
-              [value]="stats().totalVaultSlots"
-              [severity]="getVaultSlotSeverity(stats().totalVaultSlots)"
-              size="large">
-            </p-badge>
           </div>
         </ng-template>
       </p-menubar>
@@ -73,6 +68,7 @@
           [loading]="isRefreshing()"
           [disabled]="isRefreshing()"
           (onClick)="onRefreshData()"
+          positionLeft
           [pTooltip]="isRefreshing() ? 'Refreshing character data...' : 'Refresh all characters from Raider.io'"
           ariaLabel="Refresh">
         </p-button>

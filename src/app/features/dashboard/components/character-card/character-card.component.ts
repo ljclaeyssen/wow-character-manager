@@ -8,7 +8,6 @@ import { Profession } from '../../../../enums/profession.enum';
 import { FACTION_ICONS, CLASS_ICONS } from '../../../../constants/character-detail.constants';
 
 export interface EnhancedCharacter extends Character {
-  weeklyActivities: number;
   vaultProgress: number;
   vaultPercentage: number;
   lastActivity: Date | null;
