@@ -8,7 +8,7 @@ import { ApiCacheService } from './api-cache.service';
 import { Character } from '../models/character.model';
 import { RaidEncounterParserService } from '../features/great-vault/services/raid-encounter-parser.service';
 import { WeeklyResetService } from '../features/great-vault/services/weekly-reset.service';
-import { RaidDifficulty } from '../features/great-vault';
+import { RaidDifficulty } from '../features/great-vault/models/great-vault.model';
 
 export interface VaultSlotReward {
   unlocked: boolean;
