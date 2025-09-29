@@ -25,6 +25,7 @@ import {
   FACTION_SEVERITIES,
   VAULT_PROGRESS_CONFIG
 } from '../../../../constants/character-list.constants';
+import { CLASS_ICONS } from '../../../../constants/character-detail.constants';
 
 @Component({
   selector: 'wow-character-list',
@@ -147,7 +148,7 @@ export class CharacterListComponent {
   }
 
   protected getClassIcon(characterClass: CharacterClass): string {
-    return `classes_icon/${characterClass}_Icon.gif`;
+    return CLASS_ICONS[characterClass];
   }
 
   protected getProfessionIcon(profession: string): string {

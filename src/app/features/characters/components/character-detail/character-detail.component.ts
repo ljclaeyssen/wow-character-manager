@@ -24,6 +24,7 @@ import {
   VAULT_CONFIG,
   TIME_PERIODS
 } from '../../../../constants/character-detail.constants';
+import { CharacterOverviewCardComponent } from './character-overview-card/character-overview-card.component';
 
 @Component({
   selector: 'wow-character-detail',
@@ -37,7 +38,8 @@ import {
     ChipModule,
     DividerModule,
     PanelModule,
-    TooltipModule
+    TooltipModule,
+    CharacterOverviewCardComponent
   ],
   templateUrl: './character-detail.component.html',
   styleUrl: './character-detail.component.scss',
