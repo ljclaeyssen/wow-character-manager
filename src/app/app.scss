@@ -2,10 +2,8 @@
 .app-shell {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   background: var(--surface-ground);
   position: relative;
-  overflow-x: hidden;
 
   // Loading Overlay
   .loading-overlay {
@@ -314,6 +312,7 @@
     min-height: 0;
 
     .main-content {
+      max-height: 85vh;
       flex: 1;
       padding: 1rem;
       max-width: 100%;

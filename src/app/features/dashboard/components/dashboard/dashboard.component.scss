@@ -1,34 +1,49 @@
 .dashboard-container {
-  min-height: 100vh;
+  height: 100%;
   background: var(--surface-ground);
-
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 
   .dashboard-main {
     padding: 1.5rem 2rem;
     flex: 1;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
     .dashboard-split {
       display: flex;
       gap: 1.5rem;
-      height: calc(100vh - 100px); // Account for main padding
+      height: 100%;
+      flex: 1;
 
       .left-panel {
         width: 20%;
         min-width: 280px;
         display: flex;
         flex-direction: column;
+        height: 100%;
+        overflow: hidden;
 
         .character-overview-card {
           height: 100%;
-          display: flex;
-          flex-direction: column;
 
-          :host ::ng-deep .p-card-body {
-            flex: 1;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+          ::ng-deep {
+            .p-card {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
+            }
+
+            .p-card-body {
+              flex: 1;
+              overflow: hidden;
+              display: flex;
+              flex-direction: column;
+              min-height: 0;
+              padding: 1rem;
+            }
           }
 
           .character-list {
@@ -36,7 +51,10 @@
             flex-direction: column;
             gap: 0.75rem;
             overflow-y: auto;
+            overflow-x: hidden;
             padding-right: 0.5rem;
+            height: calc(85vh - 8rem);
+            max-height: calc(85vh - 8rem);
 
             // Custom scrollbar for webkit browsers
             &::-webkit-scrollbar {
@@ -64,34 +82,45 @@
         width: 80%;
         display: flex;
         flex-direction: column;
+        height: 100%;
+        overflow: hidden;
 
         .activity-tracking-card,
         .no-selection-card {
-          height: 100%;
-          display: flex;
-          flex-direction: column;
+          height: calc(85vh - 8rem);
+          max-height: calc(85vh - 8rem);
 
-          :host ::ng-deep .p-card-body {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-
-            // Custom scrollbar for webkit browsers
-            &::-webkit-scrollbar {
-              width: 6px;
+          ::ng-deep {
+            .p-card {
+              height: 100%;
+              display: flex;
+              flex-direction: column;
             }
 
-            &::-webkit-scrollbar-track {
-              background: var(--surface-ground);
-              border-radius: 3px;
-            }
+            .p-card-body {
+              overflow-y: auto;
+              overflow-x: hidden;
+              padding-right: 0.5rem;
+              height: calc(85vh - 12rem);
+              max-height: calc(85vh - 12rem);
 
-            &::-webkit-scrollbar-thumb {
-              background: var(--primary-color);
-              border-radius: 3px;
+              // Custom scrollbar for webkit browsers
+              &::-webkit-scrollbar {
+                width: 6px;
+              }
 
-              &:hover {
-                background: var(--primary-color-text);
+              &::-webkit-scrollbar-track {
+                background: var(--surface-ground);
+                border-radius: 3px;
+              }
+
+              &::-webkit-scrollbar-thumb {
+                background: var(--primary-color);
+                border-radius: 3px;
+
+                &:hover {
+                  background: var(--primary-color-text);
+                }
               }
             }
           }
@@ -228,55 +257,6 @@
     }
   }
 
-  // Responsive Design
-  @media (max-width: 1200px) {
-    .dashboard-main {
-      padding: 1rem;
-
-      .dashboard-split {
-        flex-direction: column;
-        height: auto;
-
-        .left-panel {
-          width: 100%;
-          max-height: 400px;
-
-          .character-list {
-            max-height: 300px;
-          }
-        }
-
-        .right-panel {
-          width: 100%;
-          min-height: 500px;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-
-    .character-grid {
-      .character-card-wrapper {
-        .character-progress {
-          .progress-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.5rem;
-
-            .progress-display {
-              max-width: 100%;
-              width: 100%;
-            }
-          }
-        }
-      }
-    }
-
-    .summary-grid {
-      grid-template-columns: 1fr;
-    }
-  }
 }
 
 // PrimeNG component customizations
@@ -324,6 +304,40 @@
 
     .p-card-body {
       padding: 1rem;
+    }
+  }
+
+  // Override for character overview card specifically
+  .character-overview-card {
+    .p-card {
+      height: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .p-card-body {
+      flex: 1 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      min-height: 0 !important;
+    }
+  }
+
+  // Override for activity tracking card specifically
+  .activity-tracking-card,
+  .no-selection-card {
+    .p-card {
+      height: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .p-card-body {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      height: calc(85vh - 12rem) !important;
+      max-height: calc(85vh - 12rem) !important;
     }
   }
 
