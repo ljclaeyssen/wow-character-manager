@@ -169,10 +169,11 @@
 
         a {
           color: var(--primary-color);
-          text-decoration: none;
+          text-decoration: underline;
 
           &:hover {
             text-decoration: underline;
+            opacity: 0.8;
           }
         }
       }
