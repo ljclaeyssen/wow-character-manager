@@ -1,0 +1,31 @@
+<div class="vault-slot" [class.unlocked]="slot().unlocked" [pTooltip]="getTooltipText()" tooltipPosition="top">
+  <div class="slot-header">
+    <div class="slot-icon">
+      <i [class]="getSlotIcon()"></i>
+    </div>
+    <div class="slot-number">{{ slotNumber() }}</div>
+  </div>
+
+  <div class="slot-content">
+    <div class="item-level">
+      <span class="ilvl-label">{{ slot().itemLevel }}</span>
+      <span class="ilvl-text">ilvl</span>
+    </div>
+
+    <div class="progress-container">
+      <p-progressBar
+        [value]="getProgressPercentage()"
+        [showValue]="false"
+        styleClass="vault-progress"
+        [class]="'progress-' + getSlotSeverity()">
+      </p-progressBar>
+      <span class="progress-text">{{ getProgressPercentage() }}%</span>
+    </div>
+
+    <p-tag
+      [value]="slot().unlocked ? 'Unlocked' : 'Locked'"
+      [severity]="getSlotSeverity()"
+      styleClass="slot-status">
+    </p-tag>
+  </div>
+</div>

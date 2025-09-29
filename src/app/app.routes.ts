@@ -11,7 +11,7 @@ export const routes: Routes = [
   // Dashboard route
   {
     path: 'dashboard',
-    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () => import('./features/dashboard/components/dashboard/dashboard.component').then(m => m.DashboardComponent),
     title: 'Dashboard - WoW Character Manager',
     data: {
       breadcrumb: 'Dashboard',
@@ -25,7 +25,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./components/character-list/character-list.component').then(m => m.CharacterListComponent),
+        loadComponent: () => import('./features/characters/components/character-list/character-list.component').then(m => m.CharacterListComponent),
         title: 'Characters - WoW Character Manager',
         data: {
           breadcrumb: 'Characters',
@@ -34,7 +34,7 @@ export const routes: Routes = [
       },
       {
         path: 'add',
-        loadComponent: () => import('./components/character-form/character-form.component').then(m => m.CharacterFormComponent),
+        loadComponent: () => import('./features/characters/components/character-form/character-form.component').then(m => m.CharacterFormComponent),
         title: 'Add Character - WoW Character Manager',
         data: {
           breadcrumb: 'Add Character',
@@ -43,7 +43,7 @@ export const routes: Routes = [
       },
       {
         path: 'edit/:id',
-        loadComponent: () => import('./components/character-form/character-form.component').then(m => m.CharacterFormComponent),
+        loadComponent: () => import('./features/characters/components/character-form/character-form.component').then(m => m.CharacterFormComponent),
         title: 'Edit Character - WoW Character Manager',
         data: {
           breadcrumb: 'Edit Character',
@@ -52,60 +52,11 @@ export const routes: Routes = [
       },
       {
         path: 'detail/:id',
-        loadComponent: () => import('./components/character-detail/character-detail.component').then(m => m.CharacterDetailComponent),
+        loadComponent: () => import('./features/characters/components/character-detail/character-detail.component').then(m => m.CharacterDetailComponent),
         title: 'Character Details - WoW Character Manager',
         data: {
           breadcrumb: 'Character Details',
           description: 'View detailed character information'
-        }
-      },
-      {
-        path: 'import-export',
-        loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
-        title: 'Import/Export - WoW Character Manager',
-        data: {
-          breadcrumb: 'Import/Export',
-          description: 'Import and export character data'
-        }
-      }
-    ]
-  },
-
-
-  // Reports and analytics routes
-  {
-    path: 'reports',
-    children: [
-      {
-        path: '',
-        redirectTo: 'summary',
-        pathMatch: 'full'
-      },
-      {
-        path: 'summary',
-        loadComponent: () => import('./components/summary-table/summary-table.component').then(m => m.SummaryTableComponent),
-        title: 'Summary Report - WoW Character Manager',
-        data: {
-          breadcrumb: 'Summary Table',
-          description: 'Character progress summary table'
-        }
-      },
-      {
-        path: 'charts',
-        loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
-        title: 'Progress Charts - WoW Character Manager',
-        data: {
-          breadcrumb: 'Progress Charts',
-          description: 'Visual progress charts and analytics'
-        }
-      },
-      {
-        path: 'weekly',
-        loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
-        title: 'Weekly Report - WoW Character Manager',
-        data: {
-          breadcrumb: 'Weekly Report',
-          description: 'Weekly progress and achievement report'
         }
       }
     ]
@@ -114,11 +65,11 @@ export const routes: Routes = [
   // Settings and configuration
   {
     path: 'settings',
-    loadComponent: () => import('./components/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    loadComponent: () => import('./features/settings/components/settings/settings.component').then(m => m.SettingsComponent),
     title: 'Settings - WoW Character Manager',
     data: {
       breadcrumb: 'Settings',
-      description: 'Application settings and preferences'
+      description: 'Application settings and API configuration'
     }
   },
 

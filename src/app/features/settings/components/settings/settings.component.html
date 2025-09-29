@@ -1,0 +1,164 @@
+<div class="settings-container">
+  <div class="settings-content">
+    <div class="settings-header">
+      <h1 class="settings-title">
+        <i class="pi pi-cog"></i>
+        Settings
+      </h1>
+      <p class="settings-subtitle">
+        Configure your application preferences and API credentials
+      </p>
+    </div>
+
+    <!-- Blizzard API Credentials Section -->
+    <p-card header="Blizzard API Credentials" class="credentials-card">
+      <ng-template pTemplate="header">
+        <div class="card-header">
+          <i class="pi pi-key card-icon"></i>
+          <div class="header-content">
+            <h3>Blizzard API Credentials</h3>
+            <p>Configure your Battle.net API credentials for enhanced character data</p>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="content">
+        <div class="credentials-form">
+          <!-- Status Indicator -->
+          <div class="status-indicator">
+            @if (hasCredentials()) {
+              <p-message
+                severity="success"
+                text="API credentials are configured"
+                [closable]="false">
+              </p-message>
+            } @else {
+              <p-message
+                severity="warn"
+                text="No API credentials configured. Some features may be limited."
+                [closable]="false">
+              </p-message>
+            }
+          </div>
+
+          <!-- Error Display -->
+          @if (error()) {
+            <p-message
+              severity="error"
+              [text]="error()!"
+              [closable]="false">
+            </p-message>
+          }
+
+          <!-- Form -->
+          <form [formGroup]="credentialsForm" (ngSubmit)="onSaveCredentials()" class="api-form">
+            <!-- Client ID Field -->
+            <div class="form-field">
+              <label for="clientId" class="form-label">
+                Client ID
+                <span class="required-asterisk">*</span>
+              </label>
+              <input
+                pInputText
+                id="clientId"
+                formControlName="clientId"
+                placeholder="Enter your Blizzard API Client ID"
+                class="form-input"
+                [class.ng-invalid]="credentialsForm.get('clientId')?.touched && credentialsForm.get('clientId')?.invalid"
+                pTooltip="Your Battle.net API Client ID from the Blizzard Developer Portal"
+                tooltipPosition="top"
+              />
+              @if (getFieldError('clientId')) {
+                <small class="field-error">{{ getFieldError('clientId') }}</small>
+              }
+            </div>
+
+            <!-- Client Secret Field -->
+            <div class="form-field">
+              <label for="clientSecret" class="form-label">
+                Client Secret
+                <span class="required-asterisk">*</span>
+              </label>
+              <p-password
+                formControlName="clientSecret"
+                inputId="clientSecret"
+                placeholder="Enter your Blizzard API Client Secret"
+                [toggleMask]="true"
+                [feedback]="false"
+                styleClass="form-input password-field"
+                [inputStyle]="{ width: '100%' }"
+                pTooltip="Your Battle.net API Client Secret from the Blizzard Developer Portal"
+                tooltipPosition="top">
+              </p-password>
+              @if (getFieldError('clientSecret')) {
+                <small class="field-error">{{ getFieldError('clientSecret') }}</small>
+              }
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <p-button
+                type="submit"
+                label="Save Credentials"
+                icon="pi pi-save"
+                [loading]="loading()"
+                [disabled]="!isFormValid() || loading()"
+                severity="success"
+                size="large">
+              </p-button>
+
+              @if (hasCredentials()) {
+                <p-button
+                  type="button"
+                  label="Clear Credentials"
+                  icon="pi pi-trash"
+                  (onClick)="onClearCredentials()"
+                  [loading]="loading()"
+                  [disabled]="loading()"
+                  severity="danger"
+                  [outlined]="true"
+                  size="large">
+                </p-button>
+              }
+            </div>
+          </form>
+
+          <!-- Help Information -->
+          <p-divider></p-divider>
+
+          <div class="help-section">
+            <h4 class="help-title">
+              <i class="pi pi-info-circle"></i>
+              How to get Blizzard API Credentials
+            </h4>
+            <div class="help-content">
+              <ol class="help-steps">
+                <li>
+                  Visit the <a href="https://develop.battle.net/" target="_blank" rel="noopener">Blizzard Developer Portal</a>
+                </li>
+                <li>Sign in with your Battle.net account</li>
+                <li>Create a new client application</li>
+                <li>Copy your Client ID and Client Secret</li>
+                <li>Paste them into the fields above</li>
+              </ol>
+              <p class="help-note">
+                <i class="pi pi-shield"></i>
+                Your credentials are stored locally in your browser and are never sent to external servers.
+              </p>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-card>
+
+    <!-- Future Settings Sections -->
+    <p-card header="Application Preferences" class="preferences-card">
+      <ng-template pTemplate="content">
+        <div class="coming-soon">
+          <i class="pi pi-clock"></i>
+          <p>Additional settings and preferences coming soon...</p>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>

@@ -27,6 +27,7 @@ describe('CharacterStore', () => {
     id: '1',
     name: 'Testchar',
     race: Race.Human,
+    server: 'Ysondre',
     faction: Faction.Alliance,
     characterClass: CharacterClass.Warrior,
     specialization: 'Arms',
@@ -38,6 +39,7 @@ describe('CharacterStore', () => {
   const testCharacter2: Character = {
     id: '2',
     name: 'Hordeguy',
+    server: 'Ysondre',
     race: Race.Orc,
     faction: Faction.Horde,
     characterClass: CharacterClass.Shaman,

@@ -1,0 +1,2198 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://eu.api.blizzard.com/profile/wow/character/silvermoon/lilyi/mythic-keystone-profile?namespace=profile-eu"
+    }
+  },
+  "current_period": {
+    "period": {
+      "key": {
+        "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/period/1030?namespace=dynamic-eu"
+      },
+      "id": 1030
+    },
+    "best_runs": [
+      {
+        "completed_timestamp": 1759141309000,
+        "duration": 2189605,
+        "keystone_level": 10,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/158?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Bargain: Voidbound",
+            "id": 158
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Tartarean",
+              "id": 219087631,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/62?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Arcane",
+              "id": 62
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/70?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dracthyr",
+              "id": 70
+            },
+            "equipped_item_level": 712
+          },
+          {
+            "character": {
+              "name": "Marzeh",
+              "id": 178963817,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/256?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Discipline",
+              "id": 256
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/29?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Void Elf",
+              "id": 29
+            },
+            "equipped_item_level": 711
+          },
+          {
+            "character": {
+              "name": "Gaukelay",
+              "id": 174752621,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/564?namespace=dynamic-eu"
+                },
+                "id": 564,
+                "slug": "antonidas"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/266?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Demonology",
+              "id": 266
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/25?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Pandaren",
+              "id": 25
+            },
+            "equipped_item_level": 667
+          },
+          {
+            "character": {
+              "name": "Nerviim",
+              "id": 220954839,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/581?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Vengeance",
+              "id": 581
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 715
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/392?namespace=dynamic-eu"
+          },
+          "name": "Tazavesh: So'leah's Gambit",
+          "id": 392
+        },
+        "is_completed_within_time": false,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 296.88324
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 385.57245
+        }
+      },
+      {
+        "completed_timestamp": 1758819414000,
+        "duration": 1532523,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Hxvvxn",
+              "id": 220547971,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/539?namespace=dynamic-eu"
+                },
+                "id": 539,
+                "slug": "archimonde"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/581?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Vengeance",
+              "id": 581
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 715
+          },
+          {
+            "character": {
+              "name": "Môritz",
+              "id": 94970485,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/610?namespace=dynamic-eu"
+                },
+                "id": 610,
+                "slug": "onyxia"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 712
+          },
+          {
+            "character": {
+              "name": "Grokipu",
+              "id": 219104688,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/539?namespace=dynamic-eu"
+                },
+                "id": 539,
+                "slug": "archimonde"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/72?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Fury",
+              "id": 72
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Amirxd",
+              "id": 216656932,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/70?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Retribution",
+              "id": 70
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 716
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/392?namespace=dynamic-eu"
+          },
+          "name": "Tazavesh: So'leah's Gambit",
+          "id": 392
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 385.57245
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 385.57245
+        }
+      },
+      {
+        "completed_timestamp": 1758993843000,
+        "duration": 2422146,
+        "keystone_level": 8,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/158?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Bargain: Voidbound",
+            "id": 158
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Qwerfgt",
+              "id": 185193200,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/553?namespace=dynamic-eu"
+                },
+                "id": 553,
+                "slug": "turalyon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Mazares",
+              "id": 221611428,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Ikakoo",
+              "id": 221777701,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/581?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Vengeance",
+              "id": 581
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Strifee",
+              "id": 194278848,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/538?namespace=dynamic-eu"
+                },
+                "id": 538,
+                "slug": "dalaran"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/253?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Beast Mastery",
+              "id": 253
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 663
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/505?namespace=dynamic-eu"
+          },
+          "name": "The Dawnbreaker",
+          "id": 505
+        },
+        "is_completed_within_time": false,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 248.66641
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 382.5289
+        }
+      },
+      {
+        "completed_timestamp": 1758906815000,
+        "duration": 1734567,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Bløødyheaven",
+              "id": 214534804,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/542?namespace=dynamic-eu"
+                },
+                "id": 542,
+                "slug": "hyjal"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/72?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Fury",
+              "id": 72
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Khormara",
+              "id": 192290156,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/626?namespace=dynamic-eu"
+                },
+                "id": 626,
+                "slug": "ragnaros"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/6?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Tauren",
+              "id": 6
+            },
+            "equipped_item_level": 712
+          },
+          {
+            "character": {
+              "name": "Ianin",
+              "id": 181785311,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/563?namespace=dynamic-eu"
+                },
+                "id": 563,
+                "slug": "alleria"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/268?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Brewmaster",
+              "id": 268
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/29?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Void Elf",
+              "id": 29
+            },
+            "equipped_item_level": 705
+          },
+          {
+            "character": {
+              "name": "Hérøes",
+              "id": 160378015,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/542?namespace=dynamic-eu"
+                },
+                "id": 542,
+                "slug": "hyjal"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/70?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Retribution",
+              "id": 70
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/31?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Zandalari Troll",
+              "id": 31
+            },
+            "equipped_item_level": 712
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/505?namespace=dynamic-eu"
+          },
+          "name": "The Dawnbreaker",
+          "id": 505
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 382.5289
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 382.5289
+        }
+      },
+      {
+        "completed_timestamp": 1758816757000,
+        "duration": 1822057,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Pandachaos",
+              "id": 130264610,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/536?namespace=dynamic-eu"
+                },
+                "id": 536,
+                "slug": "argent-dawn"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/72?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Fury",
+              "id": 72
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Bothari",
+              "id": 166238853,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/501?namespace=dynamic-eu"
+                },
+                "id": 501,
+                "slug": "arathor"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/257?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Holy",
+              "id": 257
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Hiddenpara",
+              "id": 164343424,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/560?namespace=dynamic-eu"
+                },
+                "id": 560,
+                "slug": "stormscale"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/73?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Protection",
+              "id": 73
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 715
+          },
+          {
+            "character": {
+              "name": "Mattwl",
+              "id": 170954358,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/554?namespace=dynamic-eu"
+                },
+                "id": 554,
+                "slug": "ravencrest"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/265?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Affliction",
+              "id": 265
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/378?namespace=dynamic-eu"
+          },
+          "name": "Halls of Atonement",
+          "id": 378
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 381.91296
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 381.91296
+        }
+      },
+      {
+        "completed_timestamp": 1758838485000,
+        "duration": 1900960,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Hips",
+              "id": 255555692,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/527?namespace=dynamic-eu"
+                },
+                "id": 527,
+                "slug": "deathwing"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/66?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Protection",
+              "id": 66
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/10?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Blood Elf",
+              "id": 10
+            },
+            "equipped_item_level": 712
+          },
+          {
+            "character": {
+              "name": "Syraes",
+              "id": 167967424,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/604?namespace=dynamic-eu"
+                },
+                "id": 604,
+                "slug": "thrall"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/258?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Shadow",
+              "id": 258
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/9?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Goblin",
+              "id": 9
+            },
+            "equipped_item_level": 715
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Brinez",
+              "id": 185116877,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/506?namespace=dynamic-eu"
+                },
+                "id": 506,
+                "slug": "draenor"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/262?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Elemental",
+              "id": 262
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 715
+          },
+          {
+            "character": {
+              "name": "Blvckprot",
+              "id": 189913105,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/640?namespace=dynamic-eu"
+                },
+                "id": 640,
+                "slug": "khaz-modan"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/65?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Holy",
+              "id": 65
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 714
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/499?namespace=dynamic-eu"
+          },
+          "name": "Priory of the Sacred Flame",
+          "id": 499
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 380.94308
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 380.94308
+        }
+      },
+      {
+        "completed_timestamp": 1759136168000,
+        "duration": 1432830,
+        "keystone_level": 10,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/158?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Bargain: Voidbound",
+            "id": 158
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Heilpaste",
+              "id": 173889817,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/564?namespace=dynamic-eu"
+                },
+                "id": 564,
+                "slug": "antonidas"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/34?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dark Iron Dwarf",
+              "id": 34
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Madstrorm",
+              "id": 214816264,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/6?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Tauren",
+              "id": 6
+            },
+            "equipped_item_level": 695
+          },
+          {
+            "character": {
+              "name": "Darkindemon",
+              "id": 214491607,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/581?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Vengeance",
+              "id": 581
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Tokyodrift",
+              "id": 183832901,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/505?namespace=dynamic-eu"
+                },
+                "id": 505,
+                "slug": "doomhammer"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/253?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Beast Mastery",
+              "id": 253
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/10?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Blood Elf",
+              "id": 10
+            },
+            "equipped_item_level": 715
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/525?namespace=dynamic-eu"
+          },
+          "name": "Operation: Floodgate",
+          "id": 525
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 330.36307
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 380.7059
+        }
+      },
+      {
+        "completed_timestamp": 1759063436000,
+        "duration": 1558626,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Netrookx",
+              "id": 221699555,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Hansflak",
+              "id": 170291965,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/604?namespace=dynamic-eu"
+                },
+                "id": 604,
+                "slug": "thrall"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/253?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Beast Mastery",
+              "id": 253
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Crudycoww",
+              "id": 217923703,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/70?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Retribution",
+              "id": 70
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/6?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Tauren",
+              "id": 6
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Allergicsun",
+              "id": 182471290,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/506?namespace=dynamic-eu"
+                },
+                "id": 506,
+                "slug": "draenor"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/66?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Protection",
+              "id": 66
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 714
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/542?namespace=dynamic-eu"
+          },
+          "name": "Eco-Dome Al'dani",
+          "id": 542
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 386.07608
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 386.07608
+        }
+      },
+      {
+        "completed_timestamp": 1758875211000,
+        "duration": 1804104,
+        "keystone_level": 10,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/158?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Bargain: Voidbound",
+            "id": 158
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Babyenemy",
+              "id": 184050532,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/553?namespace=dynamic-eu"
+                },
+                "id": 553,
+                "slug": "turalyon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/10?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Blood Elf",
+              "id": 10
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Yuuno",
+              "id": 221750651,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/73?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Protection",
+              "id": 73
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Lucä",
+              "id": 215363296,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1305?namespace=dynamic-eu"
+                },
+                "id": 1305,
+                "slug": "kazzak"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 714
+          },
+          {
+            "character": {
+              "name": "Bigalf",
+              "id": 246731349,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/637?namespace=dynamic-eu"
+                },
+                "id": 637,
+                "slug": "lightnings-blade"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/263?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Enhancement",
+              "id": 263
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/28?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Highmountain Tauren",
+              "id": 28
+            },
+            "equipped_item_level": 630
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/503?namespace=dynamic-eu"
+          },
+          "name": "Ara-Kara, City of Echoes",
+          "id": 503
+        },
+        "is_completed_within_time": false,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 304.9145
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 395.02628
+        }
+      },
+      {
+        "completed_timestamp": 1758821780000,
+        "duration": 1620088,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Riwas",
+              "id": 194077906,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/626?namespace=dynamic-eu"
+                },
+                "id": 626,
+                "slug": "ragnaros"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 716
+          },
+          {
+            "character": {
+              "name": "Вадимычдк",
+              "id": 263888059,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/1602?namespace=dynamic-eu"
+                },
+                "id": 1602,
+                "slug": "gordunni"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/251?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Frost",
+              "id": 251
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 715
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Nikto",
+              "id": 262590942,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/628?namespace=dynamic-eu"
+                },
+                "id": 628,
+                "slug": "sylvanas"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/581?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Vengeance",
+              "id": 581
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Flowrida",
+              "id": 182782472,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/581?namespace=dynamic-eu"
+                },
+                "id": 581,
+                "slug": "blackrock"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/72?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Fury",
+              "id": 72
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/2?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Orc",
+              "id": 2
+            },
+            "equipped_item_level": 710
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/503?namespace=dynamic-eu"
+          },
+          "name": "Ara-Kara, City of Echoes",
+          "id": 503
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 383.74817
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 395.02628
+        }
+      },
+      {
+        "completed_timestamp": 1758710183000,
+        "duration": 1718440,
+        "keystone_level": 13,
+        "keystone_affixes": [
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/9?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Tyrannical",
+            "id": 9
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/10?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Fortified",
+            "id": 10
+          },
+          {
+            "key": {
+              "href": "https://eu.api.blizzard.com/data/wow/keystone-affix/147?namespace=static-11.2.0_62213-eu"
+            },
+            "name": "Xal'atath's Guile",
+            "id": 147
+          }
+        ],
+        "members": [
+          {
+            "character": {
+              "name": "Liopiüm",
+              "id": 213628933,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/542?namespace=dynamic-eu"
+                },
+                "id": 542,
+                "slug": "hyjal"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/264?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Restoration",
+              "id": 264
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/3?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Dwarf",
+              "id": 3
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Nioubz",
+              "id": 221549747,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/542?namespace=dynamic-eu"
+                },
+                "id": 542,
+                "slug": "hyjal"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/62?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Arcane",
+              "id": 62
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Lilyi",
+              "id": 221889302,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+                },
+                "id": 549,
+                "slug": "silvermoon"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/254?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Marksmanship",
+              "id": 254
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/1?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Human",
+              "id": 1
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Ddxdh",
+              "id": 186872381,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/536?namespace=dynamic-eu"
+                },
+                "id": 536,
+                "slug": "argent-dawn"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/581?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Vengeance",
+              "id": 581
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/4?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Night Elf",
+              "id": 4
+            },
+            "equipped_item_level": 713
+          },
+          {
+            "character": {
+              "name": "Tashï",
+              "id": 221644873,
+              "realm": {
+                "key": {
+                  "href": "https://eu.api.blizzard.com/data/wow/realm/542?namespace=dynamic-eu"
+                },
+                "id": 542,
+                "slug": "hyjal"
+              }
+            },
+            "specialization": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-specialization/258?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Shadow",
+              "id": 258
+            },
+            "race": {
+              "key": {
+                "href": "https://eu.api.blizzard.com/data/wow/playable-race/29?namespace=static-11.2.0_62213-eu"
+              },
+              "name": "Void Elf",
+              "id": 29
+            },
+            "equipped_item_level": 713
+          }
+        ],
+        "dungeon": {
+          "key": {
+            "href": "https://eu.api.blizzard.com/data/wow/mythic-keystone/dungeon/391?namespace=dynamic-eu"
+          },
+          "name": "Tazavesh: Streets of Wonder",
+          "id": 391
+        },
+        "is_completed_within_time": true,
+        "mythic_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 386.81357
+        },
+        "map_rating": {
+          "color": {
+            "r": 255,
+            "g": 128,
+            "b": 0,
+            "a": 1.0
+          },
+          "rating": 386.81357
+        }
+      }
+    ]
+  },
+  "seasons": [
+    {
+      "key": {
+        "href": "https://eu.api.blizzard.com/profile/wow/character/silvermoon/lilyi/mythic-keystone-profile/season/15?namespace=profile-eu"
+      },
+      "id": 15
+    }
+  ],
+  "character": {
+    "key": {
+      "href": "https://eu.api.blizzard.com/profile/wow/character/silvermoon/lilyi?namespace=profile-eu"
+    },
+    "name": "Lilyi",
+    "id": 221889302,
+    "realm": {
+      "key": {
+        "href": "https://eu.api.blizzard.com/data/wow/realm/549?namespace=dynamic-eu"
+      },
+      "name": "Silvermoon",
+      "id": 549,
+      "slug": "silvermoon"
+    }
+  },
+  "current_mythic_rating": {
+    "color": {
+      "r": 255,
+      "g": 128,
+      "b": 0,
+      "a": 1.0
+    },
+    "rating": 3079.579
+  }
+}

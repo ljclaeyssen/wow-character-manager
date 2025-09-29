@@ -1,0 +1,49 @@
+<div class="activity-tracker-container">
+  @if (selectedCharacter()) {
+    <div class="character-header">
+      <h2>{{ selectedCharacter()!.name }} - Weekly Progress</h2>
+      <div class="reset-info">
+        <i class="pi pi-clock"></i>
+        <span>Reset in: {{ timeUntilReset() }}</span>
+      </div>
+    </div>
+
+    <div class="tracker-grid">
+
+      <!-- Great Vault Rewards -->
+      <wow-vault-progress-card [character]="selectedCharacter()"></wow-vault-progress-card>
+
+      <!-- Profession Knowledge Card -->
+      <wow-profession-knowledge-card
+        [professionQuests]="professionQuests()"
+        [loading]="false"
+        [allQuestsCompleted]="allProfessionQuestsCompleted()"
+        (toggleProfessionQuest)="onToggleProfessionQuest($event)">
+      </wow-profession-knowledge-card>
+
+      <!-- World Content Card -->
+      <wow-world-content-card
+        [worldBossCompleted]="worldContentData().worldBossCompleted"
+        [sparkQuestCompleted]="worldContentData().sparkQuestCompleted"
+        [weeklyEventCompleted]="worldContentData().weeklyEventCompleted"
+        [currentWeekEvent]="worldContentData().currentWeekEvent"
+        [loading]="false"
+        [allQuestsCompleted]="worldContentData().allQuestsCompleted"
+        (toggleWorldBoss)="onToggleWorldBoss()"
+        (toggleSparkQuest)="onToggleSparkQuest()"
+        (toggleWeeklyEvent)="onToggleWeeklyEvent()">
+      </wow-world-content-card>
+    </div>
+  } @else {
+    <div class="no-character-selected">
+      <p-card>
+        <div class="empty-state">
+          <i class="pi pi-user-plus"></i>
+          <h3>No Character Selected</h3>
+          <p>Select a character to view their weekly activity progress.</p>
+        </div>
+      </p-card>
+    </div>
+  }
+
+</div>

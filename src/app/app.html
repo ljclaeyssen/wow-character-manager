@@ -10,110 +10,15 @@
   }
 
   <!-- Main Navigation Toolbar -->
-  <p-toolbar class="app-toolbar">
-    <ng-template pTemplate="start">
-      <div class="flex align-items-center gap-3">
-        <!-- Mobile Menu Toggle -->
-        <p-button
-          icon="pi pi-bars"
-          [text]="true"
-          [rounded]="true"
-          severity="secondary"
-          class="mobile-menu-button"
-          [class.visible]="appState().isMobile"
-          (onClick)="toggleMobileSidebar()"
-          ariaLabel="Toggle Mobile Menu">
-        </p-button>
-
-        <!-- App Logo and Title -->
-        <div class="app-brand">
-          <i class="pi pi-users brand-icon"></i>
-          <div class="brand-content">
-            <span class="brand-title">{{ title() }}</span>
-            <span class="brand-version">v{{ version() }}</span>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-
-    <ng-template pTemplate="center">
-      <!-- Desktop Navigation Menu -->
-      <div class="desktop-navigation" [class.hidden]="appState().isMobile">
-        <p-menubar [model]="menuItems()" styleClass="app-menubar">
-          <ng-template pTemplate="start">
-            <!-- Navigation stats -->
-            <div class="nav-stats">
-              <p-tag
-                [value]="headerStats().totalCharacters + ' Characters'"
-                severity="info"
-                icon="pi pi-users">
-              </p-tag>
-              <p-tag
-                [value]="headerStats().activeCharacters + ' Active'"
-                severity="success"
-                icon="pi pi-check-circle">
-              </p-tag>
-              <p-badge
-                [value]="headerStats().totalVaultSlots"
-                [severity]="getVaultSlotSeverity(headerStats().totalVaultSlots)"
-                size="large">
-              </p-badge>
-            </div>
-          </ng-template>
-        </p-menubar>
-      </div>
-    </ng-template>
-
-    <ng-template pTemplate="end">
-      <div class="toolbar-actions">
-        <!-- Reset Timer -->
-        <div class="reset-timer">
-          <p-tag
-            [value]="'Reset: ' + headerStats().nextResetTime"
-            severity="warn"
-            icon="pi pi-clock">
-          </p-tag>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-          <p-button
-            icon="pi pi-refresh"
-            [text]="true"
-            [rounded]="true"
-            severity="secondary"
-            [loading]="isLoading()"
-            (onClick)="refreshData()"
-            pTooltip="Refresh Data"
-            ariaLabel="Refresh">
-          </p-button>
-
-          @if (hasError()) {
-            <p-button
-              icon="pi pi-exclamation-triangle"
-              [text]="true"
-              [rounded]="true"
-              severity="danger"
-              (onClick)="clearError()"
-              pTooltip="Clear Errors"
-              ariaLabel="Clear Errors">
-            </p-button>
-          }
-
-
-          <p-button
-            icon="pi pi-cog"
-            [text]="true"
-            [rounded]="true"
-            severity="secondary"
-            routerLink="/settings"
-            pTooltip="Settings"
-            ariaLabel="Settings">
-          </p-button>
-        </div>
-      </div>
-    </ng-template>
-  </p-toolbar>
+  <app-toolbar
+    [title]="title()"
+    [version]="version()"
+    [menuItems]="menuItems()"
+    [stats]="toolbarStats()"
+    [state]="toolbarState()"
+    (toggleMobileMenu)="toggleMobileSidebar()"
+    (clearError)="clearError()">
+  </app-toolbar>
 
   <!-- Mobile Sidebar Navigation -->
   <p-drawer

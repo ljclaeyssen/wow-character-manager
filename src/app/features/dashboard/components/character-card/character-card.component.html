@@ -1,0 +1,96 @@
+<div
+  class="character-card"
+  [class.selected]="selected()"
+  (click)="onCharacterClick()">
+
+  <!-- Character Header -->
+  <div class="character-header">
+    <div class="character-icons">
+      <img
+        [src]="getFactionIcon(character().faction)"
+        [alt]="character().faction + ' faction'"
+        class="faction-logo">
+      <img
+        [src]="getClassIcon(character().characterClass)"
+        [alt]="character().characterClass + ' class'"
+        class="class-logo">
+    </div>
+    <div class="character-info">
+      <h3 class="character-name" [style.color]="getClassColor(character().characterClass)">
+        {{ character().name }}
+      </h3>
+
+      <!-- Progression Badges -->
+      <div class="progression-badges">
+        @if (getItemLevelDisplay()) {
+          <p-tag
+            [value]="getItemLevelDisplay()"
+            severity="info"
+            class="progression-tag"
+            icon="pi pi-star-fill">
+          </p-tag>
+        }
+        @if (getRioScoreDisplay()) {
+          <p-tag
+            [value]="getRioScoreDisplay()"
+            severity="info"
+            class="progression-tag"
+            icon="pi pi-trophy">
+          </p-tag>
+        }
+        @if (!hasProgressionData()) {
+          <p-tag
+            value="No data"
+            severity="secondary"
+            class="progression-tag no-data"
+            icon="pi pi-clock">
+          </p-tag>
+        }
+      </div>
+    </div>
+    <div class="profession-icons">
+      @for (profession of character().professions; track profession) {
+        <img
+          [src]="getProfessionIcon(profession)"
+          [alt]="profession + ' profession'"
+          class="profession-logo"
+          [title]="profession">
+      }
+    </div>
+    <div class="character-actions">
+      <button
+        class="action-btn edit-btn"
+        (click)="onEditClick($event)"
+        title="Edit Character">
+        <i class="pi pi-pencil"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress Section -->
+  <div class="character-progress">
+    <!-- Great Vault Progress -->
+    <div class="vault-section">
+      <!-- Vault progress will be shown in activity tracker -->
+    </div>
+
+    <!-- Weekly Activities -->
+    <div class="progress-section activities-section">
+      <div class="progress-header">
+        <div class="progress-title">
+          <i class="pi pi-calendar"></i>
+          <span>Weekly Activities</span>
+        </div>
+        <div class="activity-count" [class.active]="character().weeklyActivities > 0">
+          {{ character().weeklyActivities }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Selection Indicator -->
+  <div class="selection-indicator">
+    <i class="pi pi-check"></i>
+  </div>
+</div>

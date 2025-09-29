@@ -10,6 +10,7 @@ import { BadgeModule } from 'primeng/badge';
 import { TagModule } from 'primeng/tag';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { MenuItem } from 'primeng/api';
 
@@ -18,6 +19,7 @@ import { ActivityStore } from './store/activity.store';
 import { NotificationService } from './services/notification.service';
 import { ActivityService } from './services/activity.service';
 import { ThemeService } from './services/theme.service';
+import { AppToolbarComponent, ToolbarStats, ToolbarState } from './shared/components/app-toolbar/app-toolbar.component';
 
 interface AppState {
   loading: boolean;
@@ -33,15 +35,12 @@ interface AppState {
     CommonModule,
     RouterOutlet,
     RouterModule,
-    ToolbarModule,
     ToastModule,
     ButtonModule,
-    MenubarModule,
     DrawerModule,
-    BadgeModule,
-    TagModule,
     ProgressBarModule,
     SkeletonModule,
+    AppToolbarComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -79,30 +78,6 @@ export class App implements OnInit {
       icon: 'pi pi-users',
       routerLink: '/characters',
       command: () => this.closeMobileSidebar()
-    },
-    {
-      label: 'Reports',
-      icon: 'pi pi-chart-line',
-      items: [
-        {
-          label: 'Summary Table',
-          icon: 'pi pi-table',
-          routerLink: '/reports/summary',
-          command: () => this.closeMobileSidebar()
-        },
-        {
-          label: 'Progress Charts',
-          icon: 'pi pi-chart-pie',
-          routerLink: '/reports/charts',
-          command: () => this.closeMobileSidebar()
-        },
-        {
-          label: 'Weekly Report',
-          icon: 'pi pi-file',
-          routerLink: '/reports/weekly',
-          command: () => this.closeMobileSidebar()
-        }
-      ]
     },
     {
       label: 'Settings',
@@ -205,6 +180,20 @@ export class App implements OnInit {
     return this.characterStore.error() || this.activityStore.error() || this.appState().error;
   });
 
+  // Toolbar data computed
+  protected readonly toolbarStats = computed<ToolbarStats>(() => ({
+    totalCharacters: this.headerStats().totalCharacters,
+    activeCharacters: this.headerStats().activeCharacters,
+    totalVaultSlots: this.headerStats().totalVaultSlots,
+    nextResetTime: this.headerStats().nextResetTime
+  }));
+
+  protected readonly toolbarState = computed<ToolbarState>(() => ({
+    loading: this.isLoading(),
+    error: this.hasError(),
+    isMobile: this.appState().isMobile
+  }));
+
   ngOnInit(): void {
     this.initializeApp();
     this.setupNotifications();
@@ -278,27 +267,6 @@ export class App implements OnInit {
     this.updateAppState({ sidebarVisible: false });
   }
 
-  // Refresh app data
-  protected refreshData(): void {
-    this.updateAppState({ loading: true });
-
-    try {
-      // Trigger store refreshes if needed
-      this.notificationService.showInfo('Refreshing data...');
-
-      setTimeout(() => {
-        this.updateAppState({ loading: false });
-        this.notificationService.showSuccess('Data refreshed successfully');
-      }, 1000);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to refresh data';
-      this.updateAppState({
-        loading: false,
-        error: errorMessage
-      });
-      this.notificationService.showError(errorMessage);
-    }
-  }
 
   // Clear errors
   protected clearError(): void {
@@ -338,10 +306,4 @@ export class App implements OnInit {
     }
   }
 
-  protected getVaultSlotSeverity(slots: number): 'success' | 'info' | 'warn' | 'danger' {
-    if (slots >= 5) return 'success';
-    if (slots >= 3) return 'info';
-    if (slots >= 1) return 'warn';
-    return 'danger';
-  }
 }

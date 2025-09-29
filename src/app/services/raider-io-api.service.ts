@@ -125,37 +125,8 @@ export class RaiderIoApiService {
     );
   }
 
-  /**
-   * Get character's current mythic plus score
-   */
-  getCurrentMythicPlusScore(profile: RaiderIoCharacterProfile): number {
-    if (!profile.mythic_plus_scores_by_season || profile.mythic_plus_scores_by_season.length === 0) {
-      return 0;
-    }
-
-    // Get the most recent season (should be current)
-    const currentSeason = profile.mythic_plus_scores_by_season[0];
-    return currentSeason.scores.all || 0;
-  }
-
-  /**
-   * Get character's current item level
-   */
-  getCurrentItemLevel(profile: RaiderIoCharacterProfile): number {
-    return profile.gear?.item_level_equipped || 0;
-  }
-
-  /**
-   * Check if character data is recent (within 24 hours)
-   */
-  isDataRecent(profile: RaiderIoCharacterProfile): boolean {
-    if (!profile.last_crawled_at) return false;
-
-    const lastCrawled = new Date(profile.last_crawled_at);
-    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
-
-    return lastCrawled > oneDayAgo;
-  }
+  // Note: Character data mapping and stats extraction methods
+  // have been moved to RaiderIoMapperHelper service for better reusability
 
   /**
    * Format realm name for API call (remove spaces, special characters)

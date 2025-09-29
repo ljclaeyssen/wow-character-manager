@@ -1,0 +1,278 @@
+.settings-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 1rem;
+
+  .settings-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+
+    i {
+      color: var(--primary-color);
+    }
+  }
+
+  .settings-subtitle {
+    margin: 0;
+    color: var(--text-color-secondary);
+    font-size: 1.1rem;
+  }
+}
+
+// Credentials Card
+.credentials-card {
+  :deep(.p-card-header) {
+    padding: 1.5rem;
+  }
+
+  :deep(.p-card-content) {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .card-icon {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .header-content {
+      h3 {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      p {
+        margin: 0;
+        color: var(--text-color-secondary);
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+.credentials-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.status-indicator {
+  :deep(.p-message) {
+    margin: 0;
+  }
+}
+
+.api-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .form-label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.95rem;
+
+    .required-asterisk {
+      color: var(--red-500);
+      margin-left: 0.25rem;
+    }
+  }
+
+  .form-input {
+    width: 100%;
+
+    &.ng-invalid {
+      border-color: var(--red-500);
+    }
+  }
+
+  .password-field {
+    :deep(.p-password-input) {
+      width: 100%;
+    }
+
+    :deep(.p-inputwrapper) {
+      width: 100%;
+    }
+  }
+
+  .field-error {
+    color: var(--red-500);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  :deep(.p-button) {
+    min-width: 150px;
+  }
+}
+
+// Help Section
+.help-section {
+  .help-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+
+    i {
+      color: var(--blue-500);
+    }
+  }
+
+  .help-content {
+    .help-steps {
+      margin: 0 0 1rem 1.5rem;
+      padding: 0;
+
+      li {
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+
+        a {
+          color: var(--primary-color);
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .help-note {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: var(--surface-100);
+      border-radius: var(--border-radius);
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--text-color-secondary);
+
+      i {
+        color: var(--green-500);
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+// Preferences Card
+.preferences-card {
+  .coming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+
+    i {
+      font-size: 3rem;
+      color: var(--text-color-secondary);
+      opacity: 0.5;
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-color-secondary);
+      font-style: italic;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .settings-container {
+    padding: 1rem;
+  }
+
+  .settings-header {
+    .settings-title {
+      font-size: 1.5rem;
+    }
+
+    .settings-subtitle {
+      font-size: 1rem;
+    }
+  }
+
+  .credentials-card {
+    .card-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.5rem;
+
+      .card-icon {
+        font-size: 2rem;
+      }
+    }
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    :deep(.p-button) {
+      width: 100%;
+    }
+  }
+
+  .help-content {
+    .help-steps {
+      margin-left: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-container {
+    padding: 0.5rem;
+  }
+
+  .credentials-card {
+    :deep(.p-card-header),
+    :deep(.p-card-content) {
+      padding: 1rem;
+    }
+  }
+}

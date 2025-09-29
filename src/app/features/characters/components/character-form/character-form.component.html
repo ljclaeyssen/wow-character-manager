@@ -1,0 +1,117 @@
+<p-dialog
+  [header]="dialogTitle()"
+  [visible]="visible()"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [closable]="true"
+  [closeOnEscape]="true"
+  styleClass="character-form-dialog"
+  (onHide)="onHide()">
+
+  <form [formGroup]="characterForm" (ngSubmit)="onSubmit()" class="character-form p-d-flex p-flex-column p-gap-4">
+
+    <!-- Character Name -->
+    <div class="form-field p-d-flex p-flex-column p-gap-2">
+      <label for="characterName" class="field-label">Character Name *</label>
+      <input
+        pInputText
+        id="characterName"
+        formControlName="name"
+        placeholder="Enter character name"
+        maxlength="12"
+        class="w-full"
+        [class.ng-invalid]="hasFieldError('name')" />
+
+      @if (getFieldError('name')) {
+        <p-message severity="error" [text]="getFieldError('name')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Server/Realm -->
+    <div class="form-field p-d-flex p-flex-column p-gap-2">
+      <label for="server" class="field-label">Server/Realm *</label>
+      <input
+        pInputText
+        id="server"
+        formControlName="server"
+        placeholder="Enter server/realm name"
+        class="w-full"
+        [class.ng-invalid]="hasFieldError('server')" />
+
+      @if (getFieldError('server')) {
+        <p-message severity="error" [text]="getFieldError('server')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- Profession Selection -->
+    <div class="form-field p-d-flex p-flex-column p-gap-2">
+      <label for="professions" class="field-label">Professions (Max 2)</label>
+      <p-multiselect
+        id="professions"
+        formControlName="professions"
+        [options]="professionOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select professions"
+        [maxSelectedLabels]="2"
+        selectedItemsLabel="{0} professions selected"
+        [selectionLimit]="2"
+        appendTo="body"
+        class="w-full"
+        [class.ng-invalid]="hasFieldError('professions')">
+
+        <ng-template let-option pTemplate="item">
+          <div class="profession-option">
+            <span>{{ option.label }}</span>
+          </div>
+        </ng-template>
+      </p-multiselect>
+
+      @if (getFieldError('professions')) {
+        <p-message severity="error" [text]="getFieldError('professions')!" class="field-error"></p-message>
+      }
+    </div>
+
+    <!-- API Message -->
+    @if (apiMessage()) {
+      <div class="api-message">
+        <p-message
+          severity="error"
+          [text]="apiMessage()!"
+          class="w-full">
+        </p-message>
+      </div>
+    }
+
+    <!-- Form Actions -->
+    <div class="form-actions p-d-flex p-jc-between p-gap-2">
+      <p-button
+        type="button"
+        label="Cancel"
+        severity="secondary"
+        [text]="true"
+        [disabled]="loading()"
+        (onClick)="onCancel()">
+      </p-button>
+
+      <p-button
+        type="submit"
+        [label]="isEditMode() ? 'Update Character' : 'Create Character'"
+        severity="primary"
+        [loading]="loading()"
+        [disabled]="loading()">
+      </p-button>
+    </div>
+
+    <!-- Loading State -->
+    @if (loading()) {
+      <div class="form-loading p-d-flex p-ai-center p-gap-2">
+        <i class="pi pi-spin pi-spinner"></i>
+        <span>{{ isEditMode() ? 'Updating character...' : 'Validating with Raider.io...' }}</span>
+      </div>
+    }
+
+  </form>
+
+</p-dialog>

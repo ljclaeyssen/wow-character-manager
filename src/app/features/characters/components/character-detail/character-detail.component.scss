@@ -1,0 +1,576 @@
+.character-detail-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .character-detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--p-surface-border);
+
+    .back-button {
+      margin-right: 1rem;
+    }
+
+    .character-detail-title {
+      flex: 1;
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--p-text-color);
+    }
+
+    .character-detail-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+
+  .character-detail-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    .character-overview-card {
+      grid-column: 1 / -1;
+    }
+
+    ::ng-deep {
+      .p-card {
+        height: fit-content;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid var(--p-surface-border);
+
+        .p-card-header {
+          background: var(--p-surface-50);
+          border-bottom: 1px solid var(--p-surface-border);
+          padding: 1.25rem;
+
+          .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--p-text-color);
+
+            i {
+              font-size: 1rem;
+              color: var(--p-primary-500);
+            }
+          }
+        }
+
+        .p-card-content {
+          padding: 1.25rem;
+        }
+      }
+    }
+
+    // Character Overview Card Styling
+    .character-overview-card {
+      ::ng-deep .p-card-header {
+        .character-card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          width: 100%;
+
+          .character-basic-info {
+            flex: 1;
+
+            .character-name {
+              margin: 0 0 0.5rem 0;
+              font-size: 2rem;
+              font-weight: 700;
+              text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            }
+
+            .character-subtitle {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+
+              .level-tag {
+                font-weight: 600;
+              }
+
+              .character-race-class {
+                font-size: 1.125rem;
+                color: var(--p-text-color-secondary);
+                font-weight: 500;
+              }
+            }
+          }
+
+          .character-faction {
+            .faction-tag {
+              font-size: 1rem;
+              padding: 0.5rem 0.75rem;
+            }
+          }
+        }
+      }
+
+      .character-overview-content {
+        .character-specs-professions {
+          margin-bottom: 1.5rem;
+
+          .character-specialization,
+          .character-professions {
+            margin-bottom: 1rem;
+
+            .info-label {
+              display: block;
+              margin-bottom: 0.5rem;
+              font-weight: 600;
+              color: var(--p-text-color);
+              font-size: 0.875rem;
+              text-transform: uppercase;
+              letter-spacing: 0.025em;
+            }
+
+            .professions-list {
+              display: flex;
+              gap: 0.5rem;
+              flex-wrap: wrap;
+            }
+          }
+        }
+
+        // Vault Progress Section
+        .vault-progress-section {
+          .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0 1.5rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--p-text-color);
+
+            i {
+              color: var(--p-amber-500);
+            }
+          }
+
+          .vault-overview {
+            margin-bottom: 1.5rem;
+
+            .vault-summary {
+              display: flex;
+              align-items: center;
+              gap: 1rem;
+
+              .vault-slots-count {
+                font-size: 1.125rem;
+                font-weight: 600;
+                color: var(--p-text-color);
+                min-width: 60px;
+              }
+
+              .vault-progress-bar {
+                flex: 1;
+
+                ::ng-deep {
+                  .p-progressbar {
+                    height: 0.75rem;
+                    background: var(--p-surface-200);
+                    border-radius: var(--p-border-radius-md);
+
+                    .p-progressbar-value {
+                      background: linear-gradient(90deg, var(--p-amber-400), var(--p-amber-600));
+                    }
+
+                    .p-progressbar-label {
+                      font-size: 0.75rem;
+                      font-weight: 600;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .vault-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+
+            .vault-source {
+              padding: 1rem;
+              background: var(--p-surface-ground);
+              border: 1px solid var(--p-surface-border);
+              border-radius: var(--p-border-radius-md);
+
+              .source-header {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0.75rem;
+
+                .source-icon {
+                  font-size: 1rem;
+
+                  &.raid-icon {
+                    color: var(--p-green-500);
+                  }
+
+                  &.mythic-icon {
+                    color: var(--p-blue-500);
+                  }
+
+                  &.pvp-icon {
+                    color: var(--p-red-500);
+                  }
+                }
+
+                .source-label {
+                  font-weight: 600;
+                  color: var(--p-text-color);
+                }
+              }
+
+              .source-progress {
+                .source-count {
+                  display: block;
+                  margin-bottom: 0.5rem;
+                  font-size: 0.875rem;
+                  color: var(--p-text-color-secondary);
+                }
+
+                .source-slots {
+                  display: flex;
+                  gap: 0.25rem;
+
+                  .vault-slot {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    border-radius: var(--p-border-radius-sm);
+                    border: 2px solid var(--p-surface-300);
+                    background: var(--p-surface-100);
+                    transition: all 0.2s;
+
+                    &.completed {
+                      border-color: var(--p-primary-500);
+                      background: var(--p-primary-100);
+                      position: relative;
+
+                      &::after {
+                        content: '✓';
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        color: var(--p-primary-700);
+                        font-size: 0.75rem;
+                        font-weight: 700;
+                      }
+                    }
+
+                    &.raid-slot.completed {
+                      border-color: var(--p-green-500);
+                      background: var(--p-green-100);
+
+                      &::after {
+                        color: var(--p-green-700);
+                      }
+                    }
+
+                    &.mythic-slot.completed {
+                      border-color: var(--p-blue-500);
+                      background: var(--p-blue-100);
+
+                      &::after {
+                        color: var(--p-blue-700);
+                      }
+                    }
+
+                    &.pvp-slot.completed {
+                      border-color: var(--p-red-500);
+                      background: var(--p-red-100);
+
+                      &::after {
+                        color: var(--p-red-700);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+    // Activity Statistics Card
+    .activity-stats-card {
+      .activity-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+
+        .stat-item {
+          text-align: center;
+          padding: 1rem;
+          background: var(--p-surface-ground);
+          border: 1px solid var(--p-surface-border);
+          border-radius: var(--p-border-radius-md);
+
+          .stat-value {
+            display: block;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--p-primary-600);
+            margin-bottom: 0.25rem;
+          }
+
+          .stat-label {
+            font-size: 0.875rem;
+            color: var(--p-text-color-secondary);
+            font-weight: 500;
+          }
+        }
+      }
+    }
+
+    // Recent Activities Card
+    .recent-activities-card {
+      .no-activities {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 2rem;
+        color: var(--p-text-color-secondary);
+        text-align: center;
+
+        i {
+          font-size: 1.25rem;
+        }
+      }
+
+      .activities-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .activity-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: var(--p-surface-ground);
+          border: 1px solid var(--p-surface-border);
+          border-radius: var(--p-border-radius-md);
+          transition: border-color 0.2s;
+
+          &:hover {
+            border-color: var(--p-primary-300);
+          }
+
+          .activity-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: var(--p-primary-100);
+            border-radius: 50%;
+            flex-shrink: 0;
+
+            .activity-icon {
+              color: var(--p-primary-600);
+              font-size: 0.875rem;
+            }
+          }
+
+          .activity-content {
+            flex: 1;
+            min-width: 0;
+
+            .activity-description {
+              display: block;
+              font-weight: 500;
+              color: var(--p-text-color);
+              margin-bottom: 0.25rem;
+            }
+
+            .activity-meta {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+
+              .activity-type-tag {
+                font-size: 0.75rem;
+              }
+
+              .activity-date {
+                font-size: 0.75rem;
+                color: var(--p-text-color-secondary);
+              }
+            }
+          }
+
+          .activity-vault-indicator {
+            .vault-icon {
+              color: var(--p-amber-500);
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    // Character Information Card
+    .character-info-card {
+      .character-info-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid var(--p-surface-border);
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          .info-label {
+            font-weight: 600;
+            color: var(--p-text-color);
+          }
+
+          .info-value {
+            color: var(--p-text-color-secondary);
+
+            &.character-id {
+              font-family: 'Courier New', monospace;
+              font-size: 0.875rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .character-detail-container {
+    .character-detail-content {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .character-detail-container {
+    padding: 1rem;
+
+    .character-detail-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      .character-detail-title {
+        font-size: 1.25rem;
+      }
+
+      .character-detail-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    .character-detail-content {
+      gap: 1rem;
+
+      .character-overview-card {
+        ::ng-deep .p-card-header {
+          .character-card-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+
+            .character-basic-info {
+              .character-name {
+                font-size: 1.5rem;
+              }
+
+              .character-subtitle {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+              }
+            }
+          }
+        }
+
+        .vault-breakdown {
+          grid-template-columns: 1fr;
+        }
+      }
+
+
+      .activity-stats-card {
+        .activity-stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .character-detail-container {
+    padding: 0.75rem;
+
+    .character-detail-header {
+      .character-detail-actions {
+        flex-direction: column;
+        width: 100%;
+
+        ::ng-deep .p-button {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+
+    .character-detail-content {
+      .activity-stats-card {
+        .activity-stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .character-detail-container {
+    .character-detail-content {
+      .vault-breakdown {
+        .vault-source {
+          .source-slots {
+            .vault-slot {
+              border-color: var(--p-surface-400);
+              background: var(--p-surface-200);
+            }
+          }
+        }
+      }
+    }
+  }
+}

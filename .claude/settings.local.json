@@ -21,7 +21,19 @@
       "Bash(powershell:*)",
       "Bash(dir:*)",
       "Bash(ng serve:*)",
-      "WebFetch(domain:raider.io)"
+      "WebFetch(domain:raider.io)",
+      "Bash(ng build:*)",
+      "Bash(del:*)",
+      "WebFetch(domain:develop.battle.net)",
+      "WebFetch(domain:community.developer.battle.net)",
+      "WebFetch(domain:wowaudit.com)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(ng test:*)",
+      "Bash(find:*)",
+      "Bash(move srcappcomponentsdashboard srcappfeaturesdashboardcomponents )",
+      "Bash(move srcappcomponentsactivity-tracker srcappfeaturesdashboardcomponents )",
+      "Bash(move srcappcomponentscharacter-card srcappfeaturesdashboardcomponents)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,116 @@
+<p-card header="Great Vault Progress" styleClass="vault-progress-card">
+  @if (loading()) {
+    <div class="loading-state">
+      <i class="pi pi-spin pi-spinner"></i>
+      <span>Loading vault rewards...</span>
+    </div>
+  } @else if (errorMessage()) {
+    <p-message severity="error">
+      <span>{{ errorMessage() }}</span>
+    </p-message>
+    <p-message severity="info">
+      <span>Make sure Blizzard API credentials are configured in Settings.</span>
+    </p-message>
+  } @else if (isLoaded()) {
+    <!-- Mythic+ Section -->
+    <div class="vault-header">
+      <span class="vault-title">Mythic+</span>
+      <span class="vault-slots">{{ mythicPlusVaultProgress().slots }}/3 slots</span>
+    </div>
+
+    <div class="vault-rewards-row">
+      <p-tag
+        [value]="mythicPlusVaultProgress().slotRewards[0]"
+        [severity]="getTagSeverity(mythicPlusVaultProgress().slotRewards[0])"
+        size="small">
+      </p-tag>
+      <p-tag
+        [value]="mythicPlusVaultProgress().slotRewards[1]"
+        [severity]="getTagSeverity(mythicPlusVaultProgress().slotRewards[1])"
+        size="small">
+      </p-tag>
+      <p-tag
+        [value]="mythicPlusVaultProgress().slotRewards[2]"
+        [severity]="getTagSeverity(mythicPlusVaultProgress().slotRewards[2])"
+        size="small">
+      </p-tag>
+    </div>
+
+    @if (mythicPlusVaultProgress().nextMilestone.remaining > 0) {
+      <p-message
+        severity="info"
+        styleClass="milestone-message">
+        <span>{{ mythicPlusVaultProgress().nextMilestone.remaining }} more runs needed for next vault slot</span>
+      </p-message>
+    } @else {
+      <p-message
+        severity="success"
+        styleClass="milestone-message">
+        <span>All Mythic+ vault slots earned this week!</span>
+      </p-message>
+    }
+
+    <p-divider></p-divider>
+
+    <!-- Raid Section -->
+    <div class="vault-header">
+      <span class="vault-title">Raid</span>
+      <span class="vault-slots">{{ raidVaultProgress().slots }}/3 slots</span>
+    </div>
+
+    <div class="vault-rewards-row">
+      <p-tag
+        [value]="raidVaultProgress().slotRewards[0]"
+        [severity]="getTagSeverity(raidVaultProgress().slotRewards[0])"
+        size="small">
+      </p-tag>
+      <p-tag
+        [value]="raidVaultProgress().slotRewards[1]"
+        [severity]="getTagSeverity(raidVaultProgress().slotRewards[1])"
+        size="small">
+      </p-tag>
+      <p-tag
+        [value]="raidVaultProgress().slotRewards[2]"
+        [severity]="getTagSeverity(raidVaultProgress().slotRewards[2])"
+        size="small">
+      </p-tag>
+    </div>
+
+    @if (raidVaultProgress().nextMilestone.remaining > 0) {
+      <p-message
+        severity="info"
+        styleClass="milestone-message">
+        <span>{{ raidVaultProgress().nextMilestone.remaining }} more bosses needed for next vault slot</span>
+      </p-message>
+    } @else {
+      <p-message
+        severity="success"
+        styleClass="milestone-message">
+        <span>All Raid vault slots earned this week!</span>
+      </p-message>
+    }
+
+    <p-divider></p-divider>
+
+    <!-- Refresh Button and Last Update -->
+    <div class="vault-actions">
+      <div class="last-update-info">
+        <i class="pi pi-clock"></i>
+        <span class="last-update-text">Last updated: {{ formatLastUpdate() }}</span>
+      </div>
+      <p-button
+        icon="pi pi-refresh"
+        label="Refresh Rewards"
+        [text]="true"
+        size="small"
+        [disabled]="loading()"
+        (onClick)="onRefreshData()">
+      </p-button>
+    </div>
+  } @else {
+    <div class="no-character">
+      <i class="pi pi-user-plus"></i>
+      <span>Select a character to view Great Vault rewards</span>
+    </div>
+  }
+</p-card>

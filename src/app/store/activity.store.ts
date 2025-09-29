@@ -6,7 +6,6 @@ import { pipe, tap, switchMap, catchError, of } from 'rxjs';
 import {
   CharacterActivity,
   MythicPlusActivity,
-  MythicPlusRun,
   RaidActivity,
   WeeklyQuest
 } from '../models/activity.model';
@@ -66,15 +65,11 @@ export const ActivityStore = signalStore(
       }> = {};
 
       Object.values(activities).forEach(activity => {
-        // M+ vault progress (1/4/8 dungeons for 1/2/3 slots)
-        const mpSlots = calculateMythicPlusVaultSlots(activity.mythicPlus.dungeonCount);
-
-        // Raid vault progress (2/4/6 bosses for 1/2/3 slots)
+        // Note: Vault slot calculations removed - now handled by API-based Great Vault system
         const totalRaidBosses = activity.raid.lfrBossesKilled +
                                activity.raid.normalBossesKilled +
                                activity.raid.heroicBossesKilled +
                                activity.raid.mythicBossesKilled;
-        const raidSlots = calculateRaidVaultSlots(totalRaidBosses);
 
         // Determine available difficulties
         const difficulties: string[] = [];
@@ -86,12 +81,12 @@ export const ActivityStore = signalStore(
         summary[activity.characterId] = {
           characterId: activity.characterId,
           mythicPlus: {
-            slotsEarned: mpSlots,
+            slotsEarned: 0, // Now using API data for vault progress
             totalDungeons: activity.mythicPlus.dungeonCount,
             highestKey: activity.mythicPlus.highestKeyLevel
           },
           raid: {
-            slotsEarned: raidSlots,
+            slotsEarned: 0, // Now using API data for vault progress
             totalBosses: totalRaidBosses,
             difficulties
           },
@@ -125,14 +120,15 @@ export const ActivityStore = signalStore(
       let completedProfessionQuests = 0;
 
       Object.values(activities).forEach(activity => {
-        const mpSlots = calculateMythicPlusVaultSlots(activity.mythicPlus.dungeonCount);
+        // Note: Vault slot calculations removed - now handled by API-based Great Vault system
+        // Just count basic activity completion for summary purposes
+        if (activity.mythicPlus.dungeonCount > 0) totalVaultSlots += 1;
+
         const totalBosses = activity.raid.lfrBossesKilled +
                            activity.raid.normalBossesKilled +
                            activity.raid.heroicBossesKilled +
                            activity.raid.mythicBossesKilled;
-        const raidSlots = calculateRaidVaultSlots(totalBosses);
-
-        totalVaultSlots += mpSlots + raidSlots;
+        if (totalBosses > 0) totalVaultSlots += 1;
 
         if (activity.weeklyQuests.worldBossCompleted) completedWorldBosses++;
         totalSparkFragments += activity.weeklyQuests.sparkFragments;
@@ -268,54 +264,8 @@ export const ActivityStore = signalStore(
       methods.saveToLocalStorage();
     },
 
-    // Add individual M+ run
-    addMythicPlusRun: (characterId: string, run: MythicPlusRun): void => {
-      const currentActivity = store.activities()[characterId];
-      if (!currentActivity) {
-        methods.initializeCharacterActivity(characterId);
-        return methods.addMythicPlusRun(characterId, run);
-      }
 
-      const updatedRuns = [...currentActivity.mythicPlus.runs, run];
-      const dungeonCount = updatedRuns.length;
-      const highestKeyLevel = Math.max(...updatedRuns.map(r => r.keyLevel));
-
-      const updatedMP = {
-        ...currentActivity.mythicPlus,
-        runs: updatedRuns,
-        dungeonCount,
-        highestKeyLevel,
-        lastUpdated: new Date()
-      };
-
-      // Update vault progress based on dungeon count
-      updatedMP.vaultProgress = {
-        slot1: dungeonCount >= 1,
-        slot2: dungeonCount >= 4,
-        slot3: dungeonCount >= 8
-      };
-
-      const updatedActivity = {
-        ...currentActivity,
-        mythicPlus: updatedMP,
-        lastUpdated: new Date()
-      };
-
-      patchState(store, {
-        activities: {
-          ...store.activities(),
-          [characterId]: updatedActivity
-        }
-      });
-
-      methods.saveToLocalStorage();
-
-      // Show vault progress notification
-      const slotsEarned = calculateMythicPlusVaultSlots(dungeonCount);
-      notificationService.showVaultProgress('Mythic+', `${slotsEarned}/3 vault slots earned (${dungeonCount} dungeons)`);
-    },
-
-    // Update M+ activity
+    // Update M+ activity (for data import only - no manual vault calculations)
     updateMythicPlusActivity: (characterId: string, updates: Partial<MythicPlusActivity>) => {
       const currentActivity = store.activities()[characterId];
       if (!currentActivity) {
@@ -329,13 +279,6 @@ export const ActivityStore = signalStore(
         lastUpdated: new Date()
       };
 
-      // Update vault progress based on dungeon count
-      updatedMP.vaultProgress = {
-        slot1: updatedMP.dungeonCount >= 1,
-        slot2: updatedMP.dungeonCount >= 4,
-        slot3: updatedMP.dungeonCount >= 8
-      };
-
       const updatedActivity = {
         ...currentActivity,
         mythicPlus: updatedMP,
@@ -350,13 +293,9 @@ export const ActivityStore = signalStore(
       });
 
       methods.saveToLocalStorage();
-
-      // Show vault progress notification
-      const slotsEarned = calculateMythicPlusVaultSlots(updatedMP.dungeonCount);
-      notificationService.showVaultProgress('Mythic+', `${slotsEarned}/3 vault slots earned (${updatedMP.dungeonCount} dungeons)`);
     },
 
-    // Update raid activity
+    // Update raid activity (for data import only - no manual vault calculations)
     updateRaidActivity: (characterId: string, updates: Partial<RaidActivity>) => {
       const currentActivity = store.activities()[characterId];
       if (!currentActivity) {
@@ -368,18 +307,6 @@ export const ActivityStore = signalStore(
         ...currentActivity.raid,
         ...updates,
         lastUpdated: new Date()
-      };
-
-      // Calculate total bosses and update vault progress
-      const totalBosses = (updatedRaid.lfrBossesKilled || 0) +
-                         (updatedRaid.normalBossesKilled || 0) +
-                         (updatedRaid.heroicBossesKilled || 0) +
-                         (updatedRaid.mythicBossesKilled || 0);
-
-      updatedRaid.vaultProgress = {
-        slot1: totalBosses >= 2,
-        slot2: totalBosses >= 4,
-        slot3: totalBosses >= 6
       };
 
       const updatedActivity = {
@@ -396,10 +323,6 @@ export const ActivityStore = signalStore(
       });
 
       methods.saveToLocalStorage();
-
-      // Show vault progress notification
-      const slotsEarned = calculateRaidVaultSlots(totalBosses);
-      notificationService.showVaultProgress('Raid', `${slotsEarned}/3 vault slots earned (${totalBosses} bosses)`);
     },
 
     // Update weekly quests
@@ -792,19 +715,6 @@ function getWeekStartDate(): Date {
   return wednesday;
 }
 
-function calculateMythicPlusVaultSlots(dungeonCount: number): number {
-  if (dungeonCount >= 8) return 3;
-  if (dungeonCount >= 4) return 2;
-  if (dungeonCount >= 1) return 1;
-  return 0;
-}
-
-function calculateRaidVaultSlots(bossCount: number): number {
-  if (bossCount >= 6) return 3;
-  if (bossCount >= 4) return 2;
-  if (bossCount >= 2) return 1;
-  return 0;
-}
 
 function createFreshWeeklyActivity(characterId: string, weekStartDate: Date): CharacterActivity {
   return {

@@ -1,0 +1,104 @@
+<p-toolbar class="app-toolbar">
+  <ng-template pTemplate="start">
+    <div class="flex align-items-center gap-3">
+      <!-- Mobile Menu Toggle -->
+      <p-button
+        icon="pi pi-bars"
+        [text]="true"
+        [rounded]="true"
+        severity="secondary"
+        class="mobile-menu-button"
+        [class.visible]="state().isMobile"
+        (onClick)="onToggleMobileMenu()"
+        ariaLabel="Toggle Mobile Menu">
+      </p-button>
+
+      <!-- App Logo and Title -->
+      <div class="app-brand">
+        <i class="pi pi-users brand-icon"></i>
+        <div class="brand-content">
+          <span class="brand-title">{{ title() }}</span>
+          <span class="brand-version">v{{ version() }}</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="center">
+    <!-- Desktop Navigation Menu -->
+    <div class="desktop-navigation" [class.hidden]="state().isMobile">
+      <p-menubar [model]="menuItems()" styleClass="app-menubar">
+        <ng-template pTemplate="start">
+          <!-- Navigation stats -->
+          <div class="nav-stats">
+            <p-tag
+              [value]="stats().totalCharacters + ' Characters'"
+              severity="info"
+              icon="pi pi-users">
+            </p-tag>
+            <p-tag
+              [value]="stats().activeCharacters + ' Active'"
+              severity="success"
+              icon="pi pi-check-circle">
+            </p-tag>
+            <p-badge
+              [value]="stats().totalVaultSlots"
+              [severity]="getVaultSlotSeverity(stats().totalVaultSlots)"
+              size="large">
+            </p-badge>
+          </div>
+        </ng-template>
+      </p-menubar>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="end">
+    <div class="toolbar-actions">
+      <!-- Reset Timer -->
+      <div class="reset-timer">
+        <p-tag
+          [value]="'Reset: ' + stats().nextResetTime"
+          severity="warn"
+          icon="pi pi-clock">
+        </p-tag>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <p-button
+          icon="pi pi-refresh"
+          [text]="true"
+          [rounded]="true"
+          severity="secondary"
+          [loading]="isRefreshing()"
+          [disabled]="isRefreshing()"
+          (onClick)="onRefreshData()"
+          [pTooltip]="isRefreshing() ? 'Refreshing character data...' : 'Refresh all characters from Raider.io'"
+          ariaLabel="Refresh">
+        </p-button>
+
+        @if (state().error) {
+          <p-button
+            icon="pi pi-exclamation-triangle"
+            [text]="true"
+            [rounded]="true"
+            severity="danger"
+            (onClick)="onClearError()"
+            pTooltip="Clear Errors"
+            ariaLabel="Clear Errors">
+          </p-button>
+        }
+
+        <p-button
+          icon="pi pi-cog"
+          [text]="true"
+          [rounded]="true"
+          severity="secondary"
+          routerLink="/settings"
+          pTooltip="Settings"
+          ariaLabel="Settings">
+        </p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-toolbar>

@@ -1,0 +1,164 @@
+.vault-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  border: 2px solid var(--surface-300);
+  border-radius: var(--border-radius);
+  background: var(--surface-50);
+  transition: all 0.2s ease;
+  min-width: 120px;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &.unlocked {
+    border-color: var(--green-400);
+    background: linear-gradient(135deg, var(--green-50) 0%, var(--surface-50) 100%);
+
+    .slot-header {
+      .slot-icon {
+        color: var(--green-600);
+        background: var(--green-100);
+      }
+    }
+  }
+}
+
+.slot-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+
+  .slot-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--surface-200);
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+
+  .slot-number {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--text-color);
+    min-width: 1.5rem;
+    text-align: center;
+  }
+}
+
+.slot-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.item-level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+
+  .ilvl-label {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--primary-color);
+    line-height: 1;
+  }
+
+  .ilvl-text {
+    font-size: 0.75rem;
+    color: var(--text-color-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  width: 100%;
+
+  :deep(.vault-progress) {
+    height: 0.5rem;
+    border-radius: 0.25rem;
+
+    .p-progressbar-value {
+      border-radius: 0.25rem;
+    }
+
+    &.progress-success .p-progressbar-value {
+      background: linear-gradient(90deg, var(--green-400), var(--green-500));
+    }
+
+    &.progress-info .p-progressbar-value {
+      background: linear-gradient(90deg, var(--blue-400), var(--blue-500));
+    }
+
+    &.progress-warn .p-progressbar-value {
+      background: linear-gradient(90deg, var(--orange-400), var(--orange-500));
+    }
+
+    &.progress-danger .p-progressbar-value {
+      background: linear-gradient(90deg, var(--red-400), var(--red-500));
+    }
+  }
+
+  .progress-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-color-secondary);
+  }
+}
+
+.slot-status {
+  :deep(.p-tag) {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .vault-slot {
+    min-width: 100px;
+    padding: 0.5rem;
+
+    .slot-header {
+      margin-bottom: 0.5rem;
+
+      .slot-icon {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.75rem;
+      }
+
+      .slot-number {
+        font-size: 1.125rem;
+      }
+    }
+
+    .item-level {
+      .ilvl-label {
+        font-size: 1rem;
+      }
+
+      .ilvl-text {
+        font-size: 0.6875rem;
+      }
+    }
+  }
+}

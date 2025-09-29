@@ -1,0 +1,375 @@
+.great-vault-card {
+  :deep(.p-card) {
+    border: 1px solid var(--surface-300);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    .p-card-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--surface-200);
+    }
+
+    .p-card-content {
+      padding: 1.25rem;
+    }
+
+    .p-card-footer {
+      padding: 0.75rem 1.25rem;
+      border-top: 1px solid var(--surface-200);
+      background: var(--surface-50);
+    }
+  }
+}
+
+.vault-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .vault-icon {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      background: var(--primary-50);
+      padding: 0.5rem;
+      border-radius: var(--border-radius);
+    }
+
+    .header-text {
+      .vault-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-color);
+      }
+
+      .vault-subtitle {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--text-color-secondary);
+      }
+    }
+  }
+
+  .header-actions {
+    :deep(.p-button) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}
+
+.vault-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// API Setup Required
+.api-setup-required {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+
+  .setup-button {
+    margin-top: 0.5rem;
+  }
+}
+
+// Error State
+.error-state {
+  :deep(.p-message) {
+    margin: 0;
+  }
+}
+
+// Loading State
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .loading-summary {
+    text-align: center;
+  }
+
+  .loading-slots {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .loading-slot {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+// Main Progress Content
+.vault-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.progress-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+  padding: 1rem;
+  background: var(--surface-50);
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--primary-color);
+
+  .summary-stats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+
+      .stat-label {
+        font-size: 0.75rem;
+        color: var(--text-color-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-value {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--text-color);
+      }
+    }
+
+    .slots-tag {
+      :deep(.p-tag) {
+        font-size: 0.875rem;
+        font-weight: 700;
+        padding: 0.375rem 0.75rem;
+      }
+    }
+  }
+
+  .highest-ilvl {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--surface-200);
+
+    .ilvl-label {
+      font-size: 0.875rem;
+      color: var(--text-color-secondary);
+    }
+
+    .ilvl-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+  }
+}
+
+// Vault Categories
+.vault-category {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .category-icon {
+      font-size: 1.25rem;
+      padding: 0.5rem;
+      border-radius: var(--border-radius);
+
+      &.mythicplus-icon {
+        color: var(--orange-600);
+        background: var(--orange-50);
+      }
+
+      &.raid-icon {
+        color: var(--red-600);
+        background: var(--red-50);
+      }
+
+      &.pvp-icon {
+        color: var(--purple-600);
+        background: var(--purple-50);
+      }
+    }
+
+    .category-info {
+      flex: 1;
+
+      .category-title {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--text-color);
+      }
+
+      .category-details {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--text-color-secondary);
+      }
+    }
+  }
+
+  .category-slots {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      gap: 0.75rem;
+    }
+  }
+}
+
+// No Progress State
+.no-progress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+
+  .no-progress-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    color: var(--text-color-secondary);
+
+    .no-progress-icon {
+      font-size: 3rem;
+      opacity: 0.5;
+    }
+
+    h4 {
+      margin: 0;
+      color: var(--text-color);
+    }
+
+    p {
+      margin: 0;
+      max-width: 300px;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Footer
+.vault-footer {
+  display: flex;
+  justify-content: center;
+
+  .last-updated {
+    color: var(--text-color-secondary);
+    font-style: italic;
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .progress-summary {
+    .summary-stats {
+      gap: 1rem;
+    }
+  }
+
+  .category-slots {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .great-vault-card {
+    :deep(.p-card) {
+      .p-card-header,
+      .p-card-content,
+      .p-card-footer {
+        padding: 1rem;
+      }
+    }
+  }
+
+  .vault-header {
+    .header-content {
+      .vault-icon {
+        font-size: 1.25rem;
+        padding: 0.375rem;
+      }
+
+      .header-text {
+        .vault-title {
+          font-size: 1.125rem;
+        }
+
+        .vault-subtitle {
+          font-size: 0.8125rem;
+        }
+      }
+    }
+  }
+
+  .progress-summary {
+    padding: 0.75rem;
+
+    .summary-stats {
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .stat-item {
+        .stat-value {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .vault-category {
+    .category-header {
+      .category-icon {
+        font-size: 1.125rem;
+        padding: 0.375rem;
+      }
+
+      .category-info {
+        .category-title {
+          font-size: 1rem;
+        }
+
+        .category-details {
+          font-size: 0.8125rem;
+        }
+      }
+    }
+
+    .category-slots {
+      gap: 0.5rem;
+    }
+  }
+}

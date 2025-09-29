@@ -1,0 +1,95 @@
+.app-toolbar {
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-card);
+  padding: 0.5rem 1rem;
+
+  .app-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .brand-icon {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .brand-content {
+      display: flex;
+      flex-direction: column;
+
+      .brand-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--text-color);
+        line-height: 1.2;
+      }
+
+      .brand-version {
+        font-size: 0.75rem;
+        color: var(--text-color-secondary);
+        line-height: 1;
+      }
+    }
+  }
+
+  .mobile-menu-button {
+    display: none;
+
+    &.visible {
+      display: flex;
+    }
+  }
+
+  .desktop-navigation {
+    &.hidden {
+      display: none;
+    }
+
+    .nav-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .reset-timer {
+      display: flex;
+      align-items: center;
+    }
+
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+  }
+}
+
+// Mobile responsive styles
+@media (max-width: 768px) {
+  .app-toolbar {
+    padding: 0.5rem;
+
+    .app-brand {
+      .brand-content {
+        .brand-title {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .toolbar-actions {
+      gap: 0.5rem;
+
+      .reset-timer {
+        display: none; // Hide reset timer on mobile
+      }
+    }
+  }
+}
