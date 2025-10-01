@@ -49,8 +49,17 @@ export class CharacterFormComponent {
   // Custom form group with built-in logic
   protected readonly characterForm = new SimpleCharacterFormGroup();
 
-  // Form options
-  protected readonly professionOptions = PROFESSION_OPTIONS;
+  // Form options - Group professions by type for better UX
+  protected readonly professionOptions = [
+    {
+      type: 'Gathering',
+      items: PROFESSION_OPTIONS.filter(p => p.type === 'Gathering')
+    },
+    {
+      type: 'Crafting',
+      items: PROFESSION_OPTIONS.filter(p => p.type === 'Crafting')
+    }
+  ];
 
   // Computed values
   protected readonly isEditMode = computed(() => !!this.editCharacter());
@@ -159,6 +168,24 @@ export class CharacterFormComponent {
 
   protected hasFieldError(fieldName: string): boolean {
     return this.characterForm.hasFieldError(fieldName as any);
+  }
+
+  protected getProfessionIcon(professionValue: string): string {
+    const allProfessions = [
+      ...this.professionOptions[0].items,
+      ...this.professionOptions[1].items
+    ];
+    const profession = allProfessions.find(p => p.value === professionValue);
+    return profession?.icon || 'professions_icon/Ui_profession_mining.png';
+  }
+
+  protected getProfessionLabel(professionValue: string): string {
+    const allProfessions = [
+      ...this.professionOptions[0].items,
+      ...this.professionOptions[1].items
+    ];
+    const profession = allProfessions.find(p => p.value === professionValue);
+    return profession?.label || professionValue;
   }
 
   private generateId(): string {

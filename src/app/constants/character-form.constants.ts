@@ -8,6 +8,12 @@ export interface DropdownOption {
   value: string;
 }
 
+export interface ProfessionOption extends DropdownOption {
+  icon: string; // PrimeIcons class name or custom icon path
+  type: 'Gathering' | 'Crafting';
+  description?: string;
+}
+
 export interface RaceOption extends DropdownOption {
   faction: Faction;
 }
@@ -211,18 +217,87 @@ export const SPECIALIZATION_OPTIONS: SpecializationOption[] = [
   { label: 'Protection', value: 'Protection', characterClass: CharacterClass.Warrior }
 ];
 
-export const PROFESSION_OPTIONS: DropdownOption[] = [
-  { label: 'Alchemy', value: Profession.Alchemy },
-  { label: 'Blacksmithing', value: Profession.Blacksmithing },
-  { label: 'Enchanting', value: Profession.Enchanting },
-  { label: 'Engineering', value: Profession.Engineering },
-  { label: 'Herbalism', value: Profession.Herbalism },
-  { label: 'Inscription', value: Profession.Inscription },
-  { label: 'Jewelcrafting', value: Profession.Jewelcrafting },
-  { label: 'Leatherworking', value: Profession.Leatherworking },
-  { label: 'Mining', value: Profession.Mining },
-  { label: 'Skinning', value: Profession.Skinning },
-  { label: 'Tailoring', value: Profession.Tailoring }
+export const PROFESSION_OPTIONS: ProfessionOption[] = [
+  // Gathering Professions
+  {
+    label: 'Mining',
+    value: Profession.Mining,
+    icon: 'professions_icon/Ui_profession_mining.png',
+    type: 'Gathering',
+    description: 'Extract ore and gems from mineral deposits'
+  },
+  {
+    label: 'Herbalism',
+    value: Profession.Herbalism,
+    icon: 'professions_icon/Ui_profession_herbalism.png',
+    type: 'Gathering',
+    description: 'Harvest herbs and flowers from world zones'
+  },
+  {
+    label: 'Skinning',
+    value: Profession.Skinning,
+    icon: 'professions_icon/Ui_profession_skinning.png',
+    type: 'Gathering',
+    description: 'Extract leather materials from beast corpses'
+  },
+
+  // Crafting Professions
+  {
+    label: 'Alchemy',
+    value: Profession.Alchemy,
+    icon: 'professions_icon/Ui_profession_alchemy.png',
+    type: 'Crafting',
+    description: 'Brew potions, elixirs, and flasks'
+  },
+  {
+    label: 'Blacksmithing',
+    value: Profession.Blacksmithing,
+    icon: 'professions_icon/Ui_profession_blacksmithing.png',
+    type: 'Crafting',
+    description: 'Forge plate armor and weapons'
+  },
+  {
+    label: 'Enchanting',
+    value: Profession.Enchanting,
+    icon: 'professions_icon/Ui_profession_enchanting.png',
+    type: 'Crafting',
+    description: 'Enhance weapons and armor with magical enchantments'
+  },
+  {
+    label: 'Engineering',
+    value: Profession.Engineering,
+    icon: 'professions_icon/Ui_profession_engineering.png',
+    type: 'Crafting',
+    description: 'Create mechanical devices and gadgets'
+  },
+  {
+    label: 'Inscription',
+    value: Profession.Inscription,
+    icon: 'professions_icon/Ui_profession_inscription.png',
+    type: 'Crafting',
+    description: 'Craft glyphs, scrolls, and contracts'
+  },
+  {
+    label: 'Jewelcrafting',
+    value: Profession.Jewelcrafting,
+    icon: 'professions_icon/Ui_profession_jewelcrafting.png',
+    type: 'Crafting',
+    description: 'Cut gems and craft jewelry'
+  },
+  {
+    label: 'Leatherworking',
+    value: Profession.Leatherworking,
+    icon: 'professions_icon/Ui_profession_leatherworking.png',
+    type: 'Crafting',
+    description: 'Craft leather and mail armor'
+  },
+  {
+    label: 'Tailoring',
+    value: Profession.Tailoring,
+    icon: 'professions_icon/Ui_profession_tailoring.png',
+    type: 'Crafting',
+    description: 'Create cloth armor and bags'
+  }
 ];
 
 

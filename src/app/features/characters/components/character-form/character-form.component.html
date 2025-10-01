@@ -46,24 +46,62 @@
 
     <!-- Profession Selection -->
     <div class="form-field p-d-flex p-flex-column p-gap-2">
-      <label for="professions" class="field-label">Professions (Max 2)</label>
+      <label for="professions" class="field-label">
+        Professions (Max 2)
+        <span class="field-hint">Choose up to 2 professions for your character</span>
+      </label>
       <p-multiselect
         id="professions"
         formControlName="professions"
         [options]="professionOptions"
         optionLabel="label"
         optionValue="value"
-        placeholder="Select professions"
+        optionGroupLabel="type"
+        optionGroupChildren="items"
+        placeholder="Select up to 2 professions"
         [maxSelectedLabels]="2"
         selectedItemsLabel="{0} professions selected"
         [selectionLimit]="2"
+        [group]="true"
         appendTo="body"
-        class="w-full"
+        class="w-full profession-multiselect"
         [class.ng-invalid]="hasFieldError('professions')">
+
+        <ng-template let-group pTemplate="group">
+          <div class="profession-group-header">
+            <span class="group-type-badge" [class.gathering]="group.type === 'Gathering'" [class.crafting]="group.type === 'Crafting'">
+              {{ group.type }}
+            </span>
+          </div>
+        </ng-template>
 
         <ng-template let-option pTemplate="item">
           <div class="profession-option">
-            <span>{{ option.label }}</span>
+            <div class="profession-icon-wrapper">
+              <img [src]="option.icon"
+                   [alt]="option.label + ' icon'"
+                   class="profession-icon" />
+            </div>
+            <div class="profession-info">
+              <div class="profession-name">{{ option.label }}</div>
+              <div class="profession-description">{{ option.description }}</div>
+            </div>
+          </div>
+        </ng-template>
+
+        <ng-template let-value pTemplate="selectedItems">
+          <div class="selected-professions">
+            @for (profession of value; track profession) {
+              <div class="selected-profession-chip">
+                <img [src]="getProfessionIcon(profession)"
+                     [alt]="getProfessionLabel(profession) + ' icon'"
+                     class="profession-chip-icon" />
+                <span>{{ getProfessionLabel(profession) }}</span>
+              </div>
+            }
+            @if (!value || value.length === 0) {
+              <span class="placeholder-text">Select up to 2 professions</span>
+            }
           </div>
         </ng-template>
       </p-multiselect>
