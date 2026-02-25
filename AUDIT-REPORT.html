@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Rapport d'audit Angular — wow-character-manager</title>
+<style>
+  /* =================================================================
+     ANGULAR AUDIT REPORT — Premium Consulting Template
+     weasyprint-compatible: no flexbox, no grid, tables + floats only
+     ================================================================= */
+
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  @page {
+    size: A4;
+    margin: 22mm 20mm 28mm 20mm;
+    @bottom-left {
+      content: "Confidentiel — Louis-Jean Claeyssen";
+      font-family: 'Outfit', sans-serif;
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+    @bottom-right {
+      content: counter(page) " / " counter(pages);
+      font-family: 'Outfit', sans-serif;
+      font-size: 7pt;
+      color: #9CA3AF;
+    }
+  }
+
+  @page :first {
+    margin-top: 0;
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  :root {
+    --ink: #1B1F2A;
+    --ink-light: #4B5064;
+    --ink-muted: #9CA3AF;
+    --terracotta: #C15839;
+    --terracotta-light: #F4E8E3;
+    --teal: #0D7377;
+    --teal-light: #E6F5F5;
+    --amber: #B8860B;
+    --amber-light: #FDF6E3;
+    --crimson: #A8323A;
+    --crimson-light: #FDF2F2;
+    --blue: #2E5FA1;
+    --blue-light: #EEF3FA;
+    --paper: #FFFFFF;
+    --paper-warm: #FAFAF8;
+    --rule: #E5E5E0;
+    --rule-dark: #D1D1CC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', 'Segoe UI', sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 0 10mm;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* =================================================================
+     COVER PAGE
+     ================================================================= */
+
+  .cover {
+    background: var(--ink);
+    color: var(--paper);
+    margin: -22mm -30mm 0 -30mm;
+    padding: 55mm 38mm 40mm 38mm;
+    min-height: 297mm;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 30mm;
+    right: 20mm;
+    width: 80mm;
+    height: 80mm;
+    border: 1px solid rgba(193, 88, 57, 0.15);
+    border-radius: 0;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    top: 38mm;
+    right: 28mm;
+    width: 64mm;
+    height: 64mm;
+    border: 1px solid rgba(193, 88, 57, 0.08);
+  }
+
+  .cover-eyebrow {
+    font-family: 'Outfit', sans-serif;
+    font-size: 8pt;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--terracotta);
+    margin-bottom: 12mm;
+  }
+
+  .cover h1 {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 42pt;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 4mm;
+    letter-spacing: -0.5px;
+  }
+
+  .cover-project-name {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 24pt;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--terracotta);
+    margin-bottom: 15mm;
+  }
+
+  .cover-rule {
+    width: 60mm;
+    height: 2px;
+    background: var(--terracotta);
+    margin-bottom: 12mm;
+  }
+
+  .cover-meta-table {
+    border-collapse: collapse;
+    margin-bottom: 20mm;
+  }
+  .cover-meta-table td {
+    padding: 3mm 8mm 3mm 0;
+    vertical-align: top;
+  }
+  .cover-meta-label {
+    font-size: 7pt;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #6B7280;
+  }
+  .cover-meta-value {
+    font-size: 11pt;
+    font-weight: 400;
+    color: var(--paper);
+  }
+
+  .cover-grade-block {
+    position: absolute;
+    bottom: 25mm;
+    right: 28mm;
+    text-align: right;
+  }
+  .cover-grade-letter {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 120pt;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -3px;
+  }
+  .grade-A { color: var(--teal); }
+  .grade-B { color: #2D8F5E; }
+  .grade-C { color: var(--amber); }
+  .grade-D { color: #D97706; }
+  .grade-F { color: var(--crimson); }
+
+  .cover-score-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 14pt;
+    font-weight: 300;
+    color: #9CA3AF;
+    margin-top: -5mm;
+  }
+  .cover-score-number strong {
+    font-weight: 600;
+    color: var(--paper);
+  }
+
+  /* =================================================================
+     TYPOGRAPHY
+     ================================================================= */
+
+  h2 {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 20pt;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 14mm 0 5mm 0;
+    padding-bottom: 3mm;
+    border-bottom: 1.5px solid var(--rule);
+    page-break-after: avoid;
+  }
+  h2 .section-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 1mm;
+  }
+
+  h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 6mm 0 3mm 0;
+    page-break-after: avoid;
+  }
+
+  p { margin-bottom: 2.5mm; }
+  ul, ol { padding-left: 6mm; margin-bottom: 3mm; }
+  li { margin-bottom: 1.5mm; }
+
+  a {
+    color: var(--terracotta);
+    text-decoration: none;
+    border-bottom: 1px solid var(--terracotta);
+  }
+
+  code {
+    font-family: 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 8.5pt;
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 0.5mm 1.5mm;
+    border-radius: 2px;
+  }
+
+  /* =================================================================
+     EXECUTIVE SUMMARY
+     ================================================================= */
+
+  .executive-summary {
+    background: var(--paper-warm);
+    border-left: 3px solid var(--terracotta);
+    padding: 5mm 7mm;
+    margin: 4mm 0 8mm 0;
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: var(--ink-light);
+    page-break-inside: avoid;
+  }
+
+  /* =================================================================
+     SCORE BREAKDOWN TABLE
+     ================================================================= */
+
+  .score-section { page-break-inside: avoid; }
+
+  .score-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0 3mm 0;
+  }
+  .score-table th {
+    font-family: 'Outfit', sans-serif;
+    font-size: 7pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--ink-muted);
+    text-align: left;
+    padding: 2.5mm 3mm;
+    border-bottom: 2px solid var(--ink);
+  }
+  .score-table td {
+    padding: 3mm 3mm;
+    border-bottom: 1px solid var(--rule);
+    font-size: 9.5pt;
+    vertical-align: middle;
+  }
+  .score-table .cat-name {
+    font-weight: 500;
+  }
+  .score-table .score-val {
+    font-weight: 600;
+    text-align: center;
+    width: 12%;
+  }
+  .score-table .weight-val {
+    color: var(--ink-muted);
+    text-align: center;
+    width: 10%;
+    font-size: 8.5pt;
+  }
+  .score-table .weighted-val {
+    text-align: center;
+    font-weight: 600;
+    width: 12%;
+  }
+  .score-table .bar-cell {
+    width: 28%;
+    padding: 3mm 4mm;
+  }
+
+  .score-bar {
+    height: 8px;
+    background: var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+  .bar-pass  { background: var(--teal); }
+  .bar-warn  { background: var(--amber); }
+  .bar-fail  { background: var(--crimson); }
+
+  .status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 1.5mm;
+    vertical-align: middle;
+  }
+  .dot-pass { background: var(--teal); }
+  .dot-warn { background: var(--amber); }
+  .dot-fail { background: var(--crimson); }
+
+  .score-table .overall-row td {
+    border-top: 2px solid var(--ink);
+    border-bottom: none;
+    padding-top: 4mm;
+    font-weight: 700;
+    font-size: 10pt;
+  }
+
+  .score-legend {
+    font-size: 7.5pt;
+    color: var(--ink-muted);
+    margin-top: 2mm;
+    margin-bottom: 6mm;
+  }
+
+  /* =================================================================
+     CATEGORY CHECKLIST DETAILS
+     ================================================================= */
+
+  .category-detail {
+    page-break-inside: avoid;
+    margin-bottom: 6mm;
+  }
+  .category-detail-header {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-size: 14pt;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 8mm 0 2mm 0;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid var(--rule);
+  }
+  .category-detail-header .cat-score {
+    font-family: 'Outfit', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    float: right;
+  }
+  .check-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2mm 0 4mm 0;
+  }
+  .check-table td {
+    padding: 1.8mm 2.5mm;
+    vertical-align: top;
+    font-size: 8.5pt;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.45;
+  }
+  .check-table .check-dot-cell {
+    width: 5%;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .check-table .check-name-cell {
+    width: 30%;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .check-table .check-why-cell {
+    width: 65%;
+    color: var(--ink-light);
+    font-size: 8pt;
+  }
+
+  /* =================================================================
+     FINDING CARDS
+     ================================================================= */
+
+  .finding-card {
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--rule-dark);
+    padding: 4.5mm 5mm;
+    margin-bottom: 3.5mm;
+    page-break-inside: avoid;
+    background: var(--paper);
+  }
+  .finding-card.critical { border-left-color: var(--crimson); background: #FFFBFB; }
+  .finding-card.warning  { border-left-color: var(--amber);   background: #FFFEF8; }
+  .finding-card.info     { border-left-color: var(--blue);    background: #FBFCFE; }
+
+  .finding-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2mm;
+  }
+  .finding-header-table td {
+    padding: 0;
+    vertical-align: middle;
+  }
+  .finding-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    color: var(--ink);
+  }
+  .finding-badge {
+    text-align: right;
+  }
+
+  .severity-badge {
+    display: inline-block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.8mm 2mm;
+    border-radius: 2px;
+  }
+  .sev-critical { background: var(--crimson-light); color: var(--crimson); }
+  .sev-warning  { background: var(--amber-light);   color: var(--amber); }
+  .sev-info     { background: var(--blue-light);     color: var(--blue); }
+
+  .finding-location {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    color: var(--ink-muted);
+    margin-bottom: 2mm;
+  }
+
+  .finding-body {
+    font-size: 9.5pt;
+    line-height: 1.55;
+  }
+  .finding-body strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .finding-fix-box {
+    background: var(--paper-warm);
+    border: 1px solid var(--rule);
+    padding: 2.5mm 4mm;
+    margin-top: 2.5mm;
+    font-size: 9pt;
+  }
+  .finding-fix-box .fix-label {
+    font-weight: 600;
+    color: var(--terracotta);
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* =================================================================
+     QUICK WINS
+     ================================================================= */
+
+  .quick-wins-box {
+    background: var(--teal-light);
+    border: 1px solid #B2DFDB;
+    border-left: 4px solid var(--teal);
+    padding: 5mm 6mm;
+    margin: 4mm 0 8mm 0;
+    page-break-inside: avoid;
+  }
+  .quick-wins-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14pt;
+    color: var(--teal);
+    margin: 0 0 3mm 0;
+  }
+  .quick-wins-box ol {
+    padding-left: 5mm;
+    margin-bottom: 0;
+  }
+  .quick-wins-box li {
+    margin-bottom: 2mm;
+    font-size: 9.5pt;
+  }
+  .quick-wins-box li strong {
+    color: #065F63;
+  }
+
+  /* =================================================================
+     RECOMMENDATIONS TIMELINE
+     ================================================================= */
+
+  .reco-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 4mm 0 8mm 0;
+  }
+  .reco-table td {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 3mm;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .reco-table td:first-child { padding-left: 0; }
+  .reco-table td:last-child { padding-right: 0; }
+
+  .reco-card {
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--terracotta);
+    padding: 4mm 5mm;
+    height: 100%;
+    page-break-inside: avoid;
+  }
+  .reco-card h4 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--terracotta);
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid var(--rule);
+  }
+  .reco-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .reco-card li {
+    font-size: 9pt;
+    padding: 1.5mm 0;
+    border-bottom: 1px solid var(--rule);
+    line-height: 1.5;
+  }
+  .reco-card li:last-child {
+    border-bottom: none;
+  }
+  .reco-card li::before {
+    content: '\2192 ';
+    color: var(--terracotta);
+    font-weight: 600;
+  }
+
+  /* =================================================================
+     DETAILED FINDINGS TABLE
+     ================================================================= */
+
+  .findings-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+    margin: 4mm 0;
+  }
+  .findings-table th {
+    font-family: 'Outfit', sans-serif;
+    font-size: 6.5pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 2mm 2mm;
+    text-align: left;
+    overflow-wrap: break-word;
+  }
+  .findings-table td {
+    padding: 2mm 2mm;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .findings-table td code {
+    word-break: break-all;
+    font-size: 6.5pt;
+  }
+  .findings-table tbody tr:nth-child(even) {
+    background: var(--paper-warm);
+  }
+
+  /* =================================================================
+     ACCESSIBILITY BONUS SECTION
+     ================================================================= */
+
+  .bonus-section {
+    border: 1.5px solid var(--rule-dark);
+    border-top: 4px solid var(--amber);
+    padding: 6mm;
+    margin: 6mm 0;
+    page-break-inside: avoid;
+  }
+  .bonus-section h2 {
+    font-size: 16pt;
+    margin-top: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+    color: var(--amber);
+  }
+  .bonus-section .bonus-note {
+    font-size: 8.5pt;
+    color: var(--ink-muted);
+    font-style: italic;
+    margin-bottom: 4mm;
+  }
+
+  /* =================================================================
+     INFORMATIONAL NOTES
+     ================================================================= */
+
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 3mm 0 6mm 0;
+  }
+  .info-list li {
+    padding: 2mm 0 2mm 5mm;
+    border-left: 2px solid var(--blue);
+    margin-bottom: 2mm;
+    font-size: 9pt;
+    color: var(--ink-light);
+  }
+
+  /* =================================================================
+     UTILITIES
+     ================================================================= */
+
+  .page-break { page-break-before: always; }
+  .avoid-break { page-break-inside: avoid; }
+  .text-muted { color: var(--ink-muted); }
+  .text-small { font-size: 8pt; }
+
+  .report-footer {
+    margin-top: 10mm;
+    padding-top: 4mm;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-size: 7.5pt;
+    color: var(--ink-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* =================================================================
+     PRINT
+     ================================================================= */
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =================================================================
+     PAGE 1 — COVER
+     ================================================================= -->
+<div class="cover">
+  <div class="cover-eyebrow">Rapport d'Audit Angular</div>
+
+  <h1>Évaluation<br>Qualité</h1>
+  <div class="cover-project-name">wow-character-manager</div>
+
+  <div class="cover-rule"></div>
+
+  <table class="cover-meta-table">
+    <tr>
+      <td>
+        <div class="cover-meta-label">Date</div>
+        <div class="cover-meta-value">25 février 2026</div>
+      </td>
+      <td>
+        <div class="cover-meta-label">Angular</div>
+        <div class="cover-meta-value">v20.3.0</div>
+      </td>
+      <td>
+        <div class="cover-meta-label">Framework de test</div>
+        <div class="cover-meta-value">Jasmine / Karma</div>
+      </td>
+      <td>
+        <div class="cover-meta-label">Fichiers analyses</div>
+        <div class="cover-meta-value">55 TS + 14 HTML</div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="cover-grade-block">
+    <div class="cover-grade-letter grade-C">C</div>
+    <div class="cover-score-number"><strong>67</strong> / 100</div>
+  </div>
+</div>
+
+<!-- =================================================================
+     EXECUTIVE SUMMARY
+     ================================================================= -->
+<h2>
+  <span class="section-number">01</span>
+  Synthèse
+</h2>
+<div class="executive-summary">
+  Le projet <strong>wow-character-manager</strong> est une application Angular 20 bien structurée qui exploite
+  les fonctionnalités modernes du framework : composants standalone, signaux (91 usages), control flow moderne
+  (<code>@if</code>, <code>@for</code>), injection via <code>inject()</code> et lazy loading systématique.
+  L'architecture feature-based avec gestion d'état via <code>@ngrx/signals</code> est cohérente et bien organisée.
+  <br><br>
+  Cependant, trois problèmes majeurs tirent le score vers le bas : <strong>(1)</strong> la suite de tests est
+  entièrement non fonctionnelle (échec de compilation, 0 tests exécutables), <strong>(2)</strong> l'absence
+  totale de linting (ESLint non configuré) dégrade l'expérience développeur, et <strong>(3)</strong> des fuites
+  mémoire potentielles dans les composants qui souscrivent a des observables long-lived sans nettoyage.
+  Des gains rapides sont possibles en corrigeant les tests, en ajoutant ESLint et en ajoutant
+  <code>takeUntilDestroyed</code> aux souscriptions.
+</div>
+
+<!-- =================================================================
+     SCORE BREAKDOWN
+     ================================================================= -->
+<div class="score-section">
+<h2>
+  <span class="section-number">02</span>
+  Scores par categorie
+</h2>
+
+<table class="score-table">
+  <thead>
+    <tr>
+      <th style="width:28%">Catégorie</th>
+      <th style="width:10%; text-align:center">Score</th>
+      <th style="width:28%">Progression</th>
+      <th style="width:10%; text-align:center">Poids</th>
+      <th style="width:12%; text-align:center">Pondéré</th>
+      <th style="width:12%; text-align:center">Statut</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="cat-name">Performance</td>
+      <td class="score-val">45%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-fail" style="width:45%"></div></div></td>
+      <td class="weight-val">15%</td>
+      <td class="weighted-val">6.75</td>
+      <td style="text-align:center"><span class="status dot-fail"></span>Echec</td>
+    </tr>
+    <tr>
+      <td class="cat-name">Sécurité</td>
+      <td class="score-val">90%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-pass" style="width:90%"></div></div></td>
+      <td class="weight-val">15%</td>
+      <td class="weighted-val">13.50</td>
+      <td style="text-align:center"><span class="status dot-pass"></span>Bon</td>
+    </tr>
+    <tr>
+      <td class="cat-name">Bonnes pratiques Angular</td>
+      <td class="score-val">97%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-pass" style="width:97%"></div></div></td>
+      <td class="weight-val">15%</td>
+      <td class="weighted-val">14.55</td>
+      <td style="text-align:center"><span class="status dot-pass"></span>Bon</td>
+    </tr>
+    <tr>
+      <td class="cat-name">Qualité du code</td>
+      <td class="score-val">57%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-fail" style="width:57%"></div></div></td>
+      <td class="weight-val">15%</td>
+      <td class="weighted-val">8.55</td>
+      <td style="text-align:center"><span class="status dot-fail"></span>Echec</td>
+    </tr>
+    <tr>
+      <td class="cat-name">DX / Outillage</td>
+      <td class="score-val">56%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-fail" style="width:56%"></div></div></td>
+      <td class="weight-val">15%</td>
+      <td class="weighted-val">8.40</td>
+      <td style="text-align:center"><span class="status dot-fail"></span>Echec</td>
+    </tr>
+    <tr>
+      <td class="cat-name">Architecture</td>
+      <td class="score-val">75%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-warn" style="width:75%"></div></div></td>
+      <td class="weight-val">15%</td>
+      <td class="weighted-val">11.25</td>
+      <td style="text-align:center"><span class="status dot-warn"></span>Attention</td>
+    </tr>
+    <tr>
+      <td class="cat-name">Tests</td>
+      <td class="score-val">40%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-fail" style="width:40%"></div></div></td>
+      <td class="weight-val">10%</td>
+      <td class="weighted-val">4.00</td>
+      <td style="text-align:center"><span class="status dot-fail"></span>Echec</td>
+    </tr>
+    <tr class="overall-row">
+      <td class="cat-name">Global</td>
+      <td class="score-val">67%</td>
+      <td class="bar-cell"><div class="score-bar"><div class="score-bar-fill bar-warn" style="width:67%"></div></div></td>
+      <td class="weight-val">100%</td>
+      <td class="weighted-val">67</td>
+      <td style="text-align:center"><span class="status dot-warn"></span><strong>C</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="score-legend">
+  <span class="status dot-pass"></span> Bon (&ge;80%)&emsp;
+  <span class="status dot-warn"></span> Attention (60-79%)&emsp;
+  <span class="status dot-fail"></span> Echec (&lt;60%)
+  &emsp;&mdash;&emsp;
+  <em>L'accessibilite est évaluee séparément (voir annexe).</em>
+</div>
+</div>
+
+<!-- =================================================================
+     CRITICAL ISSUES
+     ================================================================= -->
+<div class="page-break"></div>
+<h2>
+  <span class="section-number">03</span>
+  Problèmes critiques
+</h2>
+<p class="text-muted" style="margin-bottom:4mm;">Constats a fort impact. A traiter en priorite.</p>
+
+<div class="finding-card critical">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Suite de tests entièrement non fonctionnelle</td>
+      <td class="finding-badge"><span class="severity-badge sev-critical">Crit.</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">*.spec.ts (16 fichiers) &mdash; Tests</div>
+  <div class="finding-body">
+    <p><strong>Constat :</strong> La compilation des tests echoue avant meme l'execution. Plusieurs fichiers spec
+    contiennent des imports invalides, des références a des propriétés/méthodes inexistantes et des mocks
+    incomplets. Aucun des 303 tests déclarés ne peut etre execute.</p>
+    <p><strong>Impact :</strong> Zero couverture de tests en pratique. Les regressions ne sont détectées qu'en
+    production. Aucune garantie de qualité sur les fonctionnalités existantes.</p>
+  </div>
+  <div class="finding-fix-box">
+    <div class="fix-label">Correction suggérée</div>
+    Corriger les imports casses dans <code>character-detail.component.spec.ts</code> (propriété <code>server</code> manquante sur le mock),
+    <code>character-form.component.spec.ts</code> (imports relatifs invalides, méthodes inexistantes),
+    <code>character-list.component.spec.ts</code> (imports relatifs invalides),
+    <code>great-vault-calculation.service.spec.ts</code> (propriétés du modèle inexistantes : <code>slotsEarned</code>, <code>slot1Reward</code>),
+    <code>activity.service.spec.ts</code> (problèmes de widening de type) et
+    <code>app.spec.ts</code> (contenu de template attendu incorrect). Valider avec <code>ng test</code>.
+  </div>
+</div>
+
+<div class="finding-card critical">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Fuites mémoire potentielles dans les composants</td>
+      <td class="finding-badge"><span class="severity-badge sev-critical">Crit.</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">character-form.component.ts, settings.component.ts &mdash; Performance</div>
+  <div class="finding-body">
+    <p><strong>Constat :</strong> Des souscriptions à des observables long-lived (<code>valueChanges</code>,
+    <code>statusChanges</code>) sont créées sans mécanisme de nettoyage. Ni <code>takeUntilDestroyed</code>,
+    ni <code>DestroyRef</code>, ni <code>unsubscribe</code> ne sont utilisés dans ces composants.</p>
+    <p><strong>Impact :</strong> Fuites mémoire progressives, particulièrement lors de navigations repetees.
+    Les callbacks continuent d'etre executes apres la destruction du composant, causant des comportements
+    imprevisibles et une degradation progressive des performances.</p>
+  </div>
+  <div class="finding-fix-box">
+    <div class="fix-label">Correction suggérée</div>
+    Injecter <code>DestroyRef</code> via <code>inject(DestroyRef)</code> et ajouter <code>takeUntilDestroyed(this.destroyRef)</code>
+    dans le pipe de chaque souscription long-lived. Exemple :
+    <code>this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(...)</code>.
+  </div>
+</div>
+
+<div class="finding-card critical">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Absence totale d'ESLint</td>
+      <td class="finding-badge"><span class="severity-badge sev-critical">Crit.</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">package.json, racine du projet &mdash; DX / Outillage</div>
+  <div class="finding-body">
+    <p><strong>Constat :</strong> Aucune configuration ESLint n'est présente dans le projet. Pas de fichier
+    <code>eslint.config.js</code>, pas de dependance <code>@angular-eslint</code>, pas de script <code>lint</code>
+    dans <code>package.json</code>.</p>
+    <p><strong>Impact :</strong> Les erreurs de style, les imports inutilisés, les violations de conventions
+    Angular et les problèmes potentiels ne sont jamais détectés automatiquement. La qualité du code repose
+    entièrement sur la vigilance humaine.</p>
+  </div>
+  <div class="finding-fix-box">
+    <div class="fix-label">Correction suggérée</div>
+    Exécuter <code>ng add @angular-eslint/schematics</code> pour configurer ESLint avec les règles Angular.
+    Ajouter un script <code>"lint": "ng lint"</code> dans <code>package.json</code>.
+  </div>
+</div>
+
+<div class="finding-card critical">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Usage systemique du type <code>any</code> dans le code de production</td>
+      <td class="finding-badge"><span class="severity-badge sev-critical">Crit.</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">~34 occurrences dans 14 fichiers &mdash; Qualité du code</div>
+  <div class="finding-body">
+    <p><strong>Constat :</strong> Le type <code>any</code> est utilisé dans environ 34 emplacements du code
+    de production, notamment dans les modèles API (<code>cached-api-data.model.ts</code>), les services
+    (<code>api-cache.service.ts</code>, <code>vault-rewards-calculator.service.ts</code>) et les composants.
+    Certains validateurs utilisent <code>typeof === 'object'</code> au lieu de type guards stricts.</p>
+    <p><strong>Impact :</strong> Annulation des benefices de TypeScript strict. Les erreurs de type ne sont
+    détectées qu'a l'execution. Le refactoring devient risque sans filet de sécurité du compilateur.</p>
+  </div>
+  <div class="finding-fix-box">
+    <div class="fix-label">Correction suggérée</div>
+    Definir des interfaces typees pour les reponses API. Remplacer <code>any</code> par
+    <code>unknown</code> suivi de type guards, ou par des types génériques. Priorite : les fichiers modèles
+    et les services de cache.
+  </div>
+</div>
+
+<div class="finding-card critical">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Couverture de tests insuffisante (29% par fichier)</td>
+      <td class="finding-badge"><span class="severity-badge sev-critical">Crit.</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">src/app/ &mdash; Tests</div>
+  <div class="finding-body">
+    <p><strong>Constat :</strong> Seuls 16 fichiers spec existent pour 55 fichiers source TypeScript, soit
+    un taux de couverture par fichier de 29%. De nombreux services critiques
+    (<code>blizzard-api.service.ts</code>, <code>api-cache.service.ts</code>,
+    <code>weekly-progress.service.ts</code>) n'ont pas de tests dedies.</p>
+    <p><strong>Impact :</strong> Les services métier essentiels ne sont pas proteges par des tests. Les
+    modifications dans ces fichiers peuvent introduire des regressions silencieuses.</p>
+  </div>
+  <div class="finding-fix-box">
+    <div class="fix-label">Correction suggérée</div>
+    Prioriser la creation de tests pour les services métier critiques : <code>blizzard-api.service.ts</code>,
+    <code>api-cache.service.ts</code>, <code>weekly-progress.service.ts</code>,
+    <code>vault-rewards-calculator.service.ts</code>. Viser 60% de couverture minimale a court terme.
+  </div>
+</div>
+
+<!-- =================================================================
+     WARNINGS
+     ================================================================= -->
+<h2>
+  <span class="section-number">04</span>
+  Avertissements
+</h2>
+<p class="text-muted" style="margin-bottom:4mm;">Points a corriger &mdash; non bloquants, mais impactants.</p>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">4 composants sans OnPush</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">settings.component.ts, vault-slot.component.ts, app-toolbar.component.ts, app.ts &mdash; Performance</div>
+  <div class="finding-body">
+    <p>10 composants sur 14 utilisent <code>OnPush</code>. Les 4 restants déclenchent des cycles de détection
+    de changement complets sur chaque événement. Ajouter <code>changeDetection: ChangeDetectionStrategy.OnPush</code>
+    pour homogénéiser la stratégie.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">6 souscriptions manuelles dans les composants</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">character-form.component.ts, app-toolbar.component.ts, settings.component.ts, vault-progress-card.component.ts &mdash; Performance</div>
+  <div class="finding-body">
+    <p>Des appels <code>.subscribe()</code> directs dans les composants au lieu d'utiliser le pipe
+    <code>async</code> ou des signaux. Cela complique la gestion du cyclé de vie et peut mener a des fuites
+    mémoire si les souscriptions ne sont pas nettoyees.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Pas de stratégie de preloading configurée</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">app.config.ts &mdash; Performance</div>
+  <div class="finding-body">
+    <p>Les routes sont lazy-loaded mais aucune stratégie de preloading n'est definie. L'ajout de
+    <code>withPreloading(PreloadAllModules)</code> dans <code>provideRouter()</code> permettrait de
+    pre-charger les modules en arriere-plan apres le chargement initial.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">34 instructions console.log/debug/info dans le code de production</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">vault-rewards-calculator.service.ts (8), character-refresh.service.ts (4), store/*.ts (11), etc. &mdash; Sécurité / Qualité</div>
+  <div class="finding-body">
+    <p>34 instructions de logging reparties dans 11 fichiers source. Ces sorties console exposent
+    des details internes de l'application et polluent la console du navigateur en production.
+    Utiliser un service de logging avec des niveaux configurables ou supprimer ces instructions.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">47 imports relatifs profonds (4+ niveaux)</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">Multiples fichiers dans src/app/ &mdash; Architecture</div>
+  <div class="finding-body">
+    <p>47 imports utilisent 4 niveaux ou plus de <code>../</code>. Aucun alias de chemin (<code>paths</code>)
+    n'est configuré dans <code>tsconfig.json</code>. Ces imports sont fragiles, difficiles a lire, et
+    cassent facilement lors de restructurations.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Services dupliqués : WeeklyResetService vs ResetService</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">weekly-reset.service.ts, reset.service.ts &mdash; Architecture / Qualité</div>
+  <div class="finding-body">
+    <p>Deux services gerent la reinitialisation hebdomadaire avec des hypotheses différentes :
+    <code>WeeklyResetService</code> utilisé mercredi 15:00 UTC tandis que <code>ResetService</code> utilise
+    mercredi 10:00 heure locale. Ce conflit peut produire des resultats incoherents selon le service utilise.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Constante CLASS_COLORS dupliquée dans 3+ fichiers</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">Multiples fichiers &mdash; Qualité du code</div>
+  <div class="finding-body">
+    <p>La constante <code>CLASS_COLORS</code> est definie dans au moins 3 emplacements avec des
+    valeurs hexadecimales différentes. Cela provoque des incoherences visuelles et complique la maintenance.
+    Centraliser dans <code>shared/constants/</code>.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Absence de fichiers d'environnement</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">src/environments/ &mdash; DX / Outillage</div>
+  <div class="finding-body">
+    <p>Aucun fichier <code>environment.ts</code> ou <code>environment.prod.ts</code> n'a été trouvé.
+    La configuration d'environnement est absente, ce qui rend difficile la gestion des URLs d'API,
+    des clés de configuration, et la distinction dev/production.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Souscription vide dans blizzard-api.service.ts</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">blizzard-api.service.ts:645 &mdash; Qualité du code</div>
+  <div class="finding-body">
+    <p>Un appel <code>.subscribe()</code> sans arguments ni callbacks a la ligne 645 du service API Blizzard.
+    Les erreurs de cette souscription sont silencieusement ignorées. Ajouter au minimum un handler
+    <code>error</code> ou utiliser <code>catchError</code> dans le pipe.</p>
+  </div>
+</div>
+
+<div class="finding-card warning">
+  <table class="finding-header-table">
+    <tr>
+      <td class="finding-title">Manipulation directe du DOM dans theme.service.ts</td>
+      <td class="finding-badge"><span class="severity-badge sev-warning">Warn</span></td>
+    </tr>
+  </table>
+  <div class="finding-location">theme.service.ts &mdash; Architecture</div>
+  <div class="finding-body">
+    <p>Accès direct au DOM via <code>document.querySelector</code> ou equivalent dans le service de theme.
+    Cela peut causer des problèmes avec le SSR et contourne l'abstraction de rendu Angular. Envisager
+    l'utilisation de <code>Renderer2</code> ou de <code>inject(DOCUMENT)</code>.</p>
+  </div>
+</div>
+
+<!-- =================================================================
+     INFORMATIONAL NOTES
+     ================================================================= -->
+<h2>
+  <span class="section-number">05</span>
+  Notes informatives
+</h2>
+<ul class="info-list">
+  <li><strong>Code mort détecté :</strong> La classe <code>CharacterFormGroup</code> dans <code>forms/character-form-group.ts</code>
+  est entièrement implémentée mais jamais utilisée. Elle a été remplacée par <code>SimpleCharacterFormGroup</code>.
+  La méthode <code>getDetailedVaultRewards()</code> dans <code>vault-rewards-calculator.service.ts</code> est
+  également marquée comme deprecated et inutilisée.</li>
+  <li><strong>Validateurs faibles dans api-cache.service.ts :</strong> Des vérifications <code>typeof === 'object'</code>
+  sont utilisées pour valider les données en cache au lieu de type guards stricts.</li>
+  <li><strong>skipLibCheck active :</strong> L'option <code>skipLibCheck: true</code> dans <code>tsconfig.json</code>
+  masque les erreurs de type dans les dépendances tierces. Désactiver si possible pour une meilleure sécurité de type.</li>
+  <li><strong>withInterceptorsFromDi utilisé :</strong> L'application utilise <code>withInterceptorsFromDi()</code>
+  au lieu de l'API fonctionnelle <code>withInterceptors()</code>. Migrer vers les intercepteurs fonctionnels
+  pour suivre les pratiques modernes Angular.</li>
+  <li><strong>Pas de hooks pre-commit :</strong> Ni <code>husky</code> ni <code>lint-staged</code> ne sont configurés.
+  L'ajout de hooks pre-commit empêcherait les commits de code non conforme.</li>
+  <li><strong>Formulaires bien types (point positif) :</strong> Les classes <code>SimpleCharacterFormGroup</code> et
+  <code>CharacterFormGroup</code> étendent <code>FormGroup</code> avec des types génériques. C'est une bonne
+  pratique rarement vue dans les projets Angular.</li>
+  <li><strong>Aucune API signal input/output utilisée :</strong> Le projet n'utilisé ni <code>@Input()</code> /
+  <code>@Output()</code> classiques ni les nouvelles API <code>input()</code> / <code>output()</code>. La
+  communication se fait principalement via les stores de signaux.</li>
+  <li><strong>Gestion d'erreur robuste (point positif) :</strong> 62 occurrences de <code>catchError</code> / <code>catch</code>
+  détectées dans les services, indiquant une bonne stratégie de gestion d'erreur HTTP.</li>
+</ul>
+
+<!-- =================================================================
+     QUICK WINS
+     ================================================================= -->
+<div class="page-break"></div>
+<h2>
+  <span class="section-number">06</span>
+  Plan d'action
+</h2>
+
+<div class="quick-wins-box">
+  <h3>Gains rapides</h3>
+  <p style="margin-bottom:3mm; font-size:9pt; color:#065F63;">Corrections simples a fort impact. Commencez par là.</p>
+  <ol>
+    <li><strong>Corriger les fichiers spec casses</strong> &mdash; Restaurer une suite de tests fonctionnelle (+15 pts Tests).
+    Mettre a jour les imports, mocks et propriétés références dans les 6 fichiers spec en erreur.</li>
+    <li><strong>Ajouter ESLint avec @angular-eslint</strong> &mdash; Améliorer la qualité et l'outillage (+15 pts DX).
+    Une seule commande : <code>ng add @angular-eslint/schematics</code>.</li>
+    <li><strong>Ajouter takeUntilDestroyed() aux souscriptions</strong> &mdash; Éliminer les fuites mémoire (+10 pts Performance).
+    Concerne 2 composants : <code>character-form</code> et <code>settings</code>.</li>
+    <li><strong>Ajouter OnPush aux 4 composants manquants</strong> &mdash; Homogénéiser la détection de changement (+5 pts Performance).</li>
+    <li><strong>Supprimer les console.log</strong> &mdash; Nettoyer la sortie de production (+3 pts Sécurité, +3 pts Qualité).
+    34 occurrences dans 11 fichiers.</li>
+  </ol>
+</div>
+
+<!-- =================================================================
+     RECOMMENDATIONS TIMELINE
+     ================================================================= -->
+<h3>Feuille de route</h3>
+<table class="reco-table">
+  <tr>
+    <td>
+      <div class="reco-card">
+        <h4>Court terme &middot; &lt; 1 semaine</h4>
+        <ul>
+          <li>Corriger les 6 fichiers spec en erreur de compilation</li>
+          <li>Ajouter <code>takeUntilDestroyed()</code> dans les composants avec souscriptions long-lived</li>
+          <li>Ajouter <code>OnPush</code> aux 4 composants manquants</li>
+          <li>Supprimer les 34 <code>console.log</code> du code de production</li>
+          <li>Supprimer le code mort (<code>CharacterFormGroup</code>, méthode deprecated)</li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="reco-card">
+        <h4>Moyen terme &middot; 1-4 semaines</h4>
+        <ul>
+          <li>Installer et configurer ESLint avec <code>@angular-eslint</code></li>
+          <li>Configurer des alias de chemin (<code>@app/*</code>, <code>@shared/*</code>) dans tsconfig</li>
+          <li>Unifier les services de reset (WeeklyResetService / ResetService) en un seul</li>
+          <li>Centraliser la constante <code>CLASS_COLORS</code> dans <code>shared/constants/</code></li>
+          <li>Remplacer les ~34 usages de <code>any</code> par des types stricts</li>
+          <li>Créer les fichiers d'environnement (dev, prod)</li>
+          <li>Ajouter <code>withPreloading(PreloadAllModules)</code> au routeur</li>
+        </ul>
+      </div>
+    </td>
+    <td>
+      <div class="reco-card">
+        <h4>Long terme &middot; 1+ mois</h4>
+        <ul>
+          <li>Augmenter la couverture de tests a 60%+ (priorite : services métier)</li>
+          <li>Configurer les hooks pre-commit (husky + lint-staged)</li>
+          <li>Migrer vers les intercepteurs fonctionnels (<code>withInterceptors</code>)</li>
+          <li>Considérer une <strong>Clean Architecture</strong> : le projet a une logique métier non
+          triviale (gestion de coffre-fort, calculs de recompenses, progression hebdomadaire) actuellement
+          couplée a l'infrastructure Angular. Séparer la logique domaine du framework améliorerait la
+          testabilité et la maintenabilité. Le skill <code>angular-clean-arch-scaffold</code> peut aider
+          a restructurer le projet.</li>
+        </ul>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<!-- =================================================================
+     DETAILED FINDINGS TABLE
+     ================================================================= -->
+<div class="page-break"></div>
+<h2>
+  <span class="section-number">07</span>
+  Résultats détaillés
+</h2>
+
+<table class="findings-table">
+  <thead>
+    <tr>
+      <th style="width:3%">#</th>
+      <th style="width:18%">Fichier</th>
+      <th style="width:11%">Cat.</th>
+      <th style="width:8%">Sev.</th>
+      <th style="width:30%">Problème</th>
+      <th style="width:30%">Suggestion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><code>*.spec.ts (16 fichiers)</code></td>
+      <td>Tests</td>
+      <td><span class="severity-badge sev-critical">Crit.</span></td>
+      <td>Suite de tests non fonctionnelle : échec de compilation, 0 tests exécutables</td>
+      <td>Corriger imports, mocks et références dans les fichiers spec</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><code>character-form.component.ts</code></td>
+      <td>Performance</td>
+      <td><span class="severity-badge sev-critical">Crit.</span></td>
+      <td>Souscription a <code>valueChanges</code> sans nettoyage (fuite mémoire)</td>
+      <td>Ajouter <code>takeUntilDestroyed()</code></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><code>settings.component.ts</code></td>
+      <td>Performance</td>
+      <td><span class="severity-badge sev-critical">Crit.</span></td>
+      <td>2 souscriptions a <code>valueChanges</code>/<code>statusChanges</code> sans nettoyage</td>
+      <td>Ajouter <code>takeUntilDestroyed()</code></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><code>package.json, racine</code></td>
+      <td>DX / Outillage</td>
+      <td><span class="severity-badge sev-critical">Crit.</span></td>
+      <td>ESLint non configuré, aucune règle de linting</td>
+      <td><code>ng add @angular-eslint/schematics</code></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><code>~14 fichiers production</code></td>
+      <td>Qualité</td>
+      <td><span class="severity-badge sev-critical">Crit.</span></td>
+      <td>~34 usages de <code>any</code> dans le code de production</td>
+      <td>Remplacer par des types stricts, <code>unknown</code> + type guards</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><code>src/app/ (16/55 fichiers)</code></td>
+      <td>Tests</td>
+      <td><span class="severity-badge sev-critical">Crit.</span></td>
+      <td>Couverture de test a 29% par fichier, services critiques non testes</td>
+      <td>Ajouter des tests pour les services métier prioritaires</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><code>settings, vault-slot, app-toolbar, app</code></td>
+      <td>Performance</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>4 composants sans <code>ChangeDetectionStrategy.OnPush</code></td>
+      <td>Ajouter <code>changeDetection: ChangeDetectionStrategy.OnPush</code></td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td><code>4 fichiers composant</code></td>
+      <td>Performance</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>6 souscriptions manuelles <code>.subscribe()</code> dans les composants</td>
+      <td>Préférer le pipe <code>async</code> ou convertir en signaux</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td><code>app.config.ts</code></td>
+      <td>Performance</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>Pas de stratégie de preloading configurée</td>
+      <td>Ajouter <code>withPreloading(PreloadAllModules)</code></td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><code>11 fichiers source</code></td>
+      <td>Sécurité / Qualité</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>34 instructions <code>console.log/debug/info</code> en production</td>
+      <td>Supprimer ou utiliser un service de logging avec niveaux</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td><code>Multiples fichiers</code></td>
+      <td>Architecture</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>47 imports relatifs profonds (4+ niveaux <code>../</code>)</td>
+      <td>Configurer <code>paths</code> dans <code>tsconfig.json</code></td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td><code>weekly-reset.service.ts, reset.service.ts</code></td>
+      <td>Architecture</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>Services dupliqués avec des heures de reset différentes</td>
+      <td>Fusionner en un seul service avec l'heure UTC correcte</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td><code>3+ fichiers</code></td>
+      <td>Qualité</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>Constante <code>CLASS_COLORS</code> dupliquée avec valeurs différentes</td>
+      <td>Centraliser dans <code>shared/constants/class-colors.ts</code></td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td><code>src/environments/</code></td>
+      <td>DX / Outillage</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>Pas de fichiers d'environnement configurés</td>
+      <td>Créer <code>environment.ts</code> et <code>environment.prod.ts</code></td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td><code>blizzard-api.service.ts:645</code></td>
+      <td>Qualité</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>Souscription vide <code>.subscribe()</code> sans gestion d'erreur</td>
+      <td>Ajouter un handler <code>error</code> ou <code>catchError</code></td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td><code>theme.service.ts</code></td>
+      <td>Architecture</td>
+      <td><span class="severity-badge sev-warning">Warn</span></td>
+      <td>Manipulation directe du DOM</td>
+      <td>Utiliser <code>Renderer2</code> ou <code>inject(DOCUMENT)</code></td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td><code>forms/character-form-group.ts</code></td>
+      <td>Qualité</td>
+      <td><span class="severity-badge sev-info">Info</span></td>
+      <td>Code mort : classe <code>CharacterFormGroup</code> jamais utilisée</td>
+      <td>Supprimer le fichier (l'historique git preserve le code)</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td><code>vault-rewards-calculator.service.ts</code></td>
+      <td>Qualité</td>
+      <td><span class="severity-badge sev-info">Info</span></td>
+      <td>Méthode <code>getDetailedVaultRewards()</code> deprecated et inutilisée</td>
+      <td>Supprimer la méthode deprecated</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td><code>tsconfig.json</code></td>
+      <td>DX / Outillage</td>
+      <td><span class="severity-badge sev-info">Info</span></td>
+      <td><code>skipLibCheck: true</code> active</td>
+      <td>Désactiver si les dépendances le permettent</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td><code>app.config.ts</code></td>
+      <td>Angular</td>
+      <td><span class="severity-badge sev-info">Info</span></td>
+      <td><code>withInterceptorsFromDi()</code> au lieu de <code>withInterceptors()</code></td>
+      <td>Migrer vers les intercepteurs fonctionnels</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td><code>package.json</code></td>
+      <td>DX / Outillage</td>
+      <td><span class="severity-badge sev-info">Info</span></td>
+      <td>Pas de hooks pre-commit (husky / lint-staged)</td>
+      <td>Installer <code>husky</code> et <code>lint-staged</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- =================================================================
+     ACCESSIBILITY APPENDIX (Bonus — not scored)
+     ================================================================= -->
+<div class="page-break"></div>
+<div class="bonus-section">
+  <h2>
+    <span class="section-number">Annexe</span>
+    Rapport d'accessibilite
+  </h2>
+  <div class="bonus-note">
+    Cette section évalue l'accessibilite séparément et n'affecte pas le score principal.
+    Pertinent pour les applications publiques et la conformité règlementaire (RGAA, WCAG 2.1).
+  </div>
+
+  <h3>Résumé</h3>
+  <p>L'accessibilite du projet est <strong>insuffisante</strong>. Aucun attribut <code>aria-*</code> ni
+  <code>role</code> n'est utilisé dans les templates. Les 8 images présentes n'ont pas d'attribut <code>alt</code>.
+  Aucune stratégie de navigation au clavier ou d'annonce de changement de route n'a été détectée.
+  Ce point est particulièrement important si l'application est destinée a un usage public.</p>
+
+  <table class="findings-table" style="margin-top:4mm;">
+    <thead>
+      <tr>
+        <th style="width:3%">#</th>
+        <th style="width:18%">Fichier</th>
+        <th style="width:9%">Check</th>
+        <th style="width:8%">Sev.</th>
+        <th style="width:31%">Problème</th>
+        <th style="width:31%">Suggestion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><code>Templates HTML (8 images)</code></td>
+        <td>A11Y-01</td>
+        <td><span class="severity-badge sev-warning">Warn</span></td>
+        <td>8 balises <code>&lt;img&gt;</code> sans attribut <code>alt</code></td>
+        <td>Ajouter <code>alt="description"</code> ou <code>alt=""</code> pour les images décoratives</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><code>Templates HTML</code></td>
+        <td>A11Y-13/14</td>
+        <td><span class="severity-badge sev-warning">Warn</span></td>
+        <td>Aucun attribut <code>aria-*</code> ni <code>role</code> dans les templates</td>
+        <td>Ajouter des attributs ARIA aux éléments interactifs et <code>aria-live</code> aux zones dynamiques</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><code>app.routes.ts</code></td>
+        <td>A11Y-17</td>
+        <td><span class="severity-badge sev-warning">Warn</span></td>
+        <td>Aucune stratégie de titre de route pour les lecteurs d'écran</td>
+        <td>Ajouter la propriété <code>title</code> aux routes ou configurer un <code>TitleStrategy</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- =================================================================
+     CHECKLIST DETAILS APPENDIX
+     ================================================================= -->
+<div class="page-break"></div>
+<h2>
+  <span class="section-number">Annexe</span>
+  Grille d'évaluation détaillée
+</h2>
+<p class="text-muted" style="margin-bottom:4mm;">
+  Chaque catégorie est évaluée sur une grille de points de contrôle. La gomette indique
+  le résultat de l'audit pour ce projet.
+  <span class="status dot-pass"></span> OK&ensp;
+  <span class="status dot-warn"></span> À améliorer&ensp;
+  <span class="status dot-fail"></span> Problème détecté&ensp;
+  <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rule-dark);vertical-align:middle;margin-right:1.5mm;"></span> Non applicable
+</p>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    Performance
+    <span class="cat-score">60 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Lazy loading des routes</td>
+        <td class="check-why-cell">Réduit le bundle initial et accélère le premier affichage en ne chargeant que le code nécessaire.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Stratégie de préchargement</td>
+        <td class="check-why-cell">Sans préchargement, les modules lazy sont chargés à la demande, causant des latences de navigation.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Composants en OnPush</td>
+        <td class="check-why-cell">Sans OnPush, Angular recalcule tout le template à chaque événement, même si les données n'ont pas changé.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de déclencheurs zone inutiles</td>
+        <td class="check-why-cell">setTimeout/setInterval dans les composants provoquent des cycles de détection inutiles.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Expressions track dans les boucles</td>
+        <td class="check-why-cell">Sans track, Angular détruit et recrée tous les éléments DOM à chaque changement de liste.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'appels de fonction impurs dans les templates</td>
+        <td class="check-why-cell">Les méthodes appelées dans les templates sont recalculées à chaque cycle de détection.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de Moment.js</td>
+        <td class="check-why-cell">Moment.js est une librairie lourde et obsolète qui empêche le tree-shaking.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Pipe async ou signaux préférés</td>
+        <td class="check-why-cell">Les .subscribe() manuels dans les composants créent du code impératif et des risques de fuites mémoire.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de souscriptions imbriquées</td>
+        <td class="check-why-cell">Les subscribes imbriqués créent du code spaghetti impossible à maintenir et à gérer en erreur.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Nettoyage des souscriptions</td>
+        <td class="check-why-cell">Les souscriptions non nettoyées provoquent des fuites mémoire progressives en production.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    Sécurité
+    <span class="cat-score">90 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de binding innerHTML</td>
+        <td class="check-why-cell">innerHTML contourne le compilateur de templates Angular et peut ouvrir des vecteurs XSS.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de bypassSecurityTrust</td>
+        <td class="check-why-cell">Désactive complètement le sanitizer Angular — chaque usage doit être justifié.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'eval()</td>
+        <td class="check-why-cell">eval() exécute du code arbitraire — aucun cas d'usage légitime dans une app Angular.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de document.write</td>
+        <td class="check-why-cell">document.write casse le DOM dans les SPA et peut introduire des vulnérabilités XSS.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de secrets en dur</td>
+        <td class="check-why-cell">Les mots de passe et clés API dans le code source sont exposés à quiconque a accès au repo.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de fichiers .env commités</td>
+        <td class="check-why-cell">Les fichiers .env contiennent souvent des secrets qui ne doivent pas être versionnés.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Fichiers d'environnement sûrs</td>
+        <td class="check-why-cell">Les fichiers environment.ts ne doivent contenir que de la configuration, pas des credentials.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de dépendances vulnérables</td>
+        <td class="check-why-cell">Les dépendances avec des CVE connues exposent l'application à des attaques connues.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Version Angular LTS</td>
+        <td class="check-why-cell">Une version hors LTS ne reçoit plus de correctifs de sécurité ni de bugs.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'URL HTTP en production</td>
+        <td class="check-why-cell">Les connexions HTTP non chiffrées exposent les données en transit aux interceptions.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">HttpClient utilisé pour les appels API</td>
+        <td class="check-why-cell">HttpClient supporte les intercepteurs pour centraliser l'auth, le logging et la gestion d'erreurs.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Pas de console.log en production</td>
+        <td class="check-why-cell">Les console.log peuvent exposer des données sensibles dans la console du navigateur en production.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'appels alert()</td>
+        <td class="check-why-cell">alert/confirm/prompt bloquent le thread UI et offrent une expérience utilisateur dégradée.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'instructions debugger</td>
+        <td class="check-why-cell">Les instructions debugger oubliées dans le code gèlent l'application pour tout utilisateur avec les devtools ouvertes.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    Bonnes pratiques Angular
+    <span class="cat-score">75 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Composants standalone</td>
+        <td class="check-why-cell">Les composants standalone simplifient les imports et éliminent le besoin de NgModules.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de barrel files excessifs</td>
+        <td class="check-why-cell">Les barrel files (index.ts) excessifs cassent le tree-shaking et favorisent les dépendances circulaires.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Composants petits et focalisés</td>
+        <td class="check-why-cell">Les composants volumineux mélangent responsabilités UI et logique métier, rendant le code difficile à tester.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Syntaxe de contrôle moderne</td>
+        <td class="check-why-cell">@if/@for/@switch offrent de meilleures performances et une syntaxe plus lisible que *ngIf/*ngFor.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'APIs dépréciées</td>
+        <td class="check-why-cell">Les APIs dépréciées seront supprimées dans les futures versions, créant une dette technique.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Hooks de cycle de vie modernes</td>
+        <td class="check-why-cell">afterNextRender/afterRender sont plus adaptés pour les manipulations DOM que ngAfterViewInit.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Signaux pour l'état des composants</td>
+        <td class="check-why-cell">Les signaux offrent une réactivité fine-grained sans les complexités de RxJS pour l'état local.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Inputs/outputs signal</td>
+        <td class="check-why-cell">Les input()/output() signal offrent un meilleur typage et une intégration native avec le système de signaux.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Requêtes signal viewChild/contentChild</td>
+        <td class="check-why-cell">Les requêtes signal s'intègrent au graphe de réactivité et éliminent les problèmes de timing.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Fonction inject()</td>
+        <td class="check-why-cell">inject() simplifie l'injection et permet l'utilisation en dehors des constructeurs (guards, interceptors).</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Portée des services appropriée</td>
+        <td class="check-why-cell">Un scope mal choisi cause des singletons inattendus ou des instances dupliquées.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">provideRouter utilisé</td>
+        <td class="check-why-cell">provideRouter() est l'API fonctionnelle moderne, plus légère que RouterModule.forRoot().</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Guards et resolvers fonctionnels</td>
+        <td class="check-why-cell">Les guards fonctionnels sont plus simples, composables et tree-shakeable que les class-based.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Formulaires fortement typés</td>
+        <td class="check-why-cell">Les formulaires non typés font perdre tout le bénéfice du typage TypeScript sur les valeurs du formulaire.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Validation des formulaires cohérente</td>
+        <td class="check-why-cell">Une validation incohérente laisse passer des données invalides et dégrade l'expérience utilisateur.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Intercepteurs fonctionnels HttpClient</td>
+        <td class="check-why-cell">withInterceptors() est l'API moderne, plus composable et tree-shakeable que les class-based.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Gestion d'erreurs HTTP</td>
+        <td class="check-why-cell">Sans gestion d'erreurs, les échecs réseau laissent l'utilisateur sans feedback et l'app dans un état incohérent.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'appels HTTP dans les composants</td>
+        <td class="check-why-cell">Les appels HTTP directs dans les composants violent la séparation des préoccupations et rendent le code intestable.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    Qualité du code
+    <span class="cat-score">55 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Pas de type any</td>
+        <td class="check-why-cell">Le type any désactive la vérification de type et propage des erreurs silencieuses dans tout le code.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'assertions de type injustifiées</td>
+        <td class="check-why-cell">Les assertions 'as' contournent le vérificateur de types et masquent des bugs potentiels.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Interfaces pour les shapes de données</td>
+        <td class="check-why-cell">Les interfaces donnent de meilleurs messages d'erreur et sont plus performantes que les type aliases pour les objets.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de blocs catch vides</td>
+        <td class="check-why-cell">Les catch vides avalent silencieusement les erreurs, rendant le debugging en production impossible.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Typage des erreurs dans les catch</td>
+        <td class="check-why-cell">Sans typage explicit, les erreurs catch sont implicitement 'any', perdant toute sécurité de type.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Gestion d'erreurs dans les observables</td>
+        <td class="check-why-cell">Un subscribe sans gestion d'erreur crashe silencieusement, laissant l'UI dans un état incohérent.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Gestion d'erreurs HTTP cohérente</td>
+        <td class="check-why-cell">Sans stratégie cohérente, chaque développeur gère les erreurs différemment, créant une expérience utilisateur incohérente.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Pas de console.log en production</td>
+        <td class="check-why-cell">Les console.log polluent la sortie, peuvent exposer des données sensibles et indiquent du code de debug oublié.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de marqueurs TODO/FIXME</td>
+        <td class="check-why-cell">Les TODO dans le code sont de la dette technique invisible — ils doivent être trackés dans un issue tracker.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Code commenté détecté</td>
+        <td class="check-why-cell">Le code commenté crée de la confusion et du bruit — le git history conserve l'historique.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Formatage cohérent du code</td>
+        <td class="check-why-cell">Sans formateur configuré, le style de code diverge entre développeurs et pollue les diffs git.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Fichiers en kebab-case</td>
+        <td class="check-why-cell">Le kebab-case est la convention Angular standard et assure la cohérence des noms de fichiers.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Convention de nommage cohérente</td>
+        <td class="check-why-cell">Mixer anciennes et nouvelles conventions de nommage dans un même projet crée de la confusion.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Utilisation cohérente des préfixes</td>
+        <td class="check-why-cell">Les préfixes de sélecteur identifient l'origine d'un composant et évitent les collisions de noms.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de callbacks profondément imbriqués</td>
+        <td class="check-why-cell">Les callbacks imbriqués (pyramid of doom) sont illisibles et impossibles à débugger.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Fonctions de taille raisonnable</td>
+        <td class="check-why-cell">Les fonctions de plus de 50 lignes sont difficiles à comprendre, tester et maintenir.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de god services</td>
+        <td class="check-why-cell">Un service avec trop de responsabilités viole le principe de responsabilité unique et devient intestable.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'imports inutilisés</td>
+        <td class="check-why-cell">Les imports inutilisés encombrent le code et masquent les vraies dépendances.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de code inatteignable</td>
+        <td class="check-why-cell">Le code après return/throw/break ne s'exécute jamais et crée de la confusion.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    DX / Outillage
+    <span class="cat-score">40 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Mode strict TypeScript activé</td>
+        <td class="check-why-cell">Le mode strict détecte des classes entières de bugs à la compilation plutôt qu'en production.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Options strictes du compilateur Angular</td>
+        <td class="check-why-cell">strictTemplates détecte les erreurs de type dans les templates au moment de la compilation.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Alias de chemins configurés</td>
+        <td class="check-why-cell">Sans alias, les imports relatifs profonds (../../..) rendent le code illisible et fragile au refactoring.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de skipLibCheck</td>
+        <td class="check-why-cell">skipLibCheck masque des erreurs de type dans les dépendances tierces, réduisant la fiabilité.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">ESLint configuré</td>
+        <td class="check-why-cell">Sans linter, les problèmes de qualité et les anti-patterns ne sont jamais détectés automatiquement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Règles Angular ESLint activées</td>
+        <td class="check-why-cell">@angular-eslint fournit des règles spécifiques qui détectent les anti-patterns Angular courants.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Script lint dans package.json</td>
+        <td class="check-why-cell">Sans script lint, les développeurs n'ont pas de moyen standard de vérifier la qualité du code.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Formateur de code configuré</td>
+        <td class="check-why-cell">Sans formateur, chaque développeur utilise un style différent, polluant les diffs et les code reviews.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">EditorConfig présent</td>
+        <td class="check-why-cell">EditorConfig assure des paramètres d'éditeur cohérents (indentation, encodage) entre les IDE.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">angular.json bien configuré</td>
+        <td class="check-why-cell">Une configuration build/serve/test incomplète bloque le workflow de développement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Source maps pour le développement</td>
+        <td class="check-why-cell">Sans source maps, le debugging se fait dans du code minifié/bundlé — une perte de temps énorme.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Environnements séparés</td>
+        <td class="check-why-cell">Sans séparation dev/prod, les configurations de développement fuient en production (ou inversement).</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Scripts npm essentiels définis</td>
+        <td class="check-why-cell">Des scripts standardisés (start, build, test, lint) permettent à tout nouveau développeur de démarrer immédiatement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Hooks pre-commit configurés</td>
+        <td class="check-why-cell">Sans hooks, du code non conforme entre dans le repo et est découvert trop tard en code review ou en CI.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Version Angular CLI à jour</td>
+        <td class="check-why-cell">Un CLI en retard empêche l'accès aux dernières optimisations, schémas et commandes.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Valeurs par défaut des schematics</td>
+        <td class="check-why-cell">Sans defaults (changeDetection, style), chaque ng generate produit du code incohérent avec le reste du projet.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    Architecture
+    <span class="cat-score">75 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Structure de dossiers cohérente</td>
+        <td class="check-why-cell">Une structure incohérente force chaque développeur à "deviner" où trouver ou placer du code.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Dossiers feature auto-contenus</td>
+        <td class="check-why-cell">Des features éclatées dans l'arborescence rendent impossible de comprendre le périmètre d'une fonctionnalité.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Code partagé dans des dossiers dédiés</td>
+        <td class="check-why-cell">Du code dupliqué entre features multiplie les bugs et l'effort de maintenance.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Structure plate dans les features</td>
+        <td class="check-why-cell">Un nesting excessif dans les features rend la navigation difficile et signale une mauvaise séparation.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Composants sans logique métier</td>
+        <td class="check-why-cell">La logique métier dans les composants les rend intestables et couplés à l'UI.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Services à responsabilité unique</td>
+        <td class="check-why-cell">Un service fourre-tout est impossible à mocker, tester et faire évoluer indépendamment.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Templates sans logique complexe</td>
+        <td class="check-why-cell">Des expressions complexes dans les templates sont recalculées à chaque cycle et rendent le HTML illisible.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Stratégie de styles cohérente</td>
+        <td class="check-why-cell">Mixer ViewEncapsulation.None et le défaut crée des effets de bord CSS imprévisibles.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Injection de dépendances cohérente</td>
+        <td class="check-why-cell">Instancier des services avec new contourne le DI, rendant les tests et le remplacement impossibles.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Providers organisés</td>
+        <td class="check-why-cell">Des providers éparpillés dans plein de composants rendent la configuration difficile à tracer.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de dépendances circulaires</td>
+        <td class="check-why-cell">Les dépendances circulaires causent des erreurs d'injection au runtime et des bugs subtils.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Features lazy-loadées</td>
+        <td class="check-why-cell">Sans lazy loading, tout le code est chargé au démarrage, augmentant le temps de chargement initial.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'imports cross-feature profonds</td>
+        <td class="check-why-cell">Importer les fichiers internes d'une autre feature crée un couplage fort qui bloque le refactoring.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Frontières API claires</td>
+        <td class="check-why-cell">Sans API claire entre features, tout devient interconnecté et chaque changement a des effets de bord.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'imports relatifs profonds</td>
+        <td class="check-why-cell">Les imports ../../../../ sont fragiles, illisibles et cassent au moindre déplacement de fichier.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Ordre des imports cohérent</td>
+        <td class="check-why-cell">Un ordre d'imports incohérent pollue les diffs git et rend les imports plus durs à scanner visuellement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Gestion d'état cohérente</td>
+        <td class="check-why-cell">Mixer plusieurs patterns de state management crée de la confusion sur où trouver et modifier l'état.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">État partagé dans des services/stores</td>
+        <td class="check-why-cell">L'état partagé dans des propriétés de composants crée des sources de vérité multiples et des bugs de synchronisation.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de dépendances store-to-store</td>
+        <td class="check-why-cell">Les stores qui s'appellent entre eux créent un flux de données impossible à tracer.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de pattern event bus global</td>
+        <td class="check-why-cell">Un Subject générique utilisé comme bus d'événements crée un flux spaghetti — personne ne sait qui déclenche quoi.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-warn"></span></td>
+        <td class="check-name-cell">Pas de manipulation directe du DOM</td>
+        <td class="check-why-cell">document.querySelector contourne l'abstraction de rendu Angular, casse le SSR et crée des bugs subtils.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas d'état mutable partagé</td>
+        <td class="check-why-cell">Des objets/arrays mutables exposés publiquement permettent des modifications incontrôlées qui échappent au change detection.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Patterns async cohérents</td>
+        <td class="check-why-cell">Mixer Promises et Observables pour le même type d'opération rend la composition et la gestion d'erreurs incohérentes.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="category-detail">
+  <div class="category-detail-header">
+    Tests
+    <span class="cat-score">10 / 100</span>
+  </div>
+  <table class="check-table">
+    <tbody>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Couverture de code</td>
+        <td class="check-why-cell">La couverture mesure quelle proportion du code est exercée par les tests — sans elle, les régressions passent inaperçues.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Chemins critiques testés</td>
+        <td class="check-why-cell">Les services et composants clés sans tests sont des bombes à retardement — un changement peut tout casser sans alerte.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Configuration de tests valide</td>
+        <td class="check-why-cell">Sans configuration valide, aucun test ne peut s'exécuter et la couverture est fictive.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Tests suivent le pattern AAA</td>
+        <td class="check-why-cell">Le pattern Arrange-Act-Assert structure les tests de manière lisible et maintenable.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Descriptions de tests significatives</td>
+        <td class="check-why-cell">Des descriptions vagues rendent impossible de comprendre ce qu'un test vérifie quand il échoue.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de tests focused ou skipped</td>
+        <td class="check-why-cell">fdescribe/fit font tourner un seul test en CI. xdescribe/xit masquent des échecs. Les deux sont dangereux.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Tests organisés de manière cohérente</td>
+        <td class="check-why-cell">Des tests éparpillés ou mal rangés sont plus durs à trouver, maintenir et exécuter sélectivement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Tests avec assertions</td>
+        <td class="check-why-cell">Un test sans expect ne vérifie rien — il passe toujours, donnant une fausse impression de qualité.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de tests qui vérifient seulement les spies</td>
+        <td class="check-why-cell">Un test qui vérifie uniquement qu'un spy a été appelé teste l'implémentation, pas le comportement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Tests ne testent pas les détails d'implémentation</td>
+        <td class="check-why-cell">Accéder aux membres privés dans les tests les rend fragiles — tout refactoring les casse.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Pas de valeurs magiques dans les tests</td>
+        <td class="check-why-cell">Des valeurs en dur sans contexte rendent les tests cryptiques et difficiles à maintenir.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-fail"></span></td>
+        <td class="check-name-cell">Utilisation appropriée de TestBed</td>
+        <td class="check-why-cell">TestBed pour de la logique pure (services sans DI) ralentit les tests inutilement.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Mocking correctement effectué</td>
+        <td class="check-why-cell">Des mocks artisanaux incomplets laissent passer des bugs et sont plus durs à maintenir.</td>
+      </tr>
+      <tr>
+        <td class="check-dot-cell"><span class="status dot-pass"></span></td>
+        <td class="check-name-cell">Tests async gérés correctement</td>
+        <td class="check-why-cell">Les setTimeout dans les tests créent des tests non-déterministes qui échouent de manière intermittente.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- =================================================================
+     FOOTER
+     ================================================================= -->
+<div class="report-footer">
+  Louis-Jean Claeyssen
+</div>
+
+</body>
+</html>
